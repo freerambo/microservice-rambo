@@ -4,9 +4,9 @@ BEGIN
 DECLARE EXIT HANDLER FOR SQLEXCEPTION
 BEGIN	
 -- If some part of loading wasn't successful, continue with next steps but log the problem
-	CALL smes_microgrid.log_error('smes_microgrid.add_device');
+	CALL smes_microgrid.log_error('smes_microgrid.add_variable');
     ROLLBACK; -- NOTE: Rollback statement should come AFTER Get Diagnostics  (that is inside log_error sp)
-    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'ERROR: An error occurred when ADDING NEW DEVICE';
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'ERROR: An error occurred when ADDING NEW VARIABLE';
 END;
 
 START TRANSACTION;	
