@@ -18,29 +18,32 @@ USE `smes_microgrid`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `variable_unit`
+-- Table structure for table `command_device_variable`
 --
 
-DROP TABLE IF EXISTS `variable_unit`;
+DROP TABLE IF EXISTS `command_device_variable`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `variable_unit` (
-  `id` int(11) NOT NULL,
-  `code` varchar(255) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  CONSTRAINT `fk_variable_unit_device_variable_1` FOREIGN KEY (`id`) REFERENCES `device_variable` (`unit_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+CREATE TABLE `command_device_variable` (
+  `command_id` int(11) NOT NULL,
+  `variable_id` int(11) NOT NULL,
+  `parameter_type_id` tinyint(4) NOT NULL,
+  PRIMARY KEY (`command_id`),
+  KEY `fk_command_param_type_idx` (`parameter_type_id`),
+  KEY `fk_command_variable_idx` (`variable_id`),
+  CONSTRAINT `fk_command_param_type` FOREIGN KEY (`parameter_type_id`) REFERENCES `parameter_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_command_variable` FOREIGN KEY (`variable_id`) REFERENCES `device_variable` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_command_variable_cmd` FOREIGN KEY (`command_id`) REFERENCES `command` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `variable_unit`
+-- Dumping data for table `command_device_variable`
 --
 
-LOCK TABLES `variable_unit` WRITE;
-/*!40000 ALTER TABLE `variable_unit` DISABLE KEYS */;
-/*!40000 ALTER TABLE `variable_unit` ENABLE KEYS */;
+LOCK TABLES `command_device_variable` WRITE;
+/*!40000 ALTER TABLE `command_device_variable` DISABLE KEYS */;
+/*!40000 ALTER TABLE `command_device_variable` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

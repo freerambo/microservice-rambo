@@ -25,15 +25,18 @@ DROP TABLE IF EXISTS `variable`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `variable` (
-  `id` int(11) NOT NULL,
-  `code` varchar(255) DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `device_id` int(11) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
-  `variable_unit_id` int(11) DEFAULT NULL,
+  `unit_id` int(11) DEFAULT NULL,
+  `updating_duration` int(255) DEFAULT NULL,
+  `set_command_id` int(11) DEFAULT NULL,
+  `get_command_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_variable_variable_unit_1` (`variable_unit_id`),
-  CONSTRAINT `fk_variable_variable_unit_1` FOREIGN KEY (`variable_unit_id`) REFERENCES `variable_unit` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `fk_variable_variable` (`unit_id`) USING BTREE,
+  KEY `fk_variable_device_idx` (`device_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -54,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-09-06 13:51:39
+-- Dump completed on 2016-09-06 15:00:13

@@ -1,8 +1,10 @@
+CREATE DATABASE  IF NOT EXISTS `smes_microgrid` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `smes_microgrid`;
 -- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
 --
--- Host: 172.21.76.125    Database: smes_microgrid
+-- Host: localhost    Database: smes_microgrid
 -- ------------------------------------------------------
--- Server version	5.7.12-log
+-- Server version	5.7.13-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,28 +18,28 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `device_variable_value`
+-- Table structure for table `variable_value`
 --
 
-DROP TABLE IF EXISTS `device_variable_value`;
+DROP TABLE IF EXISTS `variable_value`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `device_variable_value` (
+CREATE TABLE `variable_value` (
   `timestamp` datetime NOT NULL,
-  `device_variable_id` int(11) NOT NULL,
+  `variable_id` int(11) NOT NULL,
   `value` decimal(65,0) DEFAULT NULL,
-  KEY `fk_device_variable_value_device_variable_1` (`device_variable_id`),
-  CONSTRAINT `fk_device_variable_value_device_variable_1` FOREIGN KEY (`device_variable_id`) REFERENCES `device_variable` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `fk_variable_value_variable_1` (`variable_id`) USING BTREE,
+  CONSTRAINT `fk_variable_value_variable_1` FOREIGN KEY (`variable_id`) REFERENCES `variable` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `device_variable_value`
+-- Dumping data for table `variable_value`
 --
 
-LOCK TABLES `device_variable_value` WRITE;
-/*!40000 ALTER TABLE `device_variable_value` DISABLE KEYS */;
-/*!40000 ALTER TABLE `device_variable_value` ENABLE KEYS */;
+LOCK TABLES `variable_value` WRITE;
+/*!40000 ALTER TABLE `variable_value` DISABLE KEYS */;
+/*!40000 ALTER TABLE `variable_value` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -49,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-09-05 15:04:22
+-- Dump completed on 2016-09-06 15:00:13

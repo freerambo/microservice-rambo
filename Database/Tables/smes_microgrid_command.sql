@@ -18,34 +18,31 @@ USE `smes_microgrid`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `device_variable`
+-- Table structure for table `command`
 --
 
-DROP TABLE IF EXISTS `device_variable`;
+DROP TABLE IF EXISTS `command`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `device_variable` (
-  `id` int(11) NOT NULL,
-  `device_id` int(11) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
+CREATE TABLE `command` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
-  `variable_id` int(11) DEFAULT NULL,
-  `updating_duration` int(255) DEFAULT NULL,
+  `format_string` varchar(255) DEFAULT NULL,
+  `device_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_device_variable_variable` (`variable_id`),
-  KEY `fk_device_variable_device_idx` (`device_id`),
-  CONSTRAINT `fk_device_variable_device` FOREIGN KEY (`device_id`) REFERENCES `device` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_device_variable_variable` FOREIGN KEY (`variable_id`) REFERENCES `variable` (`id`)
+  KEY `fk_device_command_idx` (`device_id`),
+  CONSTRAINT `fk_device_command` FOREIGN KEY (`device_id`) REFERENCES `device` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `device_variable`
+-- Dumping data for table `command`
 --
 
-LOCK TABLES `device_variable` WRITE;
-/*!40000 ALTER TABLE `device_variable` DISABLE KEYS */;
-/*!40000 ALTER TABLE `device_variable` ENABLE KEYS */;
+LOCK TABLES `command` WRITE;
+/*!40000 ALTER TABLE `command` DISABLE KEYS */;
+/*!40000 ALTER TABLE `command` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -57,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-09-06 13:51:40
+-- Dump completed on 2016-09-06 15:00:13
