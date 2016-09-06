@@ -1,5 +1,4 @@
 CREATE DEFINER=`root`@`localhost` PROCEDURE `add_device`(
-IN id INT,
 IN device_type_id TINYINT,
 IN name VARCHAR(255),
 IN description VARCHAR(255),
@@ -17,12 +16,11 @@ IN is_connected BIT
 BEGIN
 
 INSERT INTO `smes_microgrid`.`device`
-(`id`,
-`device_type_id`,
+(`device_type_id`,
 `name`,
 `description`,
 `microgrid_id`,
-`scl_file(ICD)`,
+
 `vendor`,
 `model`,
 `location`,
@@ -32,8 +30,7 @@ INSERT INTO `smes_microgrid`.`device`
 `is_programmable`,
 `is_connected`)
 VALUES
-(id,
-device_type_id,
+(device_type_id,
 name,
 description,
 microgrid_id,
