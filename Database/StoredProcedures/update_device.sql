@@ -13,6 +13,21 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `update_device`(  IN id INT,
 									IN is_programmable BIT,
 									IN is_connected BIT)
 BEGIN
+
+-- General error handler for any SQL exception
+DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+BEGIN	
+-- If some part of loading wasn't successful, continue with next steps but log the problem
+	CALL smes_normalized.log_error('smes_microgrid.update_device');
+    ROLLBACK; -- NOTE: Rollback statement should come AFTER Get Diagnostics  (that is inside log_error sp)
+END;
+
+START TRANSACTION;	
+
+-- Log the start of excecution
+	CALL smes_normalized.log_info('smes_microgrid.update_device', CONCAT('Start device update ,ID= ', id));
+-- End of Logging
+
 -- Note - COALESCE takes first non-null value. it means, using it we can't set value to NULL (that is OK for now as we can set empty string for all the string columns)
 UPDATE smes_microgrid.device as D
 SET 
@@ -32,6 +47,12 @@ SET
 WHERE D.id = id;
 
 
+
+-- Log the end of excecution
+	CALL smes_microgrid.log_info('smes_microgrid.update_device', 'Device Updated, New values are: TODO');
+-- End of Logging
+
+COMMIT;  
 
 
 END
