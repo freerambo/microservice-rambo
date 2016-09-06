@@ -1,8 +1,10 @@
+CREATE DATABASE  IF NOT EXISTS `smes_microgrid` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `smes_microgrid`;
 -- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
 --
--- Host: 172.21.76.125    Database: smes_microgrid
+-- Host: localhost    Database: smes_microgrid
 -- ------------------------------------------------------
--- Server version	5.7.12-log
+-- Server version	5.7.13-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -27,11 +29,21 @@ CREATE TABLE `device` (
   `device_type_id` int(11) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
-  `microgrid_id` int(11) DEFAULT NULL,
+  `microgrid_id` tinyint(4) DEFAULT NULL,
   `scl_file(ICD)` varchar(255) DEFAULT NULL COMMENT 'This is SCL file',
+  `vendor` varchar(100) DEFAULT NULL,
+  `model` varchar(100) DEFAULT NULL,
+  `location` varchar(100) DEFAULT NULL,
+  `ip_adress` varchar(255) DEFAULT NULL,
+  `port_number` varchar(10) DEFAULT NULL,
+  `bus_id` tinyint(4) DEFAULT NULL,
+  `is_programmable` bit(1) DEFAULT NULL,
+  `is_connected` bit(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_device_microgrid_1` (`microgrid_id`),
   KEY `fk_device_device_type_1` (`device_type_id`),
+  KEY `fk_device_bus_idx` (`bus_id`),
+  CONSTRAINT `fk_device_bus` FOREIGN KEY (`bus_id`) REFERENCES `bus` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_device_device_type_1` FOREIGN KEY (`device_type_id`) REFERENCES `device_type` (`id`),
   CONSTRAINT `fk_device_microgrid_1` FOREIGN KEY (`microgrid_id`) REFERENCES `microgrid` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -55,4 +67,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-09-05 15:04:21
+-- Dump completed on 2016-09-06 11:21:19

@@ -1,8 +1,10 @@
+CREATE DATABASE  IF NOT EXISTS `smes_microgrid` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `smes_microgrid`;
 -- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
 --
--- Host: 172.21.76.125    Database: smes_microgrid
+-- Host: localhost    Database: smes_microgrid
 -- ------------------------------------------------------
--- Server version	5.7.12-log
+-- Server version	5.7.13-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,8 +18,29 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Dumping routines for database 'smes_microgrid'
+-- Table structure for table `bus`
 --
+
+DROP TABLE IF EXISTS `bus`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bus` (
+  `id` tinyint(4) NOT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bus`
+--
+
+LOCK TABLES `bus` WRITE;
+/*!40000 ALTER TABLE `bus` DISABLE KEYS */;
+INSERT INTO `bus` VALUES (1,'AC Bus 1',NULL),(2,'DC Bus 1',NULL);
+/*!40000 ALTER TABLE `bus` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -28,4 +51,4 @@
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-09-05 15:04:23
+-- Dump completed on 2016-09-06 11:21:19

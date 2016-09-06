@@ -1,8 +1,10 @@
+CREATE DATABASE  IF NOT EXISTS `smes_microgrid` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `smes_microgrid`;
 -- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
 --
--- Host: 172.21.76.125    Database: smes_microgrid
+-- Host: localhost    Database: smes_microgrid
 -- ------------------------------------------------------
--- Server version	5.7.12-log
+-- Server version	5.7.13-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -23,7 +25,7 @@ DROP TABLE IF EXISTS `microgrid`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `microgrid` (
-  `ID` int(11) NOT NULL,
+  `ID` tinyint(4) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   `microgrid_type_id` int(11) DEFAULT NULL,
@@ -40,6 +42,7 @@ CREATE TABLE `microgrid` (
 
 LOCK TABLES `microgrid` WRITE;
 /*!40000 ALTER TABLE `microgrid` DISABLE KEYS */;
+INSERT INTO `microgrid` VALUES (1,'Lab Level 5 Microgrid','THis is microgrid at level 5 lab, ERIAN, NTU',1,NULL);
 /*!40000 ALTER TABLE `microgrid` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-09-05 15:04:21
+-- Dump completed on 2016-09-06 11:21:19
