@@ -36,6 +36,12 @@ public class Device implements Serializable {
         OFF
     }
     
+    public enum Bus {
+
+        AC,
+        DC
+    }
+
     @Id()
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -58,8 +64,11 @@ public class Device implements Serializable {
     private String location;
     @Column(name = "port")
     private String port;
+    
     @Column(name = "bus")
-    private String bus;
+    @Enumerated(value = EnumType.STRING)
+    private Bus bus = Bus.AC;
+    
     @Column(name = "ip")
     private String ip;
     @Column(name = "is_connected")
@@ -126,11 +135,13 @@ public class Device implements Serializable {
 		this.port = port;
 	}
 
-	public String getBus() {
+
+
+	public Bus getBus() {
 		return bus;
 	}
 
-	public void setBus(String bus) {
+	public void setBus(Bus bus) {
 		this.bus = bus;
 	}
 

@@ -44,29 +44,31 @@
                         <msg key="description"></msg>
                     </th>
                     <th>
-                        <!-- <msg key="connection"></msg> -->connected
-                    </th>
-                    <th>
-                        <msg key="status"></msg>
-                    </th>
-                    <th>
-                        <msg key="programmable"></msg>
-                    </th>
-                     <th>
                         <msg key="bus"></msg>
                     </th>
                     <th>
-                        <msg key="createdOn"></msg>
+                        connected
+                    </th>
+                    
+                    <th>
+                        <msg key="programmable"></msg>
+                    </th>
+                    <th>
+                        location
+                    </th>
+                    <th>
+                        Operations
                     </th>
                 </tr>
                 <tr ng-repeat="device in devices|orderBy:createdDate">
                     <td><a ng-href="#/devices/{{device.id}}">{{device.name}}</a></td>
                     <td>{{device.description}}</td>
-                    <td>{{device.isConnected}}</td>
-                    <td>{{device.status}}</td>
-                    <td>{{device.isProgrammable}}</td>
                     <td>{{device.bus}}</td>
-                    <td>{{device.createdDate|date:'short'}}</td>
+                    <td>{{device.isConnected}}</td>
+                    
+                    <td>{{device.isProgrammable}}</td>
+                    <td>{{device.location}}</td>
+                    <td> <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>| <span class="glyphicon glyphicon-trash" aria-hidden="true"></span></td>
                 </tr>
             </table>
         </div>

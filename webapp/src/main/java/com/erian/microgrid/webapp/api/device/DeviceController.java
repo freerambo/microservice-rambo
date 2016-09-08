@@ -47,12 +47,12 @@ public class DeviceController {
     @ResponseBody
     public ResponseEntity<Page<DeviceDetails>> getAllDevices(
             @RequestParam(value = "q", required = false) String keyword, //
-            @RequestParam(value = "status", required = false)Device.Status status, //
+            @RequestParam(value = "bus", required = false) Device.Bus bus, //
             @PageableDefault(page = 0, size = 5, sort = "name", direction = Direction.DESC) Pageable page) {
 
-        log.warn("get all posts of q@" + keyword + ", status @" + status + ", page@" + page);
+        log.warn("get all posts of q@" + keyword + ", bus @" + bus + ", page@" + page);
 
-        Page<DeviceDetails> posts = deviceService.searchDevicesByCriteria(keyword, status, page);
+        Page<DeviceDetails> posts = deviceService.searchDevicesByCriteria(keyword, bus, page);
 
         log.debug("get posts size @" + posts.getTotalElements());
 

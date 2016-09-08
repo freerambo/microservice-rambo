@@ -31,13 +31,7 @@ public class DataSourceConfig {
     @Inject
     private Environment env;
 
-    @Bean
-    @Profile("dev")
-    public DataSource dataSource() {
-        return new EmbeddedDatabaseBuilder()
-                .setType(EmbeddedDatabaseType.H2)
-                .build();
-    }
+
 
     @Bean
     @Profile("staging")

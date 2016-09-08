@@ -36,11 +36,11 @@ public class DeviceService {
 		this.deviceRepository = deviceRepository;
 	}
 
-	public Page<DeviceDetails> searchDevicesByCriteria(String q, Device.Status status, Pageable page) {
+	public Page<DeviceDetails> searchDevicesByCriteria(String q, Device.Bus bus, Pageable page) {
 
         log.debug("search devices by keyword@" + q + ", page @" + page);
 
-        Page<Device> devices = deviceRepository.findAll(DeviceSpecifications.filterByKeywordAndStatus(q, status),
+        Page<Device> devices = deviceRepository.findAll(DeviceSpecifications.filterByKeywordAndStatus(q, bus),
                 page);
 
         log.debug("get devices size @" + devices.getTotalElements());

@@ -38,13 +38,13 @@
         $scope.statusOpt = {'label': $.i18n.prop('ALL'), 'value': 'ALL'};
         $scope.statusOpts = [
             {'label': $.i18n.prop('ALL'), 'value': 'ALL'},
-            {'label': $.i18n.prop('ON'), 'value': 'ON'},
-            {'label': $.i18n.prop('OFF'), 'value': 'OFF'}
+            {'label': $.i18n.prop('AC'), 'value': 'AC'},
+            {'label': $.i18n.prop('DC'), 'value': 'DC'}
         ];   
         var actionUrl = 'api/devices/',
         load = function () {
             $http.get(actionUrl + '?q=' + $scope.q
-                    + '&status=' + ($scope.statusOpt.value == 'ALL' ? '' : $scope.statusOpt.value)
+                    + '&bus=' + ($scope.statusOpt.value == 'ALL' ? '' : $scope.statusOpt.value)
                     + '&page=' + ($scope.p - 1))
                     .success(function (data) {
                         $scope.devices = data.content;

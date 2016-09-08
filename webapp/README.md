@@ -34,7 +34,7 @@ _I appreciate any contribution for this project, including suggestions, document
    1. Clone the codes.
 
     <pre>
-    git clone https://github.com/freerambo.git
+    git clone git@ict.eri.ntu.edu.sg:SMES/SMES_WP2_Microgrid.git
     </pre>
   
    2. And enter the root folder, run `mvn tomcat7:run` to start up an embedded tomcat7 to serve this application.

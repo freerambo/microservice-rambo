@@ -22,9 +22,17 @@ public final class DeviceSpecifications {
 	      throw new InstantiationError( "Must not instantiate this class" );
 	}
 
+	/**
+	 * 
+	 * @function: dynamic search with filter 
+	 * @param keyword
+	 * @param status
+	 * @return
+	 * @author: zhuyuanbo    Sep 8, 2016 5:23:10 PM
+	 */
     public static Specification<Device> filterByKeywordAndStatus(
             final String keyword,
-            final Device.Status status) {
+            final Device.Bus bus) {
         return (Root<Device> root, CriteriaQuery<?> query, CriteriaBuilder cb) -> {
             List<Predicate> predicates = new ArrayList<>();
             if (StringUtils.hasText(keyword)) {
@@ -36,8 +44,8 @@ public final class DeviceSpecifications {
                 );
             }
 
-            if (status != null) {
-                predicates.add(cb.equal(root.get(Device_.status), status));
+            if (bus != null) {
+                predicates.add(cb.equal(root.get(Device_.bus), bus));
             }
 
             return cb.and(predicates.toArray(new Predicate[predicates.size()]));
