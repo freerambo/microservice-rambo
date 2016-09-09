@@ -4,8 +4,8 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
-        <meta name="author" content="">
+        <meta name="description" content="Labgrid Webapp">
+        <meta name="author" content="Yuanbo Zhu">
         <link rel="shortcut icon" href="ico/favicon.ico">
 
         <title>LABGRID WEB APP</title>
@@ -35,7 +35,7 @@
                     <a class="navbar-brand" href="#/home"><msg key="appName"></msg></a>
                 </div>
                 <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav" ng-show="authenticated">
+                    <ul class="nav navbar-nav" > <!-- ng-show="authenticated" -->
                         <li ng-class="activeWhen(path() == '/devices')"><a
                                 href="#/devices"><msg key="devices"></msg></a></li>
                         <li ng-class="activeWhen(path() == '/devices/new')"><a

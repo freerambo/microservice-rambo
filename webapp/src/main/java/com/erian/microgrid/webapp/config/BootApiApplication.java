@@ -1,4 +1,4 @@
-package com.erian.microgrid.webapp.config;
+/*package com.erian.microgrid.webapp.config;
 import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.*;
 
@@ -9,4 +9,5 @@ public class BootApiApplication {
 	public static void main(String[] args) throws Exception {
 		SpringApplication.run(BootApiApplication.class, args);
 	}
-}
+}*/
+

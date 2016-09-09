@@ -48,7 +48,7 @@ public class DeviceController {
     public ResponseEntity<Page<DeviceDetails>> getAllDevices(
             @RequestParam(value = "q", required = false) String keyword, //
             @RequestParam(value = "bus", required = false) Device.Bus bus, //
-            @PageableDefault(page = 0, size = 5, sort = "name", direction = Direction.DESC) Pageable page) {
+            @PageableDefault(page = 0, size = 5, sort = "id", direction = Direction.ASC) Pageable page) {
 
         log.warn("get all posts of q@" + keyword + ", bus @" + bus + ", page@" + page);
 
