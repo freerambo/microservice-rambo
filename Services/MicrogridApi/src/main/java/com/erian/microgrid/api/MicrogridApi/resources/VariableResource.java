@@ -13,17 +13,17 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.erian.microgrid.api.MicrogridApi.model.Variable;
-import com.erian.microgrid.api.MicrogridApi.service.VariableService;
+import com.erian.microgrid.api.MicrogridApi.service.VariableHelper;
 
-@Path("/")
+@Path("/devices/{deviceID}/variables")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class VariableResource {
 
-	private VariableService variableService = new VariableService();
+	private VariableHelper variableService = new VariableHelper();
 	
 	@GET
-	public List<Variable> getAllVariables(@PathParam("deviceId") int deviceId) {
+	public List<Variable> getAllVariables(@PathParam("deviceID") int deviceId) {
 
 		return variableService.getAllVariables(deviceId);
 	}
@@ -36,12 +36,12 @@ public class VariableResource {
 	@PUT
 	@Path("/{variableId}")
 	public Variable updateVariable(@PathParam("deviceId") int deviceId, @PathParam("variableId") int variableId, Variable variable) {
-		variable.setId(variableId);		
+		variable.setID(variableId);		
 		return variableService.updateVariable(deviceId, variable);
 	}
 	
 	@DELETE
-	@Path("/{deviceId}")
+	@Path("/{variableId}")
 	public void deleteVariable(@PathParam("deviceId") int deviceId, @PathParam("variableId") int variableId) {
 		variableService.removeVariable(deviceId, variableId);
 	}

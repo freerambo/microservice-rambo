@@ -26,7 +26,7 @@ public class DeviceResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/devices")  // POST action + "devices" is a recommended URI to "create new device" resource
+	// @Path("/devices")  // POST action + "devices" is a recommended URI to "create new device" resource
 	public Device addDevice(Device newDevice){
 		   return messageService.addNewDevice(newDevice);
 		}

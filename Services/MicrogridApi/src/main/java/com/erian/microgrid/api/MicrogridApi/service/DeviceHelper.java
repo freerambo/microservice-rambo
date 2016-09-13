@@ -1,7 +1,9 @@
 package com.erian.microgrid.api.MicrogridApi.service;
 
+import com.erian.microgrid.api.MicrogridApi.dataModel.DeviceData;
+import com.erian.microgrid.api.MicrogridApi.model.Device;
+
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,20 +11,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.erian.microgrid.api.MicrogridApi.model.Device;
-
-import com.erian.microgrid.api.MicrogridApi.dataModel.DeviceData;
-import com.erian.microgrid.api.MicrogridApi.model.Device;
-import com.erian.microgrid.api.MicrogridApi.service.DatabaseHelper;
-
-public class ConfigurationHelper
+public class DeviceHelper
 {
 	private Connection c = null;
-
-	public ConfigurationHelper()
-	{
-
-	}
 
 	public List<Device> GetAllDevices(){
 		List<DeviceData> dataList = GetAllDeviceData();

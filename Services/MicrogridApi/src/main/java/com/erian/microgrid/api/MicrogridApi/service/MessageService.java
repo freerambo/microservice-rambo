@@ -7,12 +7,12 @@ import java.util.List;
 public class MessageService {
 
 	public List<Device> getAllDevices(){
-		ConfigurationHelper confHelper= new ConfigurationHelper();
+		DeviceHelper confHelper= new DeviceHelper();
 	    return confHelper.GetAllDevices();
 	}	
 
 	public Device addNewDevice(Device newDevice) {
-		ConfigurationHelper confHelper= new ConfigurationHelper();
+		DeviceHelper confHelper= new DeviceHelper();
 		return confHelper.AddNewDevice(newDevice);
 	}
 }

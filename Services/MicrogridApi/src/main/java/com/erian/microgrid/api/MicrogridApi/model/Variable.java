@@ -1,15 +1,15 @@
 package com.erian.microgrid.api.MicrogridApi.model;
 
 public class Variable {
-	private int Id;
-	private int DeviceId;
+	private int ID;
+	private int DeviceID;
 	private String Name;
 	private String Description;
-	private int GetCommandId;
-	private int SetCommandId;
+	private int GetCommandID;
+	private int SetCommandID;
 	private Boolean DisplayData;
 	private Boolean DisplayDiagram;
-	private int Unit_Id;
+	private int UnitID;
 	private int UpdatingDuration;
 	
 	public Variable() {
@@ -21,32 +21,32 @@ public class Variable {
 			Boolean displayData, Boolean displayDiagram, int unit_Id,
 			int updatingDuration) {
 		super();
-		Id = id;
-		DeviceId = deviceId;
+		ID = id;
+		DeviceID = deviceId;
 		Name = name;
 		Description = description;
-		GetCommandId = getCommandId;
-		SetCommandId = setCommandId;
+		GetCommandID = getCommandId;
+		SetCommandID = setCommandId;
 		DisplayData = displayData;
 		DisplayDiagram = displayDiagram;
-		Unit_Id = unit_Id;
+		UnitID = unit_Id;
 		UpdatingDuration = updatingDuration;
 	}
 
-	public int getId() {
-		return Id;
+	public int getID() {
+		return ID;
 	}
 
-	public void setId(int id) {
-		Id = id;
+	public void setID(int iD) {
+		ID = iD;
 	}
 
-	public int getDeviceId() {
-		return DeviceId;
+	public int getDeviceID() {
+		return DeviceID;
 	}
 
-	public void setDeviceId(int deviceId) {
-		DeviceId = deviceId;
+	public void setDeviceID(int deviceID) {
+		DeviceID = deviceID;
 	}
 
 	public String getName() {
@@ -65,21 +65,20 @@ public class Variable {
 		Description = description;
 	}
 
-
-	public int getGetCommandId() {
-		return GetCommandId;
+	public int getGetCommandID() {
+		return GetCommandID;
 	}
 
-	public void setGetCommandId(int getCommandId) {
-		GetCommandId = getCommandId;
+	public void setGetCommandID(int getCommandID) {
+		GetCommandID = getCommandID;
 	}
 
-	public int getSetCommandId() {
-		return SetCommandId;
+	public int getSetCommandID() {
+		return SetCommandID;
 	}
 
-	public void setSetCommandId(int setCommandId) {
-		SetCommandId = setCommandId;
+	public void setSetCommandID(int setCommandID) {
+		SetCommandID = setCommandID;
 	}
 
 	public Boolean getDisplayData() {
@@ -98,12 +97,12 @@ public class Variable {
 		DisplayDiagram = displayDiagram;
 	}
 
-	public int getUnit_Id() {
-		return Unit_Id;
+	public int getUnitID() {
+		return UnitID;
 	}
 
-	public void setUnit_Id(int unit_Id) {
-		Unit_Id = unit_Id;
+	public void setUnitID(int unitID) {
+		UnitID = unitID;
 	}
 
 	public int getUpdatingDuration() {
@@ -113,6 +112,8 @@ public class Variable {
 	public void setUpdatingDuration(int updatingDuration) {
 		UpdatingDuration = updatingDuration;
 	}
+
+	
 
 
 }
