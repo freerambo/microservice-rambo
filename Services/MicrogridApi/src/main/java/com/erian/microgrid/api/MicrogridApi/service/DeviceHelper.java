@@ -27,6 +27,10 @@ public class DeviceHelper
 		return res;
 	}
 	
+	public static Device GetDevice(int deviceID) {	       
+        return Mapper.MapDevice(GetDeviceData(deviceID));
+	}
+	
 	public static Device AddNewDevice(Device newDevice) {	       
 	           return Mapper.MapDevice(AddNewDevice(Mapper.MapDevice(newDevice)));
 	}
@@ -51,6 +55,26 @@ public class DeviceHelper
 	        return list;
 	    }
 
+ 	protected static DeviceData GetDeviceData(int deviceID){
+		DeviceData res = null;
+		Connection c  = null;
+ 		try {
+ 				c  = DatabaseHelper.getConnection();
+	            Statement s = c.createStatement();
+	            String sql = "{call get_device (" + deviceID + ")}";
+	            ResultSet rs = s.executeQuery(sql);
+	            rs.next();
+	            res = processDeviceRow(rs);
+	       } 
+ 			catch (SQLException e) {
+	            e.printStackTrace();
+	            throw new RuntimeException(e);
+			} finally {
+				DatabaseHelper.close(c);
+			}
+	        return res;
+	    }
+ 	
 	protected static DeviceData AddNewDevice (DeviceData newDevice)
 	{
 	   Connection c = null;     
