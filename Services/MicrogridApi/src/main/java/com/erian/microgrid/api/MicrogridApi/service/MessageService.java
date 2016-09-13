@@ -1,17 +1,18 @@
 package com.erian.microgrid.api.MicrogridApi.service;
 import com.erian.microgrid.api.MicrogridApi.dataModel.DeviceData;
 import com.erian.microgrid.api.MicrogridApi.model.Device;
+import com.erian.microgrid.api.MicrogridApi.model.Device1;
+import com.erian.microgrid.api.MicrogridApi.service.DatabaseHelper;
+
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.erian.microgrid.api.MicrogridApi.service.DatabaseHelper;
-import com.erian.microgrid.api.MicrogridApi.dataModel.DeviceData;
-import com.erian.microgrid.api.MicrogridApi.model.Device;
 
 public class MessageService {
 
@@ -59,6 +60,40 @@ public class MessageService {
     	return deviceData;
    }
 
+	   public Device1 addNewDevice(Device1 device1) {
+	       
+	       Connection c = null;
+	       //ResultSet rs;
+	       PreparedStatement ps=null;
+	       try {
+	           c = DatabaseHelper.getConnection();
+	           String query = "{call add_device(?,?,?,?,?,?,?,?,?,?,?,?)}";
+	           ps= c.prepareStatement(query);
+	           ps.setInt(1, device1.getTypeID());
+	           ps.setString(2, device1.getName());
+	           ps.setString(3, device1.getDescription());
+	           ps.setInt(4, device1.getMicrogridID());
+	           ps.setString(5, device1.getVendor());
+	           ps.setString(6, device1.getModel());
+	           ps.setString(7, device1.getLocation());
+	           ps.setString(8, device1.getIPAdress());
+	           ps.setString(9, device1.getPortNumber());
+	           ps.setInt(10, device1.getBusID());
+	           ps.setInt(11, device1.getIsProgrammable());
+	           ps.setInt(12, device1.getIsConnected());
+	           ps.executeQuery();
+	           
+
+	       }
+	           catch (Exception e) {
+	               e.printStackTrace();
+	               throw new RuntimeException(e);
+	               
+	           } finally {
+	               DatabaseHelper.close(c);
+	           }
+	           return device1;
+	           }
 
 }
 

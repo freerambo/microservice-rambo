@@ -13,7 +13,7 @@ import com.erian.microgrid.api.MicrogridApi.model.Device;
 import com.erian.microgrid.api.MicrogridApi.model.Device1;
 import com.erian.microgrid.api.MicrogridApi.service.MessageService;
 
-@Path("/device")
+@Path("/devices")
 
 public class DeviceResource {
 	MessageService messageService = new MessageService();
@@ -28,10 +28,9 @@ public class DeviceResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/deviceInsertion")
-
 	public Device1 addDevice(Device1 device1){
 		   return messageService.addNewDevice(device1);
 	
 		}
-	}
+}
 
