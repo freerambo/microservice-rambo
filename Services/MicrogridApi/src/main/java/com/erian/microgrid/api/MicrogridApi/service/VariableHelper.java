@@ -1,4 +1,5 @@
 package com.erian.microgrid.api.MicrogridApi.service;
+import com.erian.microgrid.api.MicrogridApi.model.Variable;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -7,16 +8,13 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.erian.microgrid.api.MicrogridApi.model.Variable;
-
 public class VariableHelper {
 
-	private Connection c = null;
-	
 	public VariableHelper() {}
 	
-	public List<Variable> getAllVariables(int deviceId) {
+	public static List<Variable> getAllVariables(int deviceId) {
 		List<Variable> list = new ArrayList<>();
+		Connection c = null;
 		try {
 				c = DatabaseHelper.getConnection();
 	            Statement s = c.createStatement();
@@ -34,7 +32,7 @@ public class VariableHelper {
 		return list;
 	}
 	
-	protected Variable processVariableRow(ResultSet rs) throws SQLException {
+	protected static Variable processVariableRow(ResultSet rs) throws SQLException {
 		Variable variable = new Variable();
 		variable.setID(rs.getInt("ID"));
 		variable.setDeviceID(rs.getInt("DeviceID"));
@@ -48,19 +46,19 @@ public class VariableHelper {
 	}
 	
 	
-	public Variable getVariable(int deviceId, int variableId) {
+	public static Variable getVariable(int deviceId, int variableId) {
 		return new Variable();
 	}
 	
-	public Variable addVariable(int deviceId, Variable variable) {
+	public static Variable addVariable(int deviceId, Variable variable) {
 		return new Variable();
 	}
 	
-	public Variable updateVariable(int deviceId, Variable variable) {
+	public static Variable updateVariable(int deviceId, Variable variable) {
 		return variable;
 	}
 	
-	public Variable removeVariable(int deviceId, int variableId) {
+	public static Variable removeVariable(int deviceId, int variableId) {
 		return new Variable();
 	}
 }

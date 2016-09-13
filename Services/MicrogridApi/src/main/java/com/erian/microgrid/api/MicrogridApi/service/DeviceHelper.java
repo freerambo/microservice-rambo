@@ -13,9 +13,9 @@ import java.util.List;
 
 public class DeviceHelper
 {
-	private Connection c = null;
+	// private Connection c = null;
 
-	public List<Device> GetAllDevices(){
+	public static List<Device> GetAllDevices(){
 		List<DeviceData> dataList = GetAllDeviceData();
 		List<Device> res = new ArrayList<>();
 		// TODO - fix 'error: lambda expressions are not supported in -source 1.7' and use lambda-expression instead of loop
@@ -27,14 +27,15 @@ public class DeviceHelper
 		return res;
 	}
 	
-	public Device AddNewDevice(Device newDevice) {	       
+	public static Device AddNewDevice(Device newDevice) {	       
 	           return Mapper.MapDevice(AddNewDevice(Mapper.MapDevice(newDevice)));
 	}
 	
- 	protected List<DeviceData> GetAllDeviceData(){
+ 	protected static List<DeviceData> GetAllDeviceData(){
 		List<DeviceData> list = new ArrayList<>();
+		Connection c  = null;
  		try {
-	            c = DatabaseHelper.getConnection();
+ 				c  = DatabaseHelper.getConnection();
 	            Statement s = c.createStatement();
 	            String sql = "{call get_devices ()}";
 	            ResultSet rs = s.executeQuery(sql);
@@ -50,40 +51,39 @@ public class DeviceHelper
 	        return list;
 	    }
 
-	protected DeviceData AddNewDevice (DeviceData newDevice)
+	protected static DeviceData AddNewDevice (DeviceData newDevice)
 	{
-		Connection c = null;
-	       
-	       PreparedStatement ps=null;
-	       try {
-	           c = DatabaseHelper.getConnection();
-	           String query = "{call add_device(?,?,?,?,?,?,?,?,?,?,?,?)}";
-	           ps= c.prepareStatement(query);
-	           ps.setInt(1, newDevice.getTypeID());
-	           ps.setString(2, newDevice.getName());
-	           ps.setString(3, newDevice.getDescription());
-	           ps.setInt(4, newDevice.getMicrogridID());
-	           ps.setString(5, newDevice.getVendor());
-	           ps.setString(6, newDevice.getModel());
-	           ps.setString(7, newDevice.getLocation());
-	           ps.setString(8, newDevice.getIPAdress());
-	           ps.setString(9, newDevice.getPortNumber());
-	           ps.setInt(10, newDevice.getBusID());
-	           ps.setInt(11, newDevice.getIsProgrammable());
-	           ps.setInt(12, newDevice.getIsConnected());
-	           ps.executeQuery();
-	       }
-	           catch (Exception e) {
-	               e.printStackTrace();
-	               throw new RuntimeException(e);
-	               
-	           } finally {
-	               DatabaseHelper.close(c);
-	           }
+	   Connection c = null;     
+       PreparedStatement ps=null;
+       try {
+           c = DatabaseHelper.getConnection();
+           String query = "{call add_device(?,?,?,?,?,?,?,?,?,?,?,?)}";
+           ps= c.prepareStatement(query);
+           ps.setInt(1, newDevice.getTypeID());
+           ps.setString(2, newDevice.getName());
+           ps.setString(3, newDevice.getDescription());
+           ps.setInt(4, newDevice.getMicrogridID());
+           ps.setString(5, newDevice.getVendor());
+           ps.setString(6, newDevice.getModel());
+           ps.setString(7, newDevice.getLocation());
+           ps.setString(8, newDevice.getIPAdress());
+           ps.setString(9, newDevice.getPortNumber());
+           ps.setInt(10, newDevice.getBusID());
+           ps.setInt(11, newDevice.getIsProgrammable());
+           ps.setInt(12, newDevice.getIsConnected());
+           ps.executeQuery();
+       		}
+           catch (Exception e) {
+               e.printStackTrace();
+               throw new RuntimeException(e);
+               
+           } finally {
+               DatabaseHelper.close(c);
+           }
 	       return newDevice;  // TODO - return inserted device from insert statement and return it here including ID
 	}
 	
-	protected DeviceData processDeviceRow(ResultSet rs) throws SQLException {
+	protected static DeviceData processDeviceRow(ResultSet rs) throws SQLException {
     	DeviceData  deviceData = new DeviceData();
     	deviceData.setID(rs.getInt("ID"));
     	deviceData.setTypeID(rs.getInt("TypeID"));
