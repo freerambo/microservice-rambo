@@ -20,11 +20,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring()
                     .antMatchers("/**/*.html", //
-                    "/css/*.css", //
                      "/css/**", //
-                     "/js/*.js", //
                      "/js/**", //
-                     "/i18n/*.properties",// 
                      "/i18n/**",// 
                      "/libs/**",//
                      "/img/**", //
@@ -35,19 +32,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
             http   
-//                .authorizeRequests()   
-//                    .antMatchers("/api/ping")
-//                    .permitAll()
-//    		.and()
-//                    .authorizeRequests()   
-//                    .antMatchers("/api/**")
+                .authorizeRequests()   
+                    .antMatchers("/api/ping")
+                    .permitAll()
+    		.and()
+                    .authorizeRequests()   
+                    .antMatchers("/api/**").permitAll()
 //                    .authenticated()
-//    		.and()
+    		.and()
                     .authorizeRequests()   
                     .anyRequest()
                     .permitAll()
                 .and()
-                    .sessionManagement()
+                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                     .httpBasic()

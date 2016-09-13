@@ -6,88 +6,121 @@
 
     <div class="form-group row" ng-class="{'has-error':deviceForm.name.$invalid && !deviceForm.name.$pristine}">
         <label class="col-sm-2 col-form-label" for="name"><msg key="name"></msg></label>
-	 	<div class="col-sm-10">
+	 	<div class="col-sm-5">
 	        <input name="name" class="form-control" type="text"
 	               placeholder="Device Name" ng-model="newDevice.name" ng-required="true"></input>
-<!-- 	        <p class="help-block" ng-show="deviceForm.name.$invalid">Title is required!</p>
- -->        </div>
+        </div>
+        <label class="col-sm-1 col-form-label" for="name">Type</label>
+	 	<div class="col-sm-4">
+	       <select class="custom-select" "><!--  ng-model="newDevice.type"   ng-options=" -->
+			  <option selected="selected">Please select device type</option>
+			  <option value="1">Source</option>
+			  <option value="2">Load</option>
+			  <option value="3">Battery</option>
+			  <option value="3">Converter</option>
+			  <option value="3">Others</option>
+			</select>
+        </div>
     </div>
-
-<!--     <div class="form-group row" ng-class="{'has-error':deviceForm.content.$invalid && !deviceForm.content.$pristine}">
-        <label class="col-sm-2 col-form-label" for="description"><msg key="description"></msg></label>
-        <div class="col-sm-10"></div>
-	        <input name="description" class="form-control" type="text"
-	                  placeholder="Device description" ng-model="description"  ng-required="true" ng-minlength="5"></input>
-	        
-   		</div>
-    </div> -->
-    
    
-    
-    
 	<div class="form-group row">
       <label for="description" class="col-sm-2 col-form-label">Description</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="description" placeholder="Device description">
+        <input type="text" class="form-control" id="description" ng-model="newDevice.description" ng-required="true" placeholder="Device description">
       </div>
     </div>
     <div class="form-group row">
-      <label for="description" class="col-sm-2 col-form-label">Vendor</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" id="description" placeholder="Vendor">
+      <label for="vendor" class="col-sm-2 col-form-label">Vendor</label>
+      <div class="col-sm-5">
+        <input type="text" class="form-control" id="vendor" placeholder="Vendor" ng-model="newDevice.vendor" ng-required="true">
+      </div>
+       <label class="col-sm-1">Programmable</label>
+      <div class="col-sm-4">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox"  ng-model="newDevice.isProgrammable" > Check if Programmable
+        </div>
+      </div>
+    </div>
+     <div class="form-group row">
+      <label for="Model" class="col-sm-2 col-form-label">Model</label>
+      <div class="col-sm-5">
+        <input type="text" class="form-control" id="Model" ng-model="newDevice.model" placeholder="Model">
+      </div>
+      
+      <label class="col-sm-1">Connected</label>
+      <div class="col-sm-4">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox"  ng-model="newDevice.isConnected"> Check if Connected
+        </div>
       </div>
     </div>
     <div class="form-group row">
-      <label for="description" class="col-sm-2 col-form-label">Location</label>
+      <label for="Location" class="col-sm-2 col-form-label">Location</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="description" placeholder="please input Location">
+        <input type="text" class="form-control" id="Location" ng-model="newDevice.location" ng-required="true" placeholder="please input Location">
       </div>
     </div>
       
       <div class="form-group row">
-      <label for="description" class="col-sm-2 col-form-label">IP</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" id="description" placeholder="please input IP address">
+      <label for="ip" class="col-sm-2 col-form-label">IP</label>
+      <div class="col-sm-5">
+        <input type="text" class="form-control" ng-model="newDevice.ip" id="ip" placeholder="please input IP address">
+      </div>
+      <label for="ip" class="col-sm-1 col-form-label">Port</label>
+      <div class="col-sm-2">
+        <input type="text" class="form-control" id="ip"  ng-model="newDevice.port" placeholder="please input Port number">
       </div>
     </div>
-    <fieldset class="form-group row">
-      <legend class="col-form-legend col-sm-2">BUS</legend>
-      <div class="col-sm-10">
-        <div class="form-check">
-          <label class="form-check-label">
-            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
-            DC
-          </label>
-        </div>
-        <div class="form-check">
-          <label class="form-check-label">
-            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
-            AC
-          </label>
-        </div>
-       
-      </div>
-    </fieldset>
     <div class="form-group row">
+      <label for="Bus" class="col-sm-2 col-form-label" >BUS</label>
+      <div class="col-sm-10">
+          <label class="form-check-inline">
+            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" ng-model="newDevice.bus" value="DC" >
+            DC
+          </label>&nbsp;&nbsp;
+          <label class="form-check-inline">
+            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" ng-model="newDevice.bus" value="AC">
+            AC
+          </label>&nbsp;&nbsp;
+          <label class="form-check-inline">
+            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" ng-model="newDevice.bus" value="">
+            ALL
+          </label>
+        </div>   
+    </div>
+    
+   <!--  <div class="form-group row">
       <label class="col-sm-2">Programmable</label>
       <div class="col-sm-10">
         <div class="form-check">
           <label class="form-check-label">
-            <input class="form-check-input" type="checkbox"> Check me out
+            <input class="form-check-input" type="checkbox"> Check if Programmable
           </label>
         </div>
       </div>
     </div>
-<!--     <div class="form-group row">
+    
+    <div class="form-group row">
+      <label class="col-sm-2">Connected</label>
+      <div class="col-sm-10">
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox"> Check if Connected
+          </label>
+        </div>
+      </div>
+    </div>    
+
+    <div class="form-group row">
       <div class="offset-sm-2 col-sm-10">
         <button type="submit" class="btn btn-primary">Sign in</button>
       </div>
     </div> -->
     
     <div class="form-group row">
-      <label for="description" class="col-sm-2 col-form-label">Comments: </label>
+      <label for="comments" class="col-sm-2 col-form-label">Comments: </label>
       <div class="col-sm-10">
-        <textarea type="text" class="form-control" id="description" row="4" placeholder="please input comments"></textarea>
+        <textarea  ng-minlength="15" ng-model="newDevice.comments" class="form-control" id="description" rows="4" placeholder="please input comments at leasr 15...."></textarea>
       </div>
     </div>
      <div class="form-group">

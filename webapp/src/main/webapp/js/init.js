@@ -33,10 +33,12 @@
                             templateUrl: 'partials/posts/details.html'})*/
                 .when('/devices',
                         {controller: 'DevicesController',
-                            templateUrl: 'partials/devices/list.html'})
+                            templateUrl: 'partials/devices/list.html',
+                            publicAccess: true})
                  .when('/devices/new',
                         {controller: 'NewDeviceController',
-                            templateUrl: 'partials/devices/new.html'})           
+                            templateUrl: 'partials/devices/new.html',
+                            publicAccess: true})           
                             ;
 
 

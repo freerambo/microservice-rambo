@@ -7,11 +7,24 @@ import com.erian.microgrid.webapp.domain.Device.Status;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.NamedStoredProcedureQuery;
+import javax.persistence.ParameterMode;
+import javax.persistence.StoredProcedureParameter;
+
 /**
  *
  * @author Rambo Zhu<asybzhu@gmail.com>
  *
  */
+
+
+/*@NamedStoredProcedureQuery(
+	    name="getDevices", 
+	    procedureName="get_devices", 
+	    resultClasses=DeviceDetails.class, parameters={
+	        @StoredProcedureParameter(mode=ParameterMode.IN, name = "sys_id_game", type = Integer.class)
+	    }
+	)*/
 public class DeviceDetails implements Serializable {
 
  /**
