@@ -9,11 +9,14 @@ import java.util.List;
 
 import com.erian.microgrid.api.MicrogridApi.model.Variable;
 
-public class VariableService {
+public class VariableHelper {
 
+	private Connection c = null;
+	
+	public VariableHelper() {}
+	
 	public List<Variable> getAllVariables(int deviceId) {
 		List<Variable> list = new ArrayList<>();
-		Connection c = null;
 		try {
 				c = DatabaseHelper.getConnection();
 	            Statement s = c.createStatement();
@@ -33,14 +36,14 @@ public class VariableService {
 	
 	protected Variable processVariableRow(ResultSet rs) throws SQLException {
 		Variable variable = new Variable();
-		variable.setId(rs.getInt("ID"));
-		variable.setDeviceId(rs.getInt("Device_ID"));
+		variable.setID(rs.getInt("ID"));
+		variable.setDeviceID(rs.getInt("DeviceID"));
 		variable.setName(rs.getString("Name"));
 		variable.setDescription(rs.getString("Description"));
-		variable.setGetCommandId(rs.getInt("get_command_id"));
-		variable.setSetCommandId(rs.getInt("set_command_id"));
-		variable.setUnit_Id(rs.getInt("unit_id"));
-		variable.setUpdatingDuration(rs.getInt("updating_duration"));
+		variable.setGetCommandID(rs.getInt("GetCommandID"));
+		variable.setSetCommandID(rs.getInt("SetCommandID"));
+		variable.setUnitID(rs.getInt("UnitID"));
+		variable.setUpdatingDuration(rs.getInt("UpdatingDuration"));
 		return variable;
 	}
 	
