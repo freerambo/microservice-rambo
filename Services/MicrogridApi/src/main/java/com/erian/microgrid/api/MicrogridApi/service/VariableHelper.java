@@ -46,7 +46,7 @@ public class VariableHelper {
 	}
 	
 	
-	public static Variable getVariable(int deviceId, int variableId) {
+	public static Variable getVariable(int variableId) {
 		return new Variable();
 	}
 	
@@ -54,11 +54,11 @@ public class VariableHelper {
 		return new Variable();
 	}
 	
-	public static Variable updateVariable(int deviceId, Variable variable) {
+	public static Variable updateVariable(Variable variable) {
 		return variable;
 	}
 	
-	public static Variable removeVariable(int deviceId, int variableId) {
+	public static Variable removeVariable(int variableId) {
 		return new Variable();
 	}
 }
