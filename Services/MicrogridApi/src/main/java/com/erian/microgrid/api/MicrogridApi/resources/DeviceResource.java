@@ -10,7 +10,7 @@ import javax.ws.rs.core.MediaType;
 import com.erian.microgrid.api.MicrogridApi.model.Device;
 import com.erian.microgrid.api.MicrogridApi.service.MessageService;
 
-@Path("/devicelist")
+@Path("/devices")
 
 public class DeviceResource {
 	MessageService messageService = new MessageService();
