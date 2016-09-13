@@ -9,9 +9,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.MediaType;
 
-import com.erian.microgrid.api.MicrogridApi.model.Device;
-import com.erian.microgrid.api.MicrogridApi.model.Device1;
 import com.erian.microgrid.api.MicrogridApi.service.MessageService;
+import com.erian.microgrid.api.MicrogridApi.model.Device;
 
 @Path("/devices")
 
@@ -27,10 +26,9 @@ public class DeviceResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/deviceInsertion")
-	public Device1 addDevice(Device1 device1){
-		   return messageService.addNewDevice(device1);
-	
+	@Path("/devices")  // POST action + "devices" is a recommended URI to "create new device" resource
+	public Device addDevice(Device newDevice){
+		   return messageService.addNewDevice(newDevice);
 		}
 }
 

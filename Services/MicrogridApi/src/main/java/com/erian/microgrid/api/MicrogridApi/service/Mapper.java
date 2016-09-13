@@ -28,4 +28,27 @@ public final class Mapper {
 		return device;
 
 	}
+	
+	public static DeviceData MapDevice(Device device) {
+		DeviceData deviceData = new DeviceData();
+		deviceData.setID(device.getID());
+		deviceData.setTypeID(device.getTypeID());
+		deviceData.setTypeName(device.getTypeName());
+		deviceData.setClassID(device.getClassID());
+		deviceData.setClassName(device.getClassName());
+		deviceData.setName(device.getName());
+		deviceData.setDescription(device.getDescription());
+		deviceData.setMicrogridID(device.getMicrogridID());
+		deviceData.setMicrogridName(device.getMicrogridName());
+		deviceData.setVendor(device.getVendor());
+		deviceData.setModel(device.getModel());
+		deviceData.setLocation(device.getLocation());
+		deviceData.setIPAdress(device.getIPAdress());
+		deviceData.setPortNumber(device.getPortNumber());
+		deviceData.setBusID(device.getBusID());
+		deviceData.setIsProgrammable(device.getIsProgrammable());
+		deviceData.setIsConnected(device.getIsConnected());
+
+		return deviceData;
+	}	
 }

@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 
-public class DatabaseHelper
+public class DatabaseHelper 
 {
 	private String url;
 	private static DatabaseHelper instance;
@@ -15,7 +15,7 @@ public class DatabaseHelper
     	
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			url = "jdbc:mysql://localhost:3306/smes_microgrid?user=root&password=@ugustRush";
+			url = "jdbc:mysql://localhost:3306/smes_microgrid?user=root&password=12345";
             
 		} catch (Exception e) {
 			e.printStackTrace();
