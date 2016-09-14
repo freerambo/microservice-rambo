@@ -7,6 +7,7 @@ import com.erian.microgrid.webapp.exception.ResourceNotFoundException;
 import com.erian.microgrid.webapp.model.*;
 import com.erian.microgrid.webapp.repository.*;
 
+
 import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,9 +30,15 @@ public class DeviceService {
 
 	private DeviceRepository deviceRepository;
 
-	@Autowired
-	public void setDeviceRepository(DeviceRepository deviceRepository) {
+//	@Autowired
+//	public void setDeviceRepository(DeviceRepository deviceRepository) {
+//		this.deviceRepository = deviceRepository;
+//	}
+	
+	@Inject
+	public DeviceService(DeviceRepository deviceRepository) {
 		this.deviceRepository = deviceRepository;
+
 	}
 
 	public Page<DeviceDetails> searchDevicesByCriteria(String q, Device.Bus bus, Pageable page) {

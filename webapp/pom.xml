@@ -688,10 +688,10 @@
 		<profile>
 			<id>staging</id>
 			<properties>
-				<jdbc.url><![CDATA[jdbc:mysql://localhost:3306/bigfish]]>
+				<jdbc.url><![CDATA[jdbc:mysql://172.21.76.125:3306/test]]>
 				</jdbc.url>
-				<jdbc.username>root</jdbc.username>
-				<jdbc.password>s3cret</jdbc.password>
+				<jdbc.username>mysqluser</jdbc.username>
+				<jdbc.password>mysql@erian</jdbc.password>
 
 				<log4j.level>INFO</log4j.level>
 
