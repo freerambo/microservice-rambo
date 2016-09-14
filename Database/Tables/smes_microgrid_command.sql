@@ -33,7 +33,7 @@ CREATE TABLE `command` (
   PRIMARY KEY (`id`),
   KEY `fk_device_command_idx` (`device_id`),
   CONSTRAINT `fk_device_command` FOREIGN KEY (`device_id`) REFERENCES `device` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,6 +42,7 @@ CREATE TABLE `command` (
 
 LOCK TABLES `command` WRITE;
 /*!40000 ALTER TABLE `command` DISABLE KEYS */;
+INSERT INTO `command` VALUES (1,'CMD1','test Add cmd SP1','VOL {0}, CUR {1}, VOL1{2}',1),(2,'CMD1','test Add cmd SP1','VOL {0}, CUR {1}, VOL1{2}',1),(3,'CMD1','test Add cmd SP1','VOL {0}, CUR {1}, VOL1{2}',1),(4,'CMD1','test Add cmd SP1','VOL {0}, CUR {1}, VOL1{2}',1);
 /*!40000 ALTER TABLE `command` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-09-06 15:00:13
+-- Dump completed on 2016-09-14 15:57:41

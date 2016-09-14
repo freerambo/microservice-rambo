@@ -18,36 +18,28 @@ USE `smes_microgrid`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `variable`
+-- Table structure for table `parameter_type`
 --
 
-DROP TABLE IF EXISTS `variable`;
+DROP TABLE IF EXISTS `parameter_type`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `variable` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `device_id` int(11) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
+CREATE TABLE `parameter_type` (
+  `id` tinyint(4) NOT NULL,
+  `name` varchar(45) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
-  `unit_id` int(11) DEFAULT NULL,
-  `updating_duration` int(255) DEFAULT NULL,
-  `set_command_id` int(11) DEFAULT NULL,
-  `get_command_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_variable_variable` (`unit_id`) USING BTREE,
-  KEY `fk_variable_device_idx` (`device_id`) USING BTREE,
-  CONSTRAINT `fk_variable_device` FOREIGN KEY (`device_id`) REFERENCES `device` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `variable`
+-- Dumping data for table `parameter_type`
 --
 
-LOCK TABLES `variable` WRITE;
-/*!40000 ALTER TABLE `variable` DISABLE KEYS */;
-INSERT INTO `variable` VALUES (1,1,'var1','test add SP1',1,NULL,NULL,NULL),(4,1,'var2','test add SP1',1,NULL,NULL,NULL),(5,1,'var2','test add SP1',1,NULL,NULL,NULL),(6,1,'VAR6','Var 6 desc',1,100,NULL,NULL),(7,2,'var22','test add SP1',1,NULL,NULL,NULL),(8,1,'Var5','desc 5',1,2,NULL,NULL);
-/*!40000 ALTER TABLE `variable` ENABLE KEYS */;
+LOCK TABLES `parameter_type` WRITE;
+/*!40000 ALTER TABLE `parameter_type` DISABLE KEYS */;
+INSERT INTO `parameter_type` VALUES (1,'Inpit Param','input to command'),(2,'Output','output of the command');
+/*!40000 ALTER TABLE `parameter_type` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

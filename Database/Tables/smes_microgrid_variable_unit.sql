@@ -40,6 +40,7 @@ CREATE TABLE `variable_unit` (
 
 LOCK TABLES `variable_unit` WRITE;
 /*!40000 ALTER TABLE `variable_unit` DISABLE KEYS */;
+INSERT INTO `variable_unit` VALUES (1,'kWh','Power','power in kWh'),(2,'A','Energy','energy in A'),(3,'V','Voltage','volt');
 /*!40000 ALTER TABLE `variable_unit` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-09-06 15:00:13
+-- Dump completed on 2016-09-14 15:57:41
