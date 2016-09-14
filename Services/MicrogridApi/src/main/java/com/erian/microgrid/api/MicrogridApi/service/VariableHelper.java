@@ -35,13 +35,13 @@ public class VariableHelper {
 	protected static Variable processVariableRow(ResultSet rs) throws SQLException {
 		Variable variable = new Variable();
 		variable.setID(rs.getInt("ID"));
-		variable.setDeviceID(rs.getInt("DeviceID"));
+		variable.setDeviceID(rs.getInt("Device_ID"));
 		variable.setName(rs.getString("Name"));
 		variable.setDescription(rs.getString("Description"));
-		variable.setGetCommandID(rs.getInt("GetCommandID"));
-		variable.setSetCommandID(rs.getInt("SetCommandID"));
-		variable.setUnitID(rs.getInt("UnitID"));
-		variable.setUpdatingDuration(rs.getInt("UpdatingDuration"));
+		variable.setGetCommandID(rs.getInt("Get_Command_ID"));
+		variable.setSetCommandID(rs.getInt("Set_Command_ID"));
+		variable.setUnitID(rs.getInt("Unit_ID"));
+		variable.setUpdatingDuration(rs.getInt("Updating_Duration"));
 		return variable;
 	}
 	

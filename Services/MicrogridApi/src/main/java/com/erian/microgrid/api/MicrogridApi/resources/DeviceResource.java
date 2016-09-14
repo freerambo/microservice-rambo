@@ -11,7 +11,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.erian.microgrid.api.MicrogridApi.model.Device;
+import com.erian.microgrid.api.MicrogridApi.model.Variable;
 import com.erian.microgrid.api.MicrogridApi.service.DeviceHelper;
+import com.erian.microgrid.api.MicrogridApi.service.VariableHelper;
 
 @Path("/devices")
 
@@ -38,6 +40,11 @@ public class DeviceResource {
 		return DeviceHelper.AddNewDevice(newDevice);
 	}	
 	
+	@Path("/{deviceId}/variables")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Variable> getVariableDetails(@PathParam("deviceId") int deviceId) {
+		return VariableHelper.getAllVariables(deviceId);
+	}
 	/*
 	private Device GetFakeDevice()
 	{
