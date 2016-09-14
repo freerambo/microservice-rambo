@@ -1,9 +1,15 @@
 package com.erian.microgrid.api.MicrogridApi.model;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class Bus {
 	private int BusID;
 	private String BusName;
 	private String BusDescription;
+	
+	public Bus(){}
+	
 	public Bus(int busID, String busName, String busDescription) {
 		super();
 		BusID = busID;

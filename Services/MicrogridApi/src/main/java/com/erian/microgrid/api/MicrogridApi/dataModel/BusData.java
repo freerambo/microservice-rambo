@@ -4,12 +4,16 @@ public class BusData {
 	private int BusID;
 	private String BusName;
 	private String BusDescription;
+	
+	public BusData(){}
+	
 	public BusData(int busID, String busName, String busDescription) {
 		super();
 		BusID = busID;
 		BusName = busName;
 		BusDescription = busDescription;
 	}
+	
 	public int getBusID() {
 		return BusID;
 	}
