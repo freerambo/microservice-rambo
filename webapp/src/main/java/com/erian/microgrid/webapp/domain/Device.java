@@ -76,6 +76,9 @@ public class Device implements Serializable {
     @Column(name = "is_programmable")
     private String isProgrammable;
     
+    @Column(name = "comments")
+    private String comments;
+    
     @Column(name = "status")
     @Enumerated(value = EnumType.STRING)
     private Status status = Status.OFF;
@@ -191,6 +194,16 @@ public class Device implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	
+	
+	public String getComments() {
+		return comments;
+	}
+
+	public void setComments(String comments) {
+		this.comments = comments;
 	}
 
 	@PrePersist

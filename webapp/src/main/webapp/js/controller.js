@@ -48,6 +48,7 @@
                     + '&page=' + ($scope.p - 1))
                     .success(function (data) {
                         $scope.devices = data.content;
+//                        console.log("devices list" + data.content);
                         $scope.totalItems = data.totalElements;
                         
                     });
@@ -81,6 +82,41 @@
     as.controller('NewDeviceController', function ($scope, $http, i18n, $location) {
         var actionUrl = 'api/devices/';
 
+        
+        $scope.options = [
+	      
+	          {
+	            name: 'Source',
+	            value: '1'
+	          },
+	          {
+	            name: 'Load',
+	            value: '2'
+	          },
+	          {
+	            name: 'Battery',
+	            value: '3'
+	          }
+	          ,
+	          {
+	            name: 'Conveters',
+	            value: '4'
+	          },
+	          ,
+	          {
+	            name: 'Others',
+	            value: '5'
+	          },
+
+			    {
+			      name: 'Please select device type',
+			      value: '0'
+			    }
+		    
+	          
+	      ];
+	      $scope.selectedOption = $scope.options[0];
+        
         $scope.save = function () {
             $http.post(actionUrl, $scope.newDevice).success(function () {
                 $location.path('/devices');
@@ -91,6 +127,24 @@
         $scope.cancel = function () {
             $location.path('/devices');
         };
+
+    });
+    
+    
+    as.controller('DeviceDetailsController', function ($scope, $http, $routeParams,$q) {
+        var actionUrl = 'api/devices/' + + $routeParams.id,
+
+        		
+		 load = function () {           
+        	$http.get(actionUrl)
+             .success(function (data) {
+            	 
+             	 console.log("Console devices " + data.id);
+                 $scope.device = data;	                        
+                 
+             });
+         };
+        load();
 
     });
 
