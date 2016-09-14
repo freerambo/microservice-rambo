@@ -1,8 +1,10 @@
 package com.erian.microgrid.api.MicrogridApi.service;
 
+import com.erian.microgrid.api.MicrogridApi.dataModel.BusData;
 import com.erian.microgrid.api.MicrogridApi.dataModel.DeviceData;
 import com.erian.microgrid.api.MicrogridApi.dataModel.DeviceTypeData;
 import com.erian.microgrid.api.MicrogridApi.dataModel.VariableData;
+import com.erian.microgrid.api.MicrogridApi.model.Bus;
 import com.erian.microgrid.api.MicrogridApi.model.Device;
 import com.erian.microgrid.api.MicrogridApi.model.DeviceType;
 import com.erian.microgrid.api.MicrogridApi.model.Variable;
@@ -68,6 +70,11 @@ public final class Mapper {
 		return deviceType;
 
 	}
+	
+	public static Bus MapBus(BusData busData) {
+		return new Bus(busData.getBusID(), busData.getBusName(), busData.getBusDescription());
+
+	}	
 	
 	public static Variable MapVariable(VariableData variableData) {
 		Variable variable = new Variable();
