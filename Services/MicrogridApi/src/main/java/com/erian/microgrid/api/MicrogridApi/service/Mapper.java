@@ -1,7 +1,9 @@
 package com.erian.microgrid.api.MicrogridApi.service;
 
 import com.erian.microgrid.api.MicrogridApi.dataModel.DeviceData;
+import com.erian.microgrid.api.MicrogridApi.dataModel.DeviceTypeData;
 import com.erian.microgrid.api.MicrogridApi.model.Device;
+import com.erian.microgrid.api.MicrogridApi.model.DeviceType;
 
 public final class Mapper {
 
@@ -50,5 +52,18 @@ public final class Mapper {
 		deviceData.setIsConnected(device.getIsConnected());
 
 		return deviceData;
+	}	
+	
+	public static DeviceType MapDeviceType(DeviceTypeData deviceTypeData) {
+		DeviceType deviceType = new DeviceType();
+		deviceType.setTypeID(deviceTypeData.getTypeID());
+		deviceType.setClassID(deviceTypeData.getClassID());
+		deviceType.setTypeName(deviceTypeData.getTypeName());
+		deviceType.setClassName(deviceTypeData.getClassName());
+		deviceType.setTypeDescription(deviceTypeData.getTypeDescription());
+		deviceType.setClassDescription(deviceTypeData.getClassDescription());
+		
+		return deviceType;
+
 	}	
 }
