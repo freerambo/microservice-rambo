@@ -3,6 +3,7 @@ import com.erian.microgrid.api.MicrogridApi.dataModel.VariableData;
 import com.erian.microgrid.api.MicrogridApi.model.Variable;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -59,8 +60,32 @@ public class VariableHelper {
 		return new Variable();
 	}
 	
-	public static Variable addVariable(int deviceId, Variable variable) {
-		return new Variable();
+	public static VariableData addNewVariable(int deviceId, VariableData newVariable) {
+		Connection c = null;
+		PreparedStatement ps=null;
+		try {
+			c = DatabaseHelper.getConnection();
+            String query = "{call add_variable(?,?,?,?,?)}";
+            ps= c.prepareStatement(query);
+            ps.setInt(1, newVariable.getDeviceID());
+            ps.setString(2, newVariable.getName());
+            ps.setString(3, newVariable.getDescription());
+            ps.setInt(4, newVariable.getUnitID());
+            ps.setInt(5, newVariable.getUpdatingDuration());
+            
+            ResultSet rs= ps.executeQuery();
+            while (rs.next()) {
+            	newVariable.setID(rs.getInt("ID"));
+            }
+       	}
+        catch (Exception e) {
+        	e.printStackTrace();
+        	throw new RuntimeException(e);
+               
+        } finally {
+            DatabaseHelper.close(c);
+        }
+		return newVariable;	// TODO - return inserted variable from insert statement and return it here including ID
 	}
 	
 	public static Variable updateVariable(Variable variable) {

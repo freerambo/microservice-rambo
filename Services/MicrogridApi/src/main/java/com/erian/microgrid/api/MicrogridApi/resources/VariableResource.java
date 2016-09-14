@@ -11,6 +11,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.erian.microgrid.api.MicrogridApi.dataModel.VariableData;
 import com.erian.microgrid.api.MicrogridApi.model.Variable;
 import com.erian.microgrid.api.MicrogridApi.service.VariableHelper;
 
@@ -30,8 +31,10 @@ public class VariableResource {
 	}
 	
 	@POST
-	public Variable addVariable(@PathParam("deviceId") int deviceId, Variable variable) {
-		return VariableHelper.addVariable(deviceId, variable);
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public VariableData addVariable(@PathParam("deviceId") int deviceId, VariableData variableData) {
+		return VariableHelper.addNewVariable(deviceId, variableData);
 	}
 	
 	@PUT
@@ -50,7 +53,7 @@ public class VariableResource {
 	@GET
 	@Path("/{variableId}")
 	public Variable getVariable(@PathParam("deviceId") int deviceId, @PathParam("variableId") int variableId) {
-		return VariableHelper.getVariable(deviceId);
+		return VariableHelper.getVariable(variableId);
 	}
 	
 	
