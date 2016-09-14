@@ -39,9 +39,21 @@ START TRANSACTION;
 
 
 	-- Log the end of excecution
-		CALL smes_microgrid.log_info(@spName, CONCAT('Variable Added to Device ID=', device_id, ' New variable ID is: ', LAST_INSERT_ID()));
+		CALL smes_microgrid.log_info('smes_microgrid.add_variable', CONCAT('Variable Added to Device ID=', device_id, ' New variable ID is: ', LAST_INSERT_ID()));
 	-- End of Logging
 
 	COMMIT;  
     
+SELECT V.`id` as ID,
+    V.`device_id` as DeviceID,
+    V.`name` as Name,
+    V.`description` as Description,
+    V.`unit_id` as UnitID,
+    V.`updating_duration` as UpdatingDuration,
+    V.`set_command_id` as SetCommandID,
+    V.`get_command_id` as GetCommandID
+FROM `smes_microgrid`.variable AS V
+LEFT JOIN `smes_microgrid`.variable_unit AS U ON U.id = V.unit_id
+WHERE V.id = LAST_INSERT_ID(); 
+
 END
