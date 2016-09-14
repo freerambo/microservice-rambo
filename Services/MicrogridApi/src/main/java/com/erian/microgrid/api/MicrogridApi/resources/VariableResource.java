@@ -36,21 +36,21 @@ public class VariableResource {
 	
 	@PUT
 	@Path("/{variableId}")
-	public Variable updateVariable(@PathParam("deviceId") int deviceId, @PathParam("variableId") int variableId, Variable variable) {
+	public Variable updateVariable(@PathParam("variableId") int variableId, Variable variable) {
 		variable.setID(variableId);		
-		return VariableHelper.updateVariable(deviceId, variable);
+		return VariableHelper.updateVariable(variable);
 	}
 	
 	@DELETE
 	@Path("/{variableId}")
-	public void deleteVariable(@PathParam("deviceId") int deviceId, @PathParam("variableId") int variableId) {
-		VariableHelper.removeVariable(deviceId, variableId);
+	public void deleteVariable( @PathParam("variableId") int variableId) {
+		VariableHelper.removeVariable( variableId);
 	}
 	
 	@GET
 	@Path("/{variableId}")
-	public Variable getVariable(@PathParam("deviceId") int deviceId, @PathParam("variableId") int variableId) {
-		return VariableHelper.getVariable(deviceId, variableId);
+	public Variable getVariable( @PathParam("variableId") int variableId) {
+		return VariableHelper.getVariable(variableId);
 	}
 	
 	
