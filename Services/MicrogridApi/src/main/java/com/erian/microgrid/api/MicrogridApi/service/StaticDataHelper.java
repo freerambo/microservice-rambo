@@ -9,15 +9,17 @@ import java.util.List;
 
 import com.erian.microgrid.api.MicrogridApi.dataModel.BusData;
 import com.erian.microgrid.api.MicrogridApi.dataModel.DeviceTypeData;
+import com.erian.microgrid.api.MicrogridApi.dataModel.UnitData;
 import com.erian.microgrid.api.MicrogridApi.model.Bus;
 import com.erian.microgrid.api.MicrogridApi.model.DeviceType;
+import com.erian.microgrid.api.MicrogridApi.model.Unit;
 
 public class StaticDataHelper
 {
 	//***********         Device Type         ***********************
 
 	public static List<DeviceType> GetDeviceTypes(){
-		List<DeviceType> list = new ArrayList();
+		List<DeviceType> list = new ArrayList<DeviceType>();
 		Connection c = null;
 		try {
 				c = DatabaseHelper.getConnection();
@@ -49,7 +51,7 @@ public class StaticDataHelper
 
 	// ********************       Bus            ***************************
 	public static List<Bus> GetBuses(){
-		List<Bus> list = new ArrayList();
+		List<Bus> list = new ArrayList<Bus>();
 		Connection c = null;
 		try {
 				c = DatabaseHelper.getConnection();
@@ -72,5 +74,32 @@ public class StaticDataHelper
 		return new BusData(rs.getInt("ID"), rs.getString("Name"), rs.getString("Description"));
 	}
 	
+	// ***********************             Units          *******************************
+	public static List<Unit> GetUnits(){
+		List<Unit> list = new ArrayList<Unit>();
+		Connection c = null;
+		try {
+				c = DatabaseHelper.getConnection();
+	            Statement s = c.createStatement();
+	            String sql = "{call get_units ()}";
+	            ResultSet rs = s.executeQuery(sql);
+	            while (rs.next()) {
+	                list.add(Mapper.MapUnit(processUnitRow(rs)));
+	            }
+			} catch (SQLException e) {
+	            e.printStackTrace();
+	            throw new RuntimeException(e);
+			} finally {
+				DatabaseHelper.close(c);
+			}
+		return list;
+	}
 	
+	protected static UnitData processUnitRow(ResultSet rs) throws SQLException {
+		UnitData res = new UnitData();
+		res.setUnitID(rs.getInt("ID"));
+		res.setUnitName(rs.getString("Name"));
+		res.setUnitDescription(rs.getString("Description"));
+		return res;
+	}
 }

@@ -9,6 +9,7 @@ import javax.ws.rs.core.MediaType;
 
 import com.erian.microgrid.api.MicrogridApi.model.Bus;
 import com.erian.microgrid.api.MicrogridApi.model.DeviceType;
+import com.erian.microgrid.api.MicrogridApi.model.Unit;
 import com.erian.microgrid.api.MicrogridApi.service.StaticDataHelper;
 
 @Path("/static")
@@ -26,12 +27,18 @@ public class StaticResource {
 	public List<Bus> getBuses(){
 		try{
 			List<Bus> res = StaticDataHelper.GetBuses();
-			return res;
+			return res; //The server encountered an internal error that prevented it from fulfilling this request.
 		}
 		catch (Exception e){
-			
+			e.printStackTrace();
 		}
 		return null;
 	}	
+	
+	@GET	
+	@Path("/units")
+	public List<Unit> getUnits(){
+		return StaticDataHelper.GetUnits();
+	}
 }
 
