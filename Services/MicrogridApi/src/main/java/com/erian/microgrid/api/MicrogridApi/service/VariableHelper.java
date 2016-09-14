@@ -1,4 +1,5 @@
 package com.erian.microgrid.api.MicrogridApi.service;
+import com.erian.microgrid.api.MicrogridApi.dataModel.VariableData;
 import com.erian.microgrid.api.MicrogridApi.model.Variable;
 
 import java.sql.Connection;
@@ -10,10 +11,18 @@ import java.util.List;
 
 public class VariableHelper {
 
-	public VariableHelper() {}
-	
 	public static List<Variable> getAllVariables(int deviceId) {
-		List<Variable> list = new ArrayList<>();
+		List<VariableData> variableList = getAllVariablesData(deviceId);
+		List<Variable> res = new ArrayList<>();
+		for (VariableData var: variableList ) {
+			res.add(Mapper.MapVariable(var));
+		}
+		
+		return res;
+	}
+	
+	public static List<VariableData> getAllVariablesData(int deviceId) {
+		List<VariableData> list = new ArrayList<>();
 		Connection c = null;
 		try {
 				c = DatabaseHelper.getConnection();
@@ -32,17 +41,17 @@ public class VariableHelper {
 		return list;
 	}
 	
-	protected static Variable processVariableRow(ResultSet rs) throws SQLException {
-		Variable variable = new Variable();
-		variable.setID(rs.getInt("ID"));
-		variable.setDeviceID(rs.getInt("Device_ID"));
-		variable.setName(rs.getString("Name"));
-		variable.setDescription(rs.getString("Description"));
-		variable.setGetCommandID(rs.getInt("Get_Command_ID"));
-		variable.setSetCommandID(rs.getInt("Set_Command_ID"));
-		variable.setUnitID(rs.getInt("Unit_ID"));
-		variable.setUpdatingDuration(rs.getInt("Updating_Duration"));
-		return variable;
+	protected static VariableData processVariableRow(ResultSet rs) throws SQLException {
+		VariableData variableData = new VariableData();
+		variableData.setID(rs.getInt("ID"));
+		variableData.setDeviceID(rs.getInt("Device_ID"));
+		variableData.setName(rs.getString("Name"));
+		variableData.setDescription(rs.getString("Description"));
+		variableData.setGetCommandID(rs.getInt("Get_Command_ID"));
+		variableData.setSetCommandID(rs.getInt("Set_Command_ID"));
+		variableData.setUnitID(rs.getInt("Unit_ID"));
+		variableData.setUpdatingDuration(rs.getInt("Updating_Duration"));
+		return variableData;
 	}
 	
 	
