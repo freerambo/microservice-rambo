@@ -39,7 +39,9 @@ public class VariableResource {
 	
 	@PUT
 	@Path("/{variableId}")
-	public Variable updateVariable(@PathParam("deviceId") int deviceId, @PathParam("variableId") int variableId, Variable variable) {
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public VariableData updateVariable(@PathParam("deviceId") int deviceId, @PathParam("variableId") int variableId, VariableData variable) {
 		variable.setID(variableId);		
 		return VariableHelper.updateVariable(variable);
 	}
@@ -52,7 +54,7 @@ public class VariableResource {
 	
 	@GET
 	@Path("/{variableId}")
-	public Variable getVariable(@PathParam("deviceId") int deviceId, @PathParam("variableId") int variableId) {
+	public Variable getVariable(@PathParam("variableId") int variableId) {
 		return VariableHelper.getVariable(variableId);
 	}
 	
