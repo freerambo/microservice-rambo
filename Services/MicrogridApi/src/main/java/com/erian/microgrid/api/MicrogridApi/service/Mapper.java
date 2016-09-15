@@ -1,11 +1,13 @@
 package com.erian.microgrid.api.MicrogridApi.service;
 
 import com.erian.microgrid.api.MicrogridApi.dataModel.BusData;
+import com.erian.microgrid.api.MicrogridApi.dataModel.CommandData;
 import com.erian.microgrid.api.MicrogridApi.dataModel.DeviceData;
 import com.erian.microgrid.api.MicrogridApi.dataModel.DeviceTypeData;
 import com.erian.microgrid.api.MicrogridApi.dataModel.UnitData;
 import com.erian.microgrid.api.MicrogridApi.dataModel.VariableData;
 import com.erian.microgrid.api.MicrogridApi.model.Bus;
+import com.erian.microgrid.api.MicrogridApi.model.Command;
 import com.erian.microgrid.api.MicrogridApi.model.Device;
 import com.erian.microgrid.api.MicrogridApi.model.DeviceType;
 import com.erian.microgrid.api.MicrogridApi.model.Unit;
@@ -119,5 +121,27 @@ public final class Mapper {
 		variableData.setUpdatingDuration(variable.getUpdatingDuration());
 		
 		return variableData;
+	}
+	
+	public static Command MapCommand(CommandData commandData) {
+		Command command = new Command();
+		command.setID(commandData.getID());
+		command.setName(commandData.getName());
+		command.setDesription(commandData.getDescription());
+		command.setFormatString(commandData.getFormatString());
+		command.setDeviceID(commandData.getDeviceID());
+		
+		return command;
+	}
+	
+	public static CommandData MapCommand(Command command) {
+		CommandData commandData = new CommandData();
+		commandData.setID(command.getID());
+		commandData.setName(command.getName());
+		commandData.setDescription(command.getDescription());
+		commandData.setFormatString(command.getFormatString());
+		commandData.setDeviceID(command.getDeviceID());
+		
+		return commandData;
 	}
 }
