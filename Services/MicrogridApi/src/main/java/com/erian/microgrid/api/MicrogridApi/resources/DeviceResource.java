@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -39,6 +40,16 @@ public class DeviceResource {
 	public Device addDevice(Device newDevice){
 		return DeviceHelper.AddNewDevice(newDevice);
 	}	
+	
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	 // POST action + "devices/" is a recommended URI to "create new device" resource
+	// URI to test : http://localhost:8080/MicrogridApi/devices?{"ID"=2,"IPAdress":"127.34.5646.12","busID":2,"classID":2,"className":"Source","description":"test Update Load 2 top Load 2device","isConnected":1,"isProgrammable":1,"location":"somewhere 2","microgridID":1,"microgridName":"Lab Level 5 Microgrid","model":"Model S2","name":"Load 2","portNumber":"3030upd2","typeID":2,"typeName":"DC source","vendor":"Some Vendor"} 
+	public Device updateDevice(Device updDevice){
+		return DeviceHelper.UpdateDevice(updDevice);
+	}	
+	
 	
 	@Path("/{deviceId}/variables")
 	@Produces(MediaType.APPLICATION_JSON)

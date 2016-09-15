@@ -35,6 +35,11 @@ public class DeviceHelper
 	           return Mapper.MapDevice(AddNewDevice(Mapper.MapDevice(newDevice)));
 	}
 	
+	public static Device UpdateDevice(Device newDevice) {	       
+        return Mapper.MapDevice(UpdateDevice(Mapper.MapDevice(newDevice)));
+}
+	
+	
  	protected static List<DeviceData> GetAllDeviceData(){
 		List<DeviceData> list = new ArrayList<>();
 		Connection c  = null;
@@ -78,6 +83,7 @@ public class DeviceHelper
 	protected static DeviceData AddNewDevice (DeviceData newDevice)
 	{
 	   Connection c = null;     
+	   DeviceData deviceData = new DeviceData();
        PreparedStatement ps=null;
        try {
            c = DatabaseHelper.getConnection();
@@ -95,7 +101,54 @@ public class DeviceHelper
            ps.setInt(10, newDevice.getBusID());
            ps.setInt(11, newDevice.getIsProgrammable());
            ps.setInt(12, newDevice.getIsConnected());
-           ps.executeQuery();
+           
+           ResultSet rs= ps.executeQuery();
+           
+           while (rs.next()) { // Read the inserted device row, the complete data row from DB
+        	   	deviceData = processDeviceRow(rs);
+	       		return deviceData;
+           	}
+           
+       	  }
+           catch (Exception e) {
+               e.printStackTrace();
+               throw new RuntimeException(e);
+               
+           } finally {
+               DatabaseHelper.close(c);
+          }
+	       return newDevice;  
+	}
+	
+	protected static DeviceData UpdateDevice (DeviceData updDevice)
+	{
+	   Connection c = null;     
+       PreparedStatement ps=null;
+       DeviceData deviceData = new DeviceData();
+       try {
+           c = DatabaseHelper.getConnection();
+           String query = "{call update_device(?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+           ps= c.prepareStatement(query);
+           ps.setInt(1, updDevice.getID());
+           ps.setInt(2, updDevice.getTypeID());
+           ps.setString(3, updDevice.getName());
+           ps.setString(4, updDevice.getDescription());
+           ps.setInt(5, updDevice.getMicrogridID());
+           ps.setString(6, updDevice.getVendor());
+           ps.setString(7, updDevice.getModel());
+           ps.setString(8, updDevice.getLocation());
+           ps.setString(9, updDevice.getIPAdress());
+           ps.setString(10, updDevice.getPortNumber());
+           ps.setInt(11, updDevice.getBusID());
+           ps.setInt(12, updDevice.getIsProgrammable());
+           ps.setInt(13, updDevice.getIsConnected());
+           
+           ResultSet rs= ps.executeQuery();
+           
+           while (rs.next()) { // Read the updated device row, the complete data row from DB
+        	   	deviceData = processDeviceRow(rs);
+	       		return deviceData;
+           		}
        		}
            catch (Exception e) {
                e.printStackTrace();
@@ -104,7 +157,7 @@ public class DeviceHelper
            } finally {
                DatabaseHelper.close(c);
            }
-	       return newDevice;  // TODO - return inserted device from insert statement and return it here including ID
+       return null;
 	}
 	
 	protected static DeviceData processDeviceRow(ResultSet rs) throws SQLException {
