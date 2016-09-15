@@ -4,8 +4,9 @@ import com.erian.microgrid.webapp.domain.Device;
 import com.erian.microgrid.webapp.model.DeviceForm;
 
 /**
+ * Fixtures for mockup test case
+ * @author zhuyb
  *
- * @author hantsy
  */
 public final class Fixtures {
 

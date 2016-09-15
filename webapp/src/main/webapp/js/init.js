@@ -38,7 +38,16 @@
                  .when('/devices/new',
                         {controller: 'NewDeviceController',
                             templateUrl: 'partials/devices/new.html',
-                            publicAccess: true})           
+                            publicAccess: true}) 
+                 .when('/devices/update/:id',
+                        {controller: 'UpdateDeviceController',
+                        templateUrl: 'partials/devices/edit.html',
+                        publicAccess: true})            
+                 .when('/devices/:id',
+                        {controller: 'DeviceDetailsController',
+                            templateUrl: 'partials/devices/details.html',
+                            publicAccess: true
+                            })           
                             ;
 
 
@@ -177,19 +186,20 @@
         var routesOpenToPublic = [];
         angular.forEach($route.routes, function (route, path) {
             // push route onto routesOpenToPublic if it has a truthy publicAccess value
+        	console.log(path);
             route.publicAccess && (routesOpenToPublic.push(path));
         });
 
         $rootScope.$on('$routeChangeStart', function (event, nextLoc, currentLoc) {
-            //console.log('fire event@$routeChangeStart');
+            console.log('fire event@$routeChangeStart');
             var closedToPublic = (-1 === routesOpenToPublic.indexOf($location.path()));
             if (closedToPublic && !$rootScope.authenticated) {
-                //console.log('login required...');             
+                console.log('login required...');             
                 $rootScope.$broadcast('event:loginRequired');
             } else if (!!$rootScope.authenticated) {
-                //console.log('already logged in...'); 
+                console.log('already logged in...'); 
                 if (!!nextLoc && nextLoc.templateUrl == 'partials/login.html') {
-                    $location.path('/devices');
+                    $location.path('nextLoc');
                 } else {
                     //do nothing...
                 }

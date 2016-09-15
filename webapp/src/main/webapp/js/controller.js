@@ -148,7 +148,23 @@
 
     });
 
-    
+
+    as.controller('UpdateDeviceController', function ($scope, $http, $routeParams,$q) {
+        var actionUrl = 'api/devices/update/' + + $routeParams.id,
+
+        		
+		 load = function () {           
+        	$http.get(actionUrl)
+             .success(function (data) {
+            	 
+             	 console.log("Console devices " + data.id);
+                 $scope.device = data;	                        
+                 
+             });
+         };
+        load();
+
+    });
    
 
 }());
