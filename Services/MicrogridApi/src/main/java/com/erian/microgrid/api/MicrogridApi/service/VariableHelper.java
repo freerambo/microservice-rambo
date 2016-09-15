@@ -84,6 +84,7 @@ public class VariableHelper {
 	public static VariableData addNewVariable(int deviceId, VariableData newVariable) {
 		Connection c = null;
 		PreparedStatement ps=null;
+		VariableData variableAdded = null;
 		try {
 			c = DatabaseHelper.getConnection();
             String query = "{call add_variable(?,?,?,?,?)}";
@@ -94,9 +95,9 @@ public class VariableHelper {
             ps.setInt(4, newVariable.getUnitID());
             ps.setInt(5, newVariable.getUpdatingDuration());
             
-            ResultSet rs= ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-            	newVariable.setID(rs.getInt("ID"));
+            	variableAdded = processVariableRow(rs);
             }
        	}
         catch (Exception e) {
@@ -106,12 +107,13 @@ public class VariableHelper {
         } finally {
             DatabaseHelper.close(c);
         }
-		return newVariable;
+		return variableAdded;
 	}
 	
 	public static VariableData updateVariable(VariableData variable) {
 		Connection c = null;
 		PreparedStatement ps=null;
+		VariableData variableUpdated = null;
 		try {
 			c = DatabaseHelper.getConnection();
             String query = "{call update_variable(?,?,?,?,?,?,?)}";
@@ -124,8 +126,10 @@ public class VariableHelper {
             ps.setInt(6, variable.getSetCommandID());
             ps.setInt(7, variable.getGetCommandID());
             
-            ps.executeQuery();
-            
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+            	variableUpdated = processVariableRow(rs);
+            }
        	}
         catch (Exception e) {
         	e.printStackTrace();
@@ -134,7 +138,7 @@ public class VariableHelper {
         } finally {
             DatabaseHelper.close(c);
         }
-		return variable;
+		return variableUpdated;
 	}
 	
 	public static Variable removeVariable(int variableId) {
