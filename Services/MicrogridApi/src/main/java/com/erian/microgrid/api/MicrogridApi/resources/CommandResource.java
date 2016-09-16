@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -29,6 +30,15 @@ public class CommandResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public CommandData addCommand(@PathParam("deviceId") int deviceId, CommandData commandData) {
 		return CommandHelper.addNewCommand(deviceId, commandData);
+	}
+	
+	@PUT
+	@Path("/{commandId}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public CommandData updateCommand(@PathParam("commandId") int commandId, CommandData command) {
+		command.setID(commandId);		
+		return CommandHelper.updateCommand(command);
 	}
 
 }

@@ -84,4 +84,34 @@ public class CommandHelper {
 		return commandAdded;
 
 	}
+	
+	public static CommandData updateCommand(CommandData command) {
+		Connection c = null;
+		PreparedStatement ps=null;
+		CommandData commandUpdated = null;
+		try {
+			c = DatabaseHelper.getConnection();
+            String query = "{call update_command(?,?,?,?,?,?)}";
+            ps= c.prepareStatement(query);
+            ps.setInt(1, command.getID());
+            ps.setString(2, command.getName());
+            ps.setString(3, command.getDescription());
+            ps.setString(4, command.getFormatString());
+            ps.setString(5, command.getInputVariables());
+            ps.setString(6, command.getOutputVariables());
+                        
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+            	commandUpdated = processCommandRow(rs);
+            }
+       	}
+        catch (Exception e) {
+        	e.printStackTrace();
+        	throw new RuntimeException(e);
+               
+        } finally {
+            DatabaseHelper.close(c);
+        }
+		return commandUpdated;
+	}
 }

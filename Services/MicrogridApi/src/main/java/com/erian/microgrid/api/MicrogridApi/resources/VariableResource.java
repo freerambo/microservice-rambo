@@ -41,7 +41,7 @@ public class VariableResource {
 	@Path("/{variableId}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public VariableData updateVariable(@PathParam("deviceId") int deviceId, @PathParam("variableId") int variableId, VariableData variable) {
+	public VariableData updateVariable(@PathParam("variableId") int variableId, VariableData variable) {
 		variable.setID(variableId);		
 		return VariableHelper.updateVariable(variable);
 	}
