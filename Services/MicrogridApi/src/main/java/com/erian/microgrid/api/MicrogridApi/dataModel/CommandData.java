@@ -61,4 +61,21 @@ public class CommandData {
 		DeviceID = deviceID;
 	}
 	
+	public String getInputVariables() {
+		//TODO
+		return new String();
+	}
+	
+	public void setInputVariables(String inputVariables) {
+		//TODO
+	}
+	
+	public String getOutputVariables() {
+		//TODO
+		return new String();
+	}
+	
+	public void setOutputVariables(String outputVariables) {
+		//TODO
+	}
 }

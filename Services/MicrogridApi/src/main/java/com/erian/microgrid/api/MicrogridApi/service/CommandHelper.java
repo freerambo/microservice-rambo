@@ -1,6 +1,7 @@
 package com.erian.microgrid.api.MicrogridApi.service;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -51,5 +52,36 @@ public class CommandHelper {
 		commandData.setDeviceID(rs.getInt("Device_ID"));
 
 		return commandData;
+	}
+
+	public static CommandData addNewCommand(int deviceId, CommandData newCommand) {
+		Connection c = null;
+		PreparedStatement ps=null;
+		CommandData commandAdded = null;
+		try {
+			c = DatabaseHelper.getConnection();
+            String query = "{call add_command(?,?,?,?,?,?)}";
+            ps= c.prepareStatement(query);
+            ps.setInt(1, newCommand.getDeviceID());
+            ps.setString(2, newCommand.getName());
+            ps.setString(3, newCommand.getDescription());
+            ps.setString(4, newCommand.getFormatString());
+            ps.setString(5, newCommand.getInputVariables());
+            ps.setString(6, newCommand.getOutputVariables());
+            
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+            	commandAdded = processCommandRow(rs);
+            }
+       	}
+        catch (Exception e) {
+        	e.printStackTrace();
+        	throw new RuntimeException(e);
+               
+        } finally {
+            DatabaseHelper.close(c);
+        }
+		return commandAdded;
+
 	}
 }
