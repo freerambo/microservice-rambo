@@ -45,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .permitAll()
                 .and()
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                     .httpBasic()
                 .and()
