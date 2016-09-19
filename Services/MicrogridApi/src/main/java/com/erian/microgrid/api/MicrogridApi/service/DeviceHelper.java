@@ -162,23 +162,23 @@ public class DeviceHelper
 	
 	protected static DeviceData processDeviceRow(ResultSet rs) throws SQLException {
     	DeviceData  deviceData = new DeviceData();
-    	deviceData.setID(rs.getInt("ID"));
-    	deviceData.setTypeID(rs.getInt("TypeID"));
-    	deviceData.setTypeName(rs.getString("TypeName"));
-    	deviceData.setClassID(rs.getInt("ClassID"));
-    	deviceData.setClassName(rs.getString("ClassName"));
-    	deviceData.setName(rs.getString("Name"));
-    	deviceData.setDescription(rs.getString("Description"));
-    	deviceData.setMicrogridID(rs.getInt("MicrogridID"));
-    	deviceData.setMicrogridName(rs.getString("MicrogridName"));
-    	deviceData.setVendor(rs.getString("Vendor"));
-    	deviceData.setModel(rs.getString("Model"));
-    	deviceData.setLocation(rs.getString("Location"));
+    	deviceData.setID(rs.getInt("id"));
+    	deviceData.setTypeID(rs.getInt("typeID"));
+    	deviceData.setTypeName(rs.getString("typeName"));
+    	deviceData.setClassID(rs.getInt("classID"));
+    	deviceData.setClassName(rs.getString("className"));
+    	deviceData.setName(rs.getString("name"));
+    	deviceData.setDescription(rs.getString("description"));
+    	deviceData.setMicrogridID(rs.getInt("microgridID"));
+    	deviceData.setMicrogridName(rs.getString("microgridName"));
+    	deviceData.setVendor(rs.getString("vendor"));
+    	deviceData.setModel(rs.getString("model"));
+    	deviceData.setLocation(rs.getString("location"));
     	deviceData.setIPAdress(rs.getString("IPAdress"));
-    	deviceData.setPortNumber(rs.getString("PortNumber"));
-    	deviceData.setBusID(rs.getInt("BusID"));
-    	deviceData.setIsProgrammable(rs.getInt("IsProgrammable"));
-    	deviceData.setIsConnected(rs.getInt("IsConnected"));
+    	deviceData.setPortNumber(rs.getString("portNumber"));
+    	deviceData.setBusID(rs.getInt("busID"));
+    	deviceData.setIsProgrammable(rs.getInt("isProgrammable"));
+    	deviceData.setIsConnected(rs.getInt("isConnected"));
     	
     	return deviceData;
    }	

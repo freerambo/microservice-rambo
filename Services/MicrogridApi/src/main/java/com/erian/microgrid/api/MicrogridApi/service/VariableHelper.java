@@ -44,14 +44,14 @@ public class VariableHelper {
 	
 	protected static VariableData processVariableRow(ResultSet rs) throws SQLException {
 		VariableData variableData = new VariableData();
-		variableData.setID(rs.getInt("ID"));
-		variableData.setDeviceID(rs.getInt("Device_ID"));
-		variableData.setName(rs.getString("Name"));
-		variableData.setDescription(rs.getString("Description"));
-		variableData.setGetCommandID(rs.getInt("Get_Command_ID"));
-		variableData.setSetCommandID(rs.getInt("Set_Command_ID"));
-		variableData.setUnitID(rs.getInt("Unit_ID"));
-		variableData.setUpdatingDuration(rs.getInt("Updating_Duration"));
+		variableData.setID(rs.getInt("id"));
+		variableData.setDeviceID(rs.getInt("deviceId"));
+		variableData.setName(rs.getString("name"));
+		variableData.setDescription(rs.getString("description"));
+		variableData.setGetCommandID(rs.getInt("getCommandId"));
+		variableData.setSetCommandID(rs.getInt("setCommandId"));
+		variableData.setUnitID(rs.getInt("unitId"));
+		variableData.setUpdatingDuration(rs.getInt("updatingDuration"));
 		return variableData;
 	}
 	

@@ -40,12 +40,12 @@ public class StaticDataHelper
 	
 	protected static DeviceTypeData processDataTypeRow(ResultSet rs) throws SQLException {
 		DeviceTypeData deviceType = new DeviceTypeData();
-		deviceType.setTypeID(rs.getInt("TypeID"));
-		deviceType.setClassID(rs.getInt("ClassID"));
-		deviceType.setTypeName(rs.getString("TypeName"));
-		deviceType.setTypeDescription(rs.getString("TypeDescription"));
-		deviceType.setClassName(rs.getString("ClassName"));
-		deviceType.setClassDescription(rs.getString("ClassDescription"));
+		deviceType.setTypeID(rs.getInt("typeID"));
+		deviceType.setClassID(rs.getInt("classID"));
+		deviceType.setTypeName(rs.getString("typeName"));
+		deviceType.setTypeDescription(rs.getString("typeDescription"));
+		deviceType.setClassName(rs.getString("className"));
+		deviceType.setClassDescription(rs.getString("classDescription"));
 		return deviceType;
 	}
 
@@ -71,7 +71,7 @@ public class StaticDataHelper
 	}
 	
 	protected static BusData processBusRow(ResultSet rs) throws SQLException {
-		return new BusData(rs.getInt("ID"), rs.getString("Name"), rs.getString("Description"));
+		return new BusData(rs.getInt("id"), rs.getString("name"), rs.getString("description"));
 	}
 	
 	// ***********************             Units          *******************************
@@ -97,9 +97,9 @@ public class StaticDataHelper
 	
 	protected static UnitData processUnitRow(ResultSet rs) throws SQLException {
 		UnitData res = new UnitData();
-		res.setUnitID(rs.getInt("ID"));
-		res.setUnitName(rs.getString("Name"));
-		res.setUnitDescription(rs.getString("Description"));
+		res.setUnitID(rs.getInt("id"));
+		res.setUnitName(rs.getString("name"));
+		res.setUnitDescription(rs.getString("description"));
 		return res;
 	}
 }
