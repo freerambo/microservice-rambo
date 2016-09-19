@@ -60,11 +60,11 @@ START TRANSACTION;
 	COMMIT;  
     
     -- Note: this SP returns command information without references variables. Use a separate call to get_command_variables(@cmd_id) to get variables as well.
-    SELECT C.`id` as ID,
-    C.`name` as Name,
-    C.`description` as Description,
-    C.`format_string` as FormatString,
-    C.`device_id`
+    SELECT C.`id` as id,
+    C.`name` as name,
+    C.`description` as description,
+    C.`format_string` as formatString,
+    C.`device_id` as deviceID
 	FROM `smes_microgrid`.`command` as C
 	WHERE C.id = @cmd_id
 	;
