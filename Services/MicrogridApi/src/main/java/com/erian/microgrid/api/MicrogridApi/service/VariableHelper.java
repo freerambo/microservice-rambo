@@ -22,7 +22,7 @@ public class VariableHelper {
 		return res;
 	}
 	
-	public static List<VariableData> getAllVariablesData(int deviceId) {
+	private static List<VariableData> getAllVariablesData(int deviceId) {
 		List<VariableData> list = new ArrayList<>();
 		Connection c = null;
 		try {
@@ -80,8 +80,20 @@ public class VariableHelper {
  		return res;
 	    
 	}
-
-	public static VariableData addNewVariable(int deviceId, VariableData newVariable) {
+	
+	public static Variable addNewVariable(int deviceId, Variable newVariable) {
+		VariableData variableData = Mapper.MapVariable(newVariable);
+		addNewVariableData(deviceId, variableData);
+		return Mapper.MapVariable(variableData);
+	}
+	
+	public static Variable updateVariable(Variable variable) {
+		VariableData variableData = Mapper.MapVariable(variable);
+		updateVariable(variableData);
+		return Mapper.MapVariable(variableData);
+	}
+	
+	private static VariableData addNewVariableData(int deviceId, VariableData newVariable) {
 		Connection c = null;
 		PreparedStatement ps=null;
 		VariableData variableAdded = null;
