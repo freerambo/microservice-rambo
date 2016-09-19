@@ -1,4 +1,4 @@
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_devices`()
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_device`(IN id INT)
 BEGIN
 
 SELECT D.`id` as id,
@@ -23,6 +23,7 @@ FROM `smes_microgrid`.`device` AS D
 LEFT JOIN device_type AS DT ON D.device_type_id  = DT.id
 LEFT JOIN device_class AS DC ON DT.device_class_id = DC.id
 LEFT JOIN microgrid AS M ON M.id= D.`microgrid_id`
+WHERE D.id=id
 ;
 
 END
