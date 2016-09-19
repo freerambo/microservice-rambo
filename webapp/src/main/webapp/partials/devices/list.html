@@ -60,12 +60,11 @@
                         Operations
                     </th>
                 </tr>
-                <tr ng-repeat="device in devices|orderBy:createdDate">
-                    <td><a ng-href="#/devices/{{device.id}}">{{device.name}}</a></td>
+                <tr ng-repeat="device in devices">
+                    <td><a ng-href="#/devices/{{device.ID}}">{{device.name}}</a></td>
                     <td>{{device.description}}</td>
-                    <td>{{device.bus}}</td>
+                    <td>{{device.busID}}</td>
                     <td>{{device.isConnected}}</td>
-                    
                     <td>{{device.isProgrammable}}</td>
                     <td>{{device.location}}</td>
                     <td> <span class="glyphicon glyphicon-edit" aria-hidden="true" ng-click="update()"></span>| <span class="glyphicon glyphicon-trash" aria-hidden="true" ng-click="delete()"></span></td>

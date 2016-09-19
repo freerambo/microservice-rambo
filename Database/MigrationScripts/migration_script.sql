@@ -2,9 +2,9 @@ CREATE DATABASE  IF NOT EXISTS `smes_microgrid` /*!40100 DEFAULT CHARACTER SET u
 USE `smes_microgrid`;
 -- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
 --
--- Host: 172.21.76.125    Database: smes_microgrid
+-- Host: localhost    Database: smes_microgrid
 -- ------------------------------------------------------
--- Server version	5.7.12-log
+-- Server version	5.7.13-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -130,7 +130,7 @@ CREATE TABLE `device` (
   CONSTRAINT `fk_device_bus` FOREIGN KEY (`bus_id`) REFERENCES `bus` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_device_device_type_1` FOREIGN KEY (`device_type_id`) REFERENCES `device_type` (`id`),
   CONSTRAINT `fk_device_microgrid_1` FOREIGN KEY (`microgrid_id`) REFERENCES `microgrid` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -139,7 +139,7 @@ CREATE TABLE `device` (
 
 LOCK TABLES `device` WRITE;
 /*!40000 ALTER TABLE `device` DISABLE KEYS */;
-INSERT INTO `device` VALUES (1,2,'Load 11','test Update Load 1 top Load 1device',1,NULL,'Vendor 1','Model 1','somewhere 1','127.34.1111','3011',1,'','\0'),(2,2,'Load 2','test Update Load 2 top Load 2device',1,NULL,'Sasha\'s','Model S2','somewhere 2','127.34.5646.12','3030upd2',2,'',''),(3,1,'API call add 3',NULL,1,NULL,'vendor3','Model3','location3','some IP 3','2002',1,'','\0'),(4,2,'Load 11','test Update Load 1 top Load 1device',1,NULL,'Vendor 1','Model 1','somewhere 1','127.34.1111','3011',1,'','\0'),(5,2,'Load 11','test Update Load 1 top Load 1device',1,NULL,'Vendor 1','Model 1','somewhere 1','127.34.1111','3011',1,'','\0'),(6,2,'Load 11','test Update Load 1 top Load 1device',1,NULL,'Vendor 1','Model 1','somewhere 1','127.34.1111','3011',1,'','\0'),(7,2,'Load 11','test Update Load 1 top Load 1device',1,NULL,'Vendor 1','Model 1','somewhere 1','127.34.1111','3011',1,'','\0'),(8,2,'Load 11','test Update Load 1 top Load 1device',1,NULL,'Vendor 1','Model 1','somewhere 1','127.34.1111','3011',1,'','\0'),(9,2,'Load UPD1','test UPDATE Load ',1,NULL,'Vendor upd','Model 1','somewhere 1','127.34.1111','3011',1,'','\0'),(10,2,'Load 11','test Update Load 1 top Load 1device',1,NULL,'Vendor 1','Model 1','somewhere 1','127.34.1111','3011',1,'','\0'),(11,2,'Load 11','test Update Load 1 top Load 1device',1,NULL,'Vendor 1','Model 1','somewhere 1','127.34.1111','3011',1,'','\0'),(12,2,'Load 11','test Update Load 1 top Load 1device',1,NULL,'Vendor 1','Model 1','somewhere 1','127.34.1111','3011',1,'','\0'),(13,2,'Load 12','test INSERT Load ',1,NULL,'Vendor','Model 1','somewhere 1','127.34.1111','3011',1,'','\0'),(14,2,'Load 12','test INSERT Load ',1,NULL,'Vendor','Model 1','somewhere 1','127.34.1111','3011',1,'','\0'),(15,2,'Load 11','test Update Load 1 top Load 1device',1,NULL,'Vendor 1','Model 1','somewhere 1','127.34.1111','3011',1,'','\0'),(16,2,'Load 11','test Update Load 1 top Load 1device',1,NULL,'Vendor 1','Model 1','somewhere 1','127.34.1111','3011',1,'','\0'),(17,2,'Load 11','test Update Load 1 top Load 1device',1,NULL,'Vendor 1','Model 1','somewhere 1','127.34.1111','3011',1,'','\0'),(18,2,'Load 11','test Update Load 1 top Load 1device',1,NULL,'Vendor 1','Model 1','somewhere 1','127.34.1111','3011',1,'','\0'),(19,2,'Load 2','test Update Load 2 top Load 2device',1,NULL,'UPD3','Model S2','somewhere 2','127.34.5646.12','3030upd2',2,'','');
+INSERT INTO `device` VALUES (1,2,'Load 11','test Update Load 1 top Load 1device',1,NULL,'Vendor 1','Model 1','somewhere 1','127.34.1111','3011',1,'','\0'),(2,2,'Load 2','test Update Load 2 top Load 2device',1,NULL,'Sasha\'s','Model S2','somewhere 2','127.34.5646.12','3030upd2',2,'',''),(3,1,'API call add 3',NULL,1,NULL,'vendor3','Model3','location3','some IP 3','2002',1,'','\0'),(4,2,'Load 11','test Update Load 1 top Load 1device',1,NULL,'Vendor 1','Model 1','somewhere 1','127.34.1111','3011',1,'','\0'),(5,2,'Load 11','test Update Load 1 top Load 1device',1,NULL,'Vendor 1','Model 1','somewhere 1','127.34.1111','3011',1,'','\0'),(6,2,'Load 11','test Update Load 1 top Load 1device',1,NULL,'Vendor 1','Model 1','somewhere 1','127.34.1111','3011',1,'','\0'),(7,2,'Load 11','test Update Load 1 top Load 1device',1,NULL,'Vendor 1','Model 1','somewhere 1','127.34.1111','3011',1,'','\0'),(8,2,'Load 11','test Update Load 1 top Load 1device',1,NULL,'Vendor 1','Model 1','somewhere 1','127.34.1111','3011',1,'','\0'),(9,2,'Load UPD1','test UPDATE Load ',1,NULL,'Vendor upd','Model 1','somewhere 1','127.34.1111','3011',1,'','\0'),(10,2,'Load 11','test Update Load 1 top Load 1device',1,NULL,'Vendor 1','Model 1','somewhere 1','127.34.1111','3011',1,'','\0'),(11,2,'Load 11','test Update Load 1 top Load 1device',1,NULL,'Vendor 1','Model 1','somewhere 1','127.34.1111','3011',1,'','\0'),(12,2,'Load 11','test Update Load 1 top Load 1device',1,NULL,'Vendor 1','Model 1','somewhere 1','127.34.1111','3011',1,'','\0'),(13,2,'Load 12','test INSERT Load ',1,NULL,'Vendor','Model 1','somewhere 1','127.34.1111','3011',1,'','\0'),(14,2,'Load 12','test INSERT Load ',1,NULL,'Vendor','Model 1','somewhere 1','127.34.1111','3011',1,'','\0'),(15,2,'Load 11','test Update Load 1 top Load 1device',1,NULL,'Vendor 1','Model 1','somewhere 1','127.34.1111','3011',1,'','\0'),(16,2,'Load 11','test Update Load 1 top Load 1device',1,NULL,'Vendor 1','Model 1','somewhere 1','127.34.1111','3011',1,'','\0'),(17,2,'Load 11','test Update Load 1 top Load 1device',1,NULL,'Vendor 1','Model 1','somewhere 1','127.34.1111','3011',1,'','\0'),(18,2,'Load 11','test Update Load 1 top Load 1device',1,NULL,'Vendor 1','Model 1','somewhere 1','127.34.1111','3011',1,'','\0'),(19,2,'Load 2','test Update Load 2 top Load 2device',1,NULL,'UPD3','Model S2','somewhere 2','127.34.5646.12','3030upd2',2,'',''),(20,2,'Load 11','test Update Load 1 top Load 1device',1,NULL,'Vendor 1','Model 1','somewhere 1','127.34.1111','3011',1,'','\0'),(21,2,'Load 11','test Update Load 1 top Load 1device',1,NULL,'Vendor 1','Model 1','somewhere 1','127.34.1111','3011',1,'','\0');
 /*!40000 ALTER TABLE `device` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -197,37 +197,6 @@ INSERT INTO `device_type` VALUES (1,'AC Source','ac source desc',2),(2,'DC sourc
 UNLOCK TABLES;
 
 --
--- Table structure for table `device_variable`
---
-
-DROP TABLE IF EXISTS `device_variable`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `device_variable` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `device_id` int(11) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  `unit_id` int(11) DEFAULT NULL,
-  `updating_duration` int(255) DEFAULT NULL,
-  `set_command_id` int(11) DEFAULT NULL,
-  `get_command_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_device_variable_variable` (`unit_id`) USING BTREE,
-  KEY `fk_device_variable_device_idx` (`device_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `device_variable`
---
-
-LOCK TABLES `device_variable` WRITE;
-/*!40000 ALTER TABLE `device_variable` DISABLE KEYS */;
-/*!40000 ALTER TABLE `device_variable` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `log`
 --
 
@@ -253,7 +222,7 @@ CREATE TABLE `log` (
 
 LOCK TABLES `log` WRITE;
 /*!40000 ALTER TABLE `log` DISABLE KEYS */;
-INSERT INTO `log` VALUES ('2016-09-06 05:49:43','INFO',NULL,'00111','Start device update ,ID= 1',5,'smes_microgrid.update_device','root@localhost'),('2016-09-06 05:49:43','INFO',NULL,'00111','Device Updated, New values are: TODO',5,'smes_microgrid.update_device','root@localhost'),('2016-09-06 06:00:26','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',5,'smes_microgrid.add_device','root@localhost'),('2016-09-06 06:00:26','ERROR',NULL,NULL,NULL,5,'smes_microgrid.add_device','root@localhost'),('2016-09-06 06:00:26','INFO',NULL,'00111','Device Added, New device ID is: 2',5,'smes_microgrid.add_device','root@localhost'),('2016-09-06 06:05:48','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',5,'smes_microgrid.add_device','root@localhost'),('2016-09-06 06:05:48','ERROR',NULL,NULL,NULL,5,'smes_microgrid.add_device','root@localhost'),('2016-09-06 06:10:13','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',5,'smes_microgrid.add_device','root@localhost'),('2016-09-06 06:10:13','ERROR',NULL,NULL,NULL,5,'smes_microgrid.add_device','root@localhost'),('2016-09-06 06:10:21','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',5,'smes_microgrid.add_device','root@localhost'),('2016-09-06 06:10:21','ERROR',NULL,NULL,NULL,5,'smes_microgrid.add_device','root@localhost'),('2016-09-06 07:32:02','INFO',NULL,'00111','Start Adding new VARIABLE to Device with DeviceID =4 Values Are:  TODO',5,'smes_microgrid.add_variable','root@localhost'),('2016-09-06 07:32:02','INFO',NULL,'00111','Variable Added to Device ID=4 New variable ID is: 2',5,NULL,'root@localhost'),('2016-09-06 07:34:23','INFO',NULL,'00111','Start Adding new VARIABLE to Device with DeviceID =4 Values Are:  TODO',5,'smes_microgrid.add_variable','root@localhost'),('2016-09-06 07:34:23','ERROR',NULL,NULL,NULL,5,'smes_microgrid.add_device','root@localhost'),('2016-09-06 07:34:55','INFO',NULL,'00111','Start Adding new VARIABLE to Device with DeviceID =1 Values Are:  TODO',5,'smes_microgrid.add_variable','root@localhost'),('2016-09-06 07:34:55','INFO',NULL,'00111','Variable Added to Device ID=1 New variable ID is: 4',5,NULL,'root@localhost'),('2016-09-06 07:35:27','INFO',NULL,'00111','Start Adding new VARIABLE to Device with DeviceID =1 Values Are:  TODO',5,'smes_microgrid.add_variable','root@localhost'),('2016-09-06 07:35:27','INFO',NULL,'00111','Variable Added to Device ID=1 New variable ID is: 5',5,NULL,'root@localhost'),('2016-09-06 07:35:36','INFO',NULL,'00111','Start Adding new VARIABLE to Device with DeviceID =1 Values Are:  TODO',5,'smes_microgrid.add_variable','root@localhost'),('2016-09-06 07:35:36','INFO',NULL,'00111','Variable Added to Device ID=1 New variable ID is: 6',5,NULL,'root@localhost'),('2016-09-06 07:45:00','INFO',NULL,'00111','Start Adding new VARIABLE to Device with DeviceID =2 Values Are:  TODO',5,'smes_microgrid.add_variable','root@localhost'),('2016-09-06 07:45:00','INFO',NULL,'00111','Variable Added to Device ID=2 New variable ID is: 7',5,NULL,'root@localhost'),('2016-09-06 07:57:30','ERROR',NULL,NULL,NULL,5,'smes_microgrid.update_variable','root@localhost'),('2016-09-06 09:00:44','ERROR',NULL,NULL,NULL,5,'smes_microgrid.update_variable','root@localhost'),('2016-09-06 09:05:35','INFO',NULL,'00111','Start UPDATING VARIABLE for Device with VariableID =6 Values Are:  TODO',5,'smes_microgrid.update_variable','root@localhost'),('2016-09-06 09:05:35','INFO',NULL,'00111','Variable Updated , VariableID=6',5,'smes_microgrid.update_variable','root@localhost'),('2016-09-09 05:19:14','INFO',NULL,'00111','smes_microgrid.parse_id_list, id_list=1,3,5,9,100, 101,202,303,404, , , ',3,'smes_microgrid.parse_id_list','root@localhost'),('2016-09-09 05:19:14','ERROR',NULL,NULL,NULL,3,'smes_microgrid.parse_id_list','root@localhost'),('2016-09-09 05:20:23','INFO',NULL,'00111','smes_microgrid.parse_id_list, id_list=1,3,5,9,100, 101,202,303,404, , , ',3,'smes_microgrid.parse_id_list','root@localhost'),('2016-09-09 05:20:23','ERROR',NULL,NULL,NULL,3,'smes_microgrid.parse_id_list','root@localhost'),('2016-09-09 05:24:14','INFO',NULL,'00111','smes_microgrid.parse_id_list, id_list=1,3,5,9,100,101,202,303,404,,,',3,'smes_microgrid.parse_id_list','root@localhost'),('2016-09-09 05:24:14','ERROR',NULL,NULL,NULL,3,'smes_microgrid.parse_id_list','root@localhost'),('2016-09-09 05:24:51','INFO',NULL,'00111','smes_microgrid.parse_id_list, id_list=1,3,5,9,100,101,202,303,404,,',3,'smes_microgrid.parse_id_list','root@localhost'),('2016-09-09 05:24:51','ERROR',NULL,NULL,NULL,3,'smes_microgrid.parse_id_list','root@localhost'),('2016-09-09 05:49:32','INFO',NULL,'00111','smes_microgrid.parse_id_list, id_list=1,3,5,9,100, 101,202,303,404',3,'smes_microgrid.parse_id_list','root@localhost'),('2016-09-09 05:49:32','ERROR',NULL,NULL,NULL,3,'smes_microgrid.parse_id_list','root@localhost'),('2016-09-13 08:35:19','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',28,'smes_microgrid.add_device','root@localhost'),('2016-09-13 08:35:19','INFO',NULL,'00111','Device Added, New device ID is: 3',28,'smes_microgrid.add_device','root@localhost'),('2016-09-13 08:43:12','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',31,'smes_microgrid.add_device','root@localhost'),('2016-09-13 08:43:12','INFO',NULL,'00111','Device Added, New device ID is: 4',31,'smes_microgrid.add_device','root@localhost'),('2016-09-13 08:43:53','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',32,'smes_microgrid.add_device','root@localhost'),('2016-09-13 08:43:53','INFO',NULL,'00111','Device Added, New device ID is: 5',32,'smes_microgrid.add_device','root@localhost'),('2016-09-13 08:47:45','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',37,'smes_microgrid.add_device','root@localhost'),('2016-09-13 08:47:45','INFO',NULL,'00111','Device Added, New device ID is: 6',37,'smes_microgrid.add_device','root@localhost'),('2016-09-13 08:55:40','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',40,'smes_microgrid.add_device','root@localhost'),('2016-09-13 08:55:40','INFO',NULL,'00111','Device Added, New device ID is: 7',40,'smes_microgrid.add_device','root@localhost'),('2016-09-13 08:57:04','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',41,'smes_microgrid.add_device','root@localhost'),('2016-09-13 08:57:04','INFO',NULL,'00111','Device Added, New device ID is: 8',41,'smes_microgrid.add_device','root@localhost'),('2016-09-14 03:13:54','INFO',NULL,'00111','Start Adding new VARIABLE to Device with DeviceID =1 Values Are:  TODO',3,'smes_microgrid.add_variable','root@localhost'),('2016-09-14 03:13:54','INFO',NULL,'00111','Variable Added to Device ID=1 New variable ID is: 8',3,'smes_microgrid.add_variable','root@localhost'),('2016-09-14 07:50:58','INFO',NULL,'00111','Start Adding new COMMAND to Device with DeviceID =1 Values Are: Name= CMD1',3,'smes_microgrid.add_command','root@localhost'),('2016-09-14 07:50:58','INFO',NULL,'00111','Command Added to Device ID=1 New command ID is: 1',3,'smes_microgrid.add_command','root@localhost'),('2016-09-14 07:50:58','ERROR',NULL,NULL,NULL,3,'smes_microgrid.add_command','root@localhost'),('2016-09-14 07:51:59','INFO',NULL,'00111','Start Adding new COMMAND to Device with DeviceID =1 Values Are: Name= CMD1',3,'smes_microgrid.add_command','root@localhost'),('2016-09-14 07:51:59','INFO',NULL,'00111','Command Added to Device ID=1 New command ID is: 2',3,'smes_microgrid.add_command','root@localhost'),('2016-09-14 07:51:59','ERROR',NULL,NULL,NULL,3,'smes_microgrid.add_command','root@localhost'),('2016-09-14 07:54:10','INFO',NULL,'00111','Start Adding new COMMAND to Device with DeviceID =1 Values Are: Name= CMD1',3,'smes_microgrid.add_command','root@localhost'),('2016-09-14 07:54:10','INFO',NULL,'00111','Command Added to Device ID=1 New command ID is: 3',3,'smes_microgrid.add_command','root@localhost'),('2016-09-14 07:54:10','ERROR',NULL,NULL,NULL,3,'smes_microgrid.add_command','root@localhost'),('2016-09-14 07:55:51','INFO',NULL,'00111','Start Adding new COMMAND to Device with DeviceID =1 Values Are: Name= CMD1',3,'smes_microgrid.add_command','root@localhost'),('2016-09-14 07:55:51','INFO',NULL,'00111','Command Added to Device ID=1 New command ID is: 4',3,'smes_microgrid.add_command','root@localhost'),('2016-09-14 07:55:51','INFO',NULL,'00111','Added INPUT and OUTPUT variables to the Command:4 Device ID is: 1',3,'smes_microgrid.add_command','root@localhost'),('2016-09-15 00:54:45','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',51,'smes_microgrid.add_device','root@localhost'),('2016-09-15 00:54:45','INFO',NULL,'00111','Device Added, New device ID is: 9',51,'smes_microgrid.add_device','root@localhost'),('2016-09-15 01:02:12','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',52,'smes_microgrid.add_device','root@localhost'),('2016-09-15 01:02:13','INFO',NULL,'00111','Device Added, New device ID is: 10',52,'smes_microgrid.add_device','root@localhost'),('2016-09-15 01:04:05','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',53,'smes_microgrid.add_device','root@localhost'),('2016-09-15 01:04:05','INFO',NULL,'00111','Device Added, New device ID is: 11',53,'smes_microgrid.add_device','root@localhost'),('2016-09-15 01:06:50','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',54,'smes_microgrid.add_device','root@localhost'),('2016-09-15 01:06:50','INFO',NULL,'00111','Device Added, New device ID is: 12',54,'smes_microgrid.add_device','root@localhost'),('2016-09-15 01:09:38','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',3,'smes_microgrid.add_device','root@localhost'),('2016-09-15 01:09:38','INFO',NULL,'00111','Device Added, New device ID is: 13',3,'smes_microgrid.add_device','root@localhost'),('2016-09-15 01:13:37','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',3,'smes_microgrid.add_device','root@localhost'),('2016-09-15 01:13:37','INFO',NULL,'00111','Device Added, New device ID is: 14',3,'smes_microgrid.add_device','root@localhost'),('2016-09-15 01:13:46','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',55,'smes_microgrid.add_device','root@localhost'),('2016-09-15 01:13:46','INFO',NULL,'00111','Device Added, New device ID is: 15',55,'smes_microgrid.add_device','root@localhost'),('2016-09-15 01:14:10','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',56,'smes_microgrid.add_device','root@localhost'),('2016-09-15 01:14:10','INFO',NULL,'00111','Device Added, New device ID is: 16',56,'smes_microgrid.add_device','root@localhost'),('2016-09-15 01:17:07','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',58,'smes_microgrid.add_device','root@localhost'),('2016-09-15 01:17:07','INFO',NULL,'00111','Device Added, New device ID is: 17',58,'smes_microgrid.add_device','root@localhost'),('2016-09-15 01:17:38','INFO',NULL,'00111','Start device update ,ID= 1',59,'smes_microgrid.update_device','root@localhost'),('2016-09-15 01:17:38','INFO',NULL,'00111','Device Updated, New values are: TODO',59,'smes_microgrid.update_device','root@localhost'),('2016-09-15 01:19:49','INFO',NULL,'00111','Start device update ,ID= 9',3,'smes_microgrid.update_device','root@localhost'),('2016-09-15 01:19:49','INFO',NULL,'00111','Device Updated, New values are: TODO',3,'smes_microgrid.update_device','root@localhost'),('2016-09-15 01:20:18','INFO',NULL,'00111','Start device update ,ID= 1',60,'smes_microgrid.update_device','root@localhost'),('2016-09-15 01:20:18','INFO',NULL,'00111','Device Updated, New values are: TODO',60,'smes_microgrid.update_device','root@localhost'),('2016-09-15 01:38:20','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',61,'smes_microgrid.add_device','root@localhost'),('2016-09-15 01:38:20','INFO',NULL,'00111','Device Added, New device ID is: 18',61,'smes_microgrid.add_device','root@localhost'),('2016-09-15 01:40:04','INFO',NULL,'00111','Start device update ,ID= 1',62,'smes_microgrid.update_device','root@localhost'),('2016-09-15 01:40:04','INFO',NULL,'00111','Device Updated, New values are: TODO',62,'smes_microgrid.update_device','root@localhost'),('2016-09-15 01:42:27','INFO',NULL,'00111','Start device update ,ID= 1',63,'smes_microgrid.update_device','root@localhost'),('2016-09-15 01:42:27','INFO',NULL,'00111','Device Updated, New values are: TODO',63,'smes_microgrid.update_device','root@localhost'),('2016-09-15 01:53:23','INFO',NULL,'00111','Start device update ,ID= 1',64,'smes_microgrid.update_device','root@localhost'),('2016-09-15 01:53:23','INFO',NULL,'00111','Device Updated, New values are: TODO',64,'smes_microgrid.update_device','root@localhost'),('2016-09-15 01:54:54','INFO',NULL,'00111','Start device update ,ID= 1',65,'smes_microgrid.update_device','root@localhost'),('2016-09-15 01:54:54','INFO',NULL,'00111','Device Updated, New values are: TODO',65,'smes_microgrid.update_device','root@localhost'),('2016-09-15 02:02:09','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',66,'smes_microgrid.add_device','root@localhost'),('2016-09-15 02:02:10','INFO',NULL,'00111','Device Added, New device ID is: 19',66,'smes_microgrid.add_device','root@localhost'),('2016-09-15 02:03:15','INFO',NULL,'00111','Start device update ,ID= 19',67,'smes_microgrid.update_device','root@localhost'),('2016-09-15 02:03:15','INFO',NULL,'00111','Device Updated, New values are: TODO',67,'smes_microgrid.update_device','root@localhost'),('2016-09-15 03:33:14','ERROR',NULL,NULL,NULL,49,'smes_microgrid.add_command','root@localhost'),('2016-09-15 03:34:03','INFO',NULL,'00111','Start Updateing COMMAND to with CommandID =4 Values Are: Name= CMD1-UPD1',49,'smes_microgrid.update_command','root@localhost'),('2016-09-15 03:34:03','INFO',NULL,'00111','Command Updated, CommandID=4 New Values are: Name =CMD1-UPD1 , Description=Test UPD CMD1 , Format String=VOL {0}, CUR {1}, VOL1{2}',49,'smes_microgrid.update_command','root@localhost'),('2016-09-15 03:34:03','INFO',NULL,'00111','Added INPUT and OUTPUT variables to the Command:4',49,'smes_microgrid.update_command','root@localhost'),('2016-09-15 03:34:30','INFO',NULL,'00111','Start Updateing COMMAND to with CommandID =4 Values Are: Name= CMD1-UPD1',49,'smes_microgrid.update_command','root@localhost'),('2016-09-15 03:34:30','INFO',NULL,'00111','Command Updated, CommandID=4 New Values are: Name =CMD1-UPD1 , Description=Test UPD CMD2 , Format String=VOL2 {0}, CUR {1}, VOL1{2}',49,'smes_microgrid.update_command','root@localhost'),('2016-09-15 03:34:30','INFO',NULL,'00111','Added INPUT and OUTPUT variables to the Command:4',49,'smes_microgrid.update_command','root@localhost'),('2016-09-15 03:34:56','INFO',NULL,'00111','Start Updateing COMMAND to with CommandID =4 Values Are: Name= CMD1-UPD1',49,'smes_microgrid.update_command','root@localhost'),('2016-09-15 03:34:56','INFO',NULL,'00111','Command Updated, CommandID=4 New Values are: Name =CMD1-UPD1 , Description=Test UPD CMD2 , Format String=VOL2 {0}, CUR {1}, VOL1{2}',49,'smes_microgrid.update_command','root@localhost'),('2016-09-15 03:34:56','INFO',NULL,'00111','Added INPUT and OUTPUT variables to the Command:4',49,'smes_microgrid.update_command','root@localhost'),('2016-09-15 03:39:24','INFO',NULL,'00111','Start Adding new COMMAND to Device with DeviceID =1 Values Are: Name= NewCMD 1',49,'smes_microgrid.add_command','root@localhost'),('2016-09-15 03:39:24','INFO',NULL,'00111','Command Added to Device ID=1 New command ID is: 5',49,'smes_microgrid.add_command','root@localhost'),('2016-09-15 03:39:24','INFO',NULL,'00111','Added INPUT and OUTPUT variables to the Command:5 Device ID is: 1',49,'smes_microgrid.add_command','root@localhost'),('2016-09-15 03:46:05','INFO',NULL,'00111','Start Adding new COMMAND to Device with DeviceID =1 Values Are: Name= NewCMD 2',49,'smes_microgrid.add_command','root@localhost'),('2016-09-15 03:46:05','INFO',NULL,'00111','Command Added to Device ID=1 New command ID is: 6',49,'smes_microgrid.add_command','root@localhost'),('2016-09-15 03:46:06','INFO',NULL,'00111','Added INPUT and OUTPUT variables to the Command:6 Device ID is: 1',49,'smes_microgrid.add_command','root@localhost'),('2016-09-15 03:46:06','ERROR',NULL,NULL,NULL,49,'smes_microgrid.add_command','root@localhost'),('2016-09-15 03:46:48','INFO',NULL,'00111','Start Adding new COMMAND to Device with DeviceID =1 Values Are: Name= NewCMD 2',49,'smes_microgrid.add_command','root@localhost'),('2016-09-15 03:46:48','INFO',NULL,'00111','Command Added to Device ID=1 New command ID is: 7',49,'smes_microgrid.add_command','root@localhost'),('2016-09-15 03:46:49','INFO',NULL,'00111','Added INPUT and OUTPUT variables to the Command:7 Device ID is: 1',49,'smes_microgrid.add_command','root@localhost'),('2016-09-15 03:48:46','INFO',NULL,'00111','Start Updateing COMMAND to with CommandID =7 Values Are: Name= CMD1-UPD3',49,'smes_microgrid.update_command','root@localhost'),('2016-09-15 03:48:46','INFO',NULL,'00111','Command Updated, CommandID=7 New Values are: Name =CMD1-UPD3 , Description=Test UPD CMD3 , Format String=VOL2 {0}, CUR {1}, VOL1{2}',49,'smes_microgrid.update_command','root@localhost'),('2016-09-15 03:48:46','INFO',NULL,'00111','Added INPUT and OUTPUT variables to the Command:7',49,'smes_microgrid.update_command','root@localhost');
+INSERT INTO `log` VALUES ('2016-09-06 05:49:43','INFO',NULL,'00111','Start device update ,ID= 1',5,'smes_microgrid.update_device','root@localhost'),('2016-09-06 05:49:43','INFO',NULL,'00111','Device Updated, New values are: TODO',5,'smes_microgrid.update_device','root@localhost'),('2016-09-06 06:00:26','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',5,'smes_microgrid.add_device','root@localhost'),('2016-09-06 06:00:26','ERROR',NULL,NULL,NULL,5,'smes_microgrid.add_device','root@localhost'),('2016-09-06 06:00:26','INFO',NULL,'00111','Device Added, New device ID is: 2',5,'smes_microgrid.add_device','root@localhost'),('2016-09-06 06:05:48','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',5,'smes_microgrid.add_device','root@localhost'),('2016-09-06 06:05:48','ERROR',NULL,NULL,NULL,5,'smes_microgrid.add_device','root@localhost'),('2016-09-06 06:10:13','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',5,'smes_microgrid.add_device','root@localhost'),('2016-09-06 06:10:13','ERROR',NULL,NULL,NULL,5,'smes_microgrid.add_device','root@localhost'),('2016-09-06 06:10:21','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',5,'smes_microgrid.add_device','root@localhost'),('2016-09-06 06:10:21','ERROR',NULL,NULL,NULL,5,'smes_microgrid.add_device','root@localhost'),('2016-09-06 07:32:02','INFO',NULL,'00111','Start Adding new VARIABLE to Device with DeviceID =4 Values Are:  TODO',5,'smes_microgrid.add_variable','root@localhost'),('2016-09-06 07:32:02','INFO',NULL,'00111','Variable Added to Device ID=4 New variable ID is: 2',5,NULL,'root@localhost'),('2016-09-06 07:34:23','INFO',NULL,'00111','Start Adding new VARIABLE to Device with DeviceID =4 Values Are:  TODO',5,'smes_microgrid.add_variable','root@localhost'),('2016-09-06 07:34:23','ERROR',NULL,NULL,NULL,5,'smes_microgrid.add_device','root@localhost'),('2016-09-06 07:34:55','INFO',NULL,'00111','Start Adding new VARIABLE to Device with DeviceID =1 Values Are:  TODO',5,'smes_microgrid.add_variable','root@localhost'),('2016-09-06 07:34:55','INFO',NULL,'00111','Variable Added to Device ID=1 New variable ID is: 4',5,NULL,'root@localhost'),('2016-09-06 07:35:27','INFO',NULL,'00111','Start Adding new VARIABLE to Device with DeviceID =1 Values Are:  TODO',5,'smes_microgrid.add_variable','root@localhost'),('2016-09-06 07:35:27','INFO',NULL,'00111','Variable Added to Device ID=1 New variable ID is: 5',5,NULL,'root@localhost'),('2016-09-06 07:35:36','INFO',NULL,'00111','Start Adding new VARIABLE to Device with DeviceID =1 Values Are:  TODO',5,'smes_microgrid.add_variable','root@localhost'),('2016-09-06 07:35:36','INFO',NULL,'00111','Variable Added to Device ID=1 New variable ID is: 6',5,NULL,'root@localhost'),('2016-09-06 07:45:00','INFO',NULL,'00111','Start Adding new VARIABLE to Device with DeviceID =2 Values Are:  TODO',5,'smes_microgrid.add_variable','root@localhost'),('2016-09-06 07:45:00','INFO',NULL,'00111','Variable Added to Device ID=2 New variable ID is: 7',5,NULL,'root@localhost'),('2016-09-06 07:57:30','ERROR',NULL,NULL,NULL,5,'smes_microgrid.update_variable','root@localhost'),('2016-09-06 09:00:44','ERROR',NULL,NULL,NULL,5,'smes_microgrid.update_variable','root@localhost'),('2016-09-06 09:05:35','INFO',NULL,'00111','Start UPDATING VARIABLE for Device with VariableID =6 Values Are:  TODO',5,'smes_microgrid.update_variable','root@localhost'),('2016-09-06 09:05:35','INFO',NULL,'00111','Variable Updated , VariableID=6',5,'smes_microgrid.update_variable','root@localhost'),('2016-09-09 05:19:14','INFO',NULL,'00111','smes_microgrid.parse_id_list, id_list=1,3,5,9,100, 101,202,303,404, , , ',3,'smes_microgrid.parse_id_list','root@localhost'),('2016-09-09 05:19:14','ERROR',NULL,NULL,NULL,3,'smes_microgrid.parse_id_list','root@localhost'),('2016-09-09 05:20:23','INFO',NULL,'00111','smes_microgrid.parse_id_list, id_list=1,3,5,9,100, 101,202,303,404, , , ',3,'smes_microgrid.parse_id_list','root@localhost'),('2016-09-09 05:20:23','ERROR',NULL,NULL,NULL,3,'smes_microgrid.parse_id_list','root@localhost'),('2016-09-09 05:24:14','INFO',NULL,'00111','smes_microgrid.parse_id_list, id_list=1,3,5,9,100,101,202,303,404,,,',3,'smes_microgrid.parse_id_list','root@localhost'),('2016-09-09 05:24:14','ERROR',NULL,NULL,NULL,3,'smes_microgrid.parse_id_list','root@localhost'),('2016-09-09 05:24:51','INFO',NULL,'00111','smes_microgrid.parse_id_list, id_list=1,3,5,9,100,101,202,303,404,,',3,'smes_microgrid.parse_id_list','root@localhost'),('2016-09-09 05:24:51','ERROR',NULL,NULL,NULL,3,'smes_microgrid.parse_id_list','root@localhost'),('2016-09-09 05:49:32','INFO',NULL,'00111','smes_microgrid.parse_id_list, id_list=1,3,5,9,100, 101,202,303,404',3,'smes_microgrid.parse_id_list','root@localhost'),('2016-09-09 05:49:32','ERROR',NULL,NULL,NULL,3,'smes_microgrid.parse_id_list','root@localhost'),('2016-09-13 08:35:19','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',28,'smes_microgrid.add_device','root@localhost'),('2016-09-13 08:35:19','INFO',NULL,'00111','Device Added, New device ID is: 3',28,'smes_microgrid.add_device','root@localhost'),('2016-09-13 08:43:12','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',31,'smes_microgrid.add_device','root@localhost'),('2016-09-13 08:43:12','INFO',NULL,'00111','Device Added, New device ID is: 4',31,'smes_microgrid.add_device','root@localhost'),('2016-09-13 08:43:53','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',32,'smes_microgrid.add_device','root@localhost'),('2016-09-13 08:43:53','INFO',NULL,'00111','Device Added, New device ID is: 5',32,'smes_microgrid.add_device','root@localhost'),('2016-09-13 08:47:45','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',37,'smes_microgrid.add_device','root@localhost'),('2016-09-13 08:47:45','INFO',NULL,'00111','Device Added, New device ID is: 6',37,'smes_microgrid.add_device','root@localhost'),('2016-09-13 08:55:40','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',40,'smes_microgrid.add_device','root@localhost'),('2016-09-13 08:55:40','INFO',NULL,'00111','Device Added, New device ID is: 7',40,'smes_microgrid.add_device','root@localhost'),('2016-09-13 08:57:04','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',41,'smes_microgrid.add_device','root@localhost'),('2016-09-13 08:57:04','INFO',NULL,'00111','Device Added, New device ID is: 8',41,'smes_microgrid.add_device','root@localhost'),('2016-09-14 03:13:54','INFO',NULL,'00111','Start Adding new VARIABLE to Device with DeviceID =1 Values Are:  TODO',3,'smes_microgrid.add_variable','root@localhost'),('2016-09-14 03:13:54','INFO',NULL,'00111','Variable Added to Device ID=1 New variable ID is: 8',3,'smes_microgrid.add_variable','root@localhost'),('2016-09-14 07:50:58','INFO',NULL,'00111','Start Adding new COMMAND to Device with DeviceID =1 Values Are: Name= CMD1',3,'smes_microgrid.add_command','root@localhost'),('2016-09-14 07:50:58','INFO',NULL,'00111','Command Added to Device ID=1 New command ID is: 1',3,'smes_microgrid.add_command','root@localhost'),('2016-09-14 07:50:58','ERROR',NULL,NULL,NULL,3,'smes_microgrid.add_command','root@localhost'),('2016-09-14 07:51:59','INFO',NULL,'00111','Start Adding new COMMAND to Device with DeviceID =1 Values Are: Name= CMD1',3,'smes_microgrid.add_command','root@localhost'),('2016-09-14 07:51:59','INFO',NULL,'00111','Command Added to Device ID=1 New command ID is: 2',3,'smes_microgrid.add_command','root@localhost'),('2016-09-14 07:51:59','ERROR',NULL,NULL,NULL,3,'smes_microgrid.add_command','root@localhost'),('2016-09-14 07:54:10','INFO',NULL,'00111','Start Adding new COMMAND to Device with DeviceID =1 Values Are: Name= CMD1',3,'smes_microgrid.add_command','root@localhost'),('2016-09-14 07:54:10','INFO',NULL,'00111','Command Added to Device ID=1 New command ID is: 3',3,'smes_microgrid.add_command','root@localhost'),('2016-09-14 07:54:10','ERROR',NULL,NULL,NULL,3,'smes_microgrid.add_command','root@localhost'),('2016-09-14 07:55:51','INFO',NULL,'00111','Start Adding new COMMAND to Device with DeviceID =1 Values Are: Name= CMD1',3,'smes_microgrid.add_command','root@localhost'),('2016-09-14 07:55:51','INFO',NULL,'00111','Command Added to Device ID=1 New command ID is: 4',3,'smes_microgrid.add_command','root@localhost'),('2016-09-14 07:55:51','INFO',NULL,'00111','Added INPUT and OUTPUT variables to the Command:4 Device ID is: 1',3,'smes_microgrid.add_command','root@localhost'),('2016-09-15 00:54:45','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',51,'smes_microgrid.add_device','root@localhost'),('2016-09-15 00:54:45','INFO',NULL,'00111','Device Added, New device ID is: 9',51,'smes_microgrid.add_device','root@localhost'),('2016-09-15 01:02:12','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',52,'smes_microgrid.add_device','root@localhost'),('2016-09-15 01:02:13','INFO',NULL,'00111','Device Added, New device ID is: 10',52,'smes_microgrid.add_device','root@localhost'),('2016-09-15 01:04:05','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',53,'smes_microgrid.add_device','root@localhost'),('2016-09-15 01:04:05','INFO',NULL,'00111','Device Added, New device ID is: 11',53,'smes_microgrid.add_device','root@localhost'),('2016-09-15 01:06:50','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',54,'smes_microgrid.add_device','root@localhost'),('2016-09-15 01:06:50','INFO',NULL,'00111','Device Added, New device ID is: 12',54,'smes_microgrid.add_device','root@localhost'),('2016-09-15 01:09:38','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',3,'smes_microgrid.add_device','root@localhost'),('2016-09-15 01:09:38','INFO',NULL,'00111','Device Added, New device ID is: 13',3,'smes_microgrid.add_device','root@localhost'),('2016-09-15 01:13:37','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',3,'smes_microgrid.add_device','root@localhost'),('2016-09-15 01:13:37','INFO',NULL,'00111','Device Added, New device ID is: 14',3,'smes_microgrid.add_device','root@localhost'),('2016-09-15 01:13:46','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',55,'smes_microgrid.add_device','root@localhost'),('2016-09-15 01:13:46','INFO',NULL,'00111','Device Added, New device ID is: 15',55,'smes_microgrid.add_device','root@localhost'),('2016-09-15 01:14:10','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',56,'smes_microgrid.add_device','root@localhost'),('2016-09-15 01:14:10','INFO',NULL,'00111','Device Added, New device ID is: 16',56,'smes_microgrid.add_device','root@localhost'),('2016-09-15 01:17:07','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',58,'smes_microgrid.add_device','root@localhost'),('2016-09-15 01:17:07','INFO',NULL,'00111','Device Added, New device ID is: 17',58,'smes_microgrid.add_device','root@localhost'),('2016-09-15 01:17:38','INFO',NULL,'00111','Start device update ,ID= 1',59,'smes_microgrid.update_device','root@localhost'),('2016-09-15 01:17:38','INFO',NULL,'00111','Device Updated, New values are: TODO',59,'smes_microgrid.update_device','root@localhost'),('2016-09-15 01:19:49','INFO',NULL,'00111','Start device update ,ID= 9',3,'smes_microgrid.update_device','root@localhost'),('2016-09-15 01:19:49','INFO',NULL,'00111','Device Updated, New values are: TODO',3,'smes_microgrid.update_device','root@localhost'),('2016-09-15 01:20:18','INFO',NULL,'00111','Start device update ,ID= 1',60,'smes_microgrid.update_device','root@localhost'),('2016-09-15 01:20:18','INFO',NULL,'00111','Device Updated, New values are: TODO',60,'smes_microgrid.update_device','root@localhost'),('2016-09-15 01:38:20','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',61,'smes_microgrid.add_device','root@localhost'),('2016-09-15 01:38:20','INFO',NULL,'00111','Device Added, New device ID is: 18',61,'smes_microgrid.add_device','root@localhost'),('2016-09-15 01:40:04','INFO',NULL,'00111','Start device update ,ID= 1',62,'smes_microgrid.update_device','root@localhost'),('2016-09-15 01:40:04','INFO',NULL,'00111','Device Updated, New values are: TODO',62,'smes_microgrid.update_device','root@localhost'),('2016-09-15 01:42:27','INFO',NULL,'00111','Start device update ,ID= 1',63,'smes_microgrid.update_device','root@localhost'),('2016-09-15 01:42:27','INFO',NULL,'00111','Device Updated, New values are: TODO',63,'smes_microgrid.update_device','root@localhost'),('2016-09-15 01:53:23','INFO',NULL,'00111','Start device update ,ID= 1',64,'smes_microgrid.update_device','root@localhost'),('2016-09-15 01:53:23','INFO',NULL,'00111','Device Updated, New values are: TODO',64,'smes_microgrid.update_device','root@localhost'),('2016-09-15 01:54:54','INFO',NULL,'00111','Start device update ,ID= 1',65,'smes_microgrid.update_device','root@localhost'),('2016-09-15 01:54:54','INFO',NULL,'00111','Device Updated, New values are: TODO',65,'smes_microgrid.update_device','root@localhost'),('2016-09-15 02:02:09','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',66,'smes_microgrid.add_device','root@localhost'),('2016-09-15 02:02:10','INFO',NULL,'00111','Device Added, New device ID is: 19',66,'smes_microgrid.add_device','root@localhost'),('2016-09-15 02:03:15','INFO',NULL,'00111','Start device update ,ID= 19',67,'smes_microgrid.update_device','root@localhost'),('2016-09-15 02:03:15','INFO',NULL,'00111','Device Updated, New values are: TODO',67,'smes_microgrid.update_device','root@localhost'),('2016-09-15 03:33:14','ERROR',NULL,NULL,NULL,49,'smes_microgrid.add_command','root@localhost'),('2016-09-15 03:34:03','INFO',NULL,'00111','Start Updateing COMMAND to with CommandID =4 Values Are: Name= CMD1-UPD1',49,'smes_microgrid.update_command','root@localhost'),('2016-09-15 03:34:03','INFO',NULL,'00111','Command Updated, CommandID=4 New Values are: Name =CMD1-UPD1 , Description=Test UPD CMD1 , Format String=VOL {0}, CUR {1}, VOL1{2}',49,'smes_microgrid.update_command','root@localhost'),('2016-09-15 03:34:03','INFO',NULL,'00111','Added INPUT and OUTPUT variables to the Command:4',49,'smes_microgrid.update_command','root@localhost'),('2016-09-15 03:34:30','INFO',NULL,'00111','Start Updateing COMMAND to with CommandID =4 Values Are: Name= CMD1-UPD1',49,'smes_microgrid.update_command','root@localhost'),('2016-09-15 03:34:30','INFO',NULL,'00111','Command Updated, CommandID=4 New Values are: Name =CMD1-UPD1 , Description=Test UPD CMD2 , Format String=VOL2 {0}, CUR {1}, VOL1{2}',49,'smes_microgrid.update_command','root@localhost'),('2016-09-15 03:34:30','INFO',NULL,'00111','Added INPUT and OUTPUT variables to the Command:4',49,'smes_microgrid.update_command','root@localhost'),('2016-09-15 03:34:56','INFO',NULL,'00111','Start Updateing COMMAND to with CommandID =4 Values Are: Name= CMD1-UPD1',49,'smes_microgrid.update_command','root@localhost'),('2016-09-15 03:34:56','INFO',NULL,'00111','Command Updated, CommandID=4 New Values are: Name =CMD1-UPD1 , Description=Test UPD CMD2 , Format String=VOL2 {0}, CUR {1}, VOL1{2}',49,'smes_microgrid.update_command','root@localhost'),('2016-09-15 03:34:56','INFO',NULL,'00111','Added INPUT and OUTPUT variables to the Command:4',49,'smes_microgrid.update_command','root@localhost'),('2016-09-15 03:39:24','INFO',NULL,'00111','Start Adding new COMMAND to Device with DeviceID =1 Values Are: Name= NewCMD 1',49,'smes_microgrid.add_command','root@localhost'),('2016-09-15 03:39:24','INFO',NULL,'00111','Command Added to Device ID=1 New command ID is: 5',49,'smes_microgrid.add_command','root@localhost'),('2016-09-15 03:39:24','INFO',NULL,'00111','Added INPUT and OUTPUT variables to the Command:5 Device ID is: 1',49,'smes_microgrid.add_command','root@localhost'),('2016-09-15 03:46:05','INFO',NULL,'00111','Start Adding new COMMAND to Device with DeviceID =1 Values Are: Name= NewCMD 2',49,'smes_microgrid.add_command','root@localhost'),('2016-09-15 03:46:05','INFO',NULL,'00111','Command Added to Device ID=1 New command ID is: 6',49,'smes_microgrid.add_command','root@localhost'),('2016-09-15 03:46:06','INFO',NULL,'00111','Added INPUT and OUTPUT variables to the Command:6 Device ID is: 1',49,'smes_microgrid.add_command','root@localhost'),('2016-09-15 03:46:06','ERROR',NULL,NULL,NULL,49,'smes_microgrid.add_command','root@localhost'),('2016-09-15 03:46:48','INFO',NULL,'00111','Start Adding new COMMAND to Device with DeviceID =1 Values Are: Name= NewCMD 2',49,'smes_microgrid.add_command','root@localhost'),('2016-09-15 03:46:48','INFO',NULL,'00111','Command Added to Device ID=1 New command ID is: 7',49,'smes_microgrid.add_command','root@localhost'),('2016-09-15 03:46:49','INFO',NULL,'00111','Added INPUT and OUTPUT variables to the Command:7 Device ID is: 1',49,'smes_microgrid.add_command','root@localhost'),('2016-09-15 03:48:46','INFO',NULL,'00111','Start Updateing COMMAND to with CommandID =7 Values Are: Name= CMD1-UPD3',49,'smes_microgrid.update_command','root@localhost'),('2016-09-15 03:48:46','INFO',NULL,'00111','Command Updated, CommandID=7 New Values are: Name =CMD1-UPD3 , Description=Test UPD CMD3 , Format String=VOL2 {0}, CUR {1}, VOL1{2}',49,'smes_microgrid.update_command','root@localhost'),('2016-09-15 03:48:46','INFO',NULL,'00111','Added INPUT and OUTPUT variables to the Command:7',49,'smes_microgrid.update_command','root@localhost'),('2016-09-19 09:18:12','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',21,'smes_microgrid.add_device','root@localhost'),('2016-09-19 09:18:12','INFO',NULL,'00111','Device Added, New device ID is: 20',21,'smes_microgrid.add_device','root@localhost'),('2016-09-19 09:18:16','INFO',NULL,'00111','Start device update ,ID= 19',22,'smes_microgrid.update_device','root@localhost'),('2016-09-19 09:18:16','INFO',NULL,'00111','Device Updated, New values are: TODO',22,'smes_microgrid.update_device','root@localhost'),('2016-09-19 09:18:27','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',24,'smes_microgrid.add_device','root@localhost'),('2016-09-19 09:18:27','INFO',NULL,'00111','Device Added, New device ID is: 21',24,'smes_microgrid.add_device','root@localhost');
 /*!40000 ALTER TABLE `log` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -380,7 +349,8 @@ CREATE TABLE `variable` (
   PRIMARY KEY (`id`),
   KEY `fk_variable_variable` (`unit_id`) USING BTREE,
   KEY `fk_variable_device_idx` (`device_id`) USING BTREE,
-  CONSTRAINT `fk_variable_device` FOREIGN KEY (`device_id`) REFERENCES `device` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_variable_device` FOREIGN KEY (`device_id`) REFERENCES `device` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_variable_unit` FOREIGN KEY (`unit_id`) REFERENCES `variable_unit` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -525,11 +495,11 @@ START TRANSACTION;
 	COMMIT;  
     
     -- Note: this SP returns command information without references variables. Use a separate call to get_command_variables(@cmd_id) to get variables as well.
-    SELECT C.`id` as ID,
-    C.`name` as Name,
-    C.`description` as Description,
-    C.`format_string` as FormatString,
-    C.`device_id`
+    SELECT C.`id` as id,
+    C.`name` as name,
+    C.`description` as description,
+    C.`format_string` as formatString,
+    C.`device_id` as deviceID
 	FROM `smes_microgrid`.`command` as C
 	WHERE C.id = @cmd_id
 	;
@@ -616,24 +586,24 @@ START TRANSACTION;
 
 	COMMIT;  
     -- CALL smes_microgrid.get_device(LAST_INSERT_ID());
-    SELECT D.`id` as ID,
-    D.`device_type_id` as TypeID,
-	 DT.`name` as TypeName,
-     DC.`id` as ClassID,
-     DC.`name` as ClassName,
-    D.`name` as Name,
-    D.`description` as Description,
-    D.`microgrid_id` as MicrogridID,
-     M.`name` as MicrogridName,
+    SELECT D.`id` as id,
+    D.`device_type_id` as typeId,
+	 DT.`name` as typeName,
+     DC.`id` as classID,
+     DC.`name` as className,
+    D.`name` as name,
+    D.`description` as description,
+    D.`microgrid_id` as microgridId,
+     M.`name` as microgridName,
     -- `device`.`scl_file(ICD)` as SCLFile,
-    D.`vendor` as Vendor,
-    D.`model` as Model,
-    D.`location` as Location,
+    D.`vendor` as vendor,
+    D.`model` as model,
+    D.`location` as location,
     D.`ip_adress` as IPAdress,
-    D.`port_number` as PortNumber,
-    D.`bus_id` as BusID,
-    D.`is_programmable` as IsProgrammable,
-    D.`is_connected` as IsConnected
+    D.`port_number` as portNumber,
+    D.`bus_id` as busID,
+    D.`is_programmable` as isProgrammable,
+    D.`is_connected` as isConnected
 FROM `smes_microgrid`.`device` AS D
 LEFT JOIN device_type AS DT ON D.device_type_id  = DT.id
 LEFT JOIN device_class AS DC ON DT.device_class_id = DC.id
@@ -703,14 +673,14 @@ START TRANSACTION;
 
 	COMMIT;  
     
-SELECT V.`id` as ID,
-    V.`device_id` as DeviceID,
-    V.`name` as Name,
-    V.`description` as Description,
-    V.`unit_id` as UnitID,
-    V.`updating_duration` as UpdatingDuration,
-    V.`set_command_id` as SetCommandID,
-    V.`get_command_id` as GetCommandID
+SELECT V.`id` as id,
+    V.`device_id` as deviceId,
+    V.`name` as name,
+    V.`description` as description,
+    V.`unit_id` as unitID,
+    V.`updating_duration` as updatingDuration,
+    V.`set_command_id` as setCommandID,
+    V.`get_command_id` as getCommandID
 FROM `smes_microgrid`.variable AS V
 LEFT JOIN `smes_microgrid`.variable_unit AS U ON U.id = V.unit_id
 WHERE V.id = LAST_INSERT_ID(); 
@@ -787,7 +757,7 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_buses`()
 BEGIN
 
-SELECT id as ID, name as Name, description as Description 
+SELECT id as id, name as name, description as description 
 FROM `smes_microgrid`.`bus`;
 
 END ;;
@@ -809,11 +779,11 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_commands`(IN device_id INT)
 BEGIN
 
-SELECT C.`id` as ID,
-    C.`name` as Name,
-    C.`description` as Description,
-    C.`format_string` as FormatString,
-    C.`device_id`
+SELECT C.`id` as id,
+    C.`name` as name,
+    C.`description` as description,
+    C.`format_string` as formatString,
+    C.`device_id` as deviceId
 FROM `smes_microgrid`.`command` as C
 WHERE C.device_id = device_id 
 ;
@@ -837,10 +807,10 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_command_variables`(IN command_id INT)
 BEGIN
 
-SELECT command_id as CommandID, 
-V.id as VariableID, V.Name as VariableName, V.Description as VariableDescription,
-P.ID as ParameterTypeID, P.Name as ParameterTypeName, P.Name as ParameterTypeDescription,
-U.ID as UnitID, U.Name as UnitName, U.Description as UnitDescription
+SELECT command_id as commandId, 
+V.id as variableId, V.Name as variableName, V.Description as variableDescription,
+P.ID as parameterTypeId, P.Name as parameterTypeName, P.Name as parameterTypeDescription,
+U.ID as unitId, U.Name as unitName, U.Description as unitDescription
 FROM command_device_variable AS CDV
 INNER JOIN `smes_microgrid`.variable AS V ON CDV.variable_id = V.id
 INNER JOIN `smes_microgrid`.parameter_type AS P ON CDV.parameter_type_id = P.id
@@ -868,24 +838,24 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_device`(IN id INT)
 BEGIN
 
-SELECT D.`id` as ID,
-    D.`device_type_id` as TypeID,
-	 DT.`name` as TypeName,
-     DC.`id` as ClassID,
-     DC.`name` as ClassName,
-    D.`name` as Name,
-    D.`description` as Description,
-    D.`microgrid_id` as MicrogridID,
-     M.`name` as MicrogridName,
+SELECT D.`id` as id,
+    D.`device_type_id` as typeId,
+	 DT.`name` as typeName,
+     DC.`id` as classID,
+     DC.`name` as className,
+    D.`name` as name,
+    D.`description` as description,
+    D.`microgrid_id` as microgridID,
+     M.`name` as microgridName,
     -- `device`.`scl_file(ICD)` as SCLFile,
-    D.`vendor` as Vendor,
-    D.`model` as Model,
-    D.`location` as Location,
+    D.`vendor` as vendor,
+    D.`model` as model,
+    D.`location` as location,
     D.`ip_adress` as IPAdress,
-    D.`port_number` as PortNumber,
-    D.`bus_id` as BusID,
-    D.`is_programmable` as IsProgrammable,
-    D.`is_connected` as IsConnected
+    D.`port_number` as portNumber,
+    D.`bus_id` as busID,
+    D.`is_programmable` as isProgrammable,
+    D.`is_connected` as isConnected
 FROM `smes_microgrid`.`device` AS D
 LEFT JOIN device_type AS DT ON D.device_type_id  = DT.id
 LEFT JOIN device_class AS DC ON DT.device_class_id = DC.id
@@ -912,24 +882,24 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_devices`()
 BEGIN
 
-SELECT D.`id` as ID,
-    D.`device_type_id` as TypeID,
-	 DT.`name` as TypeName,
-     DC.`id` as ClassID,
-     DC.`name` as ClassName,
-    D.`name` as Name,
-    D.`description` as Description,
-    D.`microgrid_id` as MicrogridID,
-     M.`name` as MicrogridName,
+SELECT D.`id` as id,
+    D.`device_type_id` as typeId,
+	 DT.`name` as typeName,
+     DC.`id` as classID,
+     DC.`name` as className,
+    D.`name` as name,
+    D.`description` as description,
+    D.`microgrid_id` as microgridID,
+     M.`name` as microgridName,
     -- `device`.`scl_file(ICD)` as SCLFile,
-    D.`vendor` as Vendor,
-    D.`model` as Model,
-    D.`location` as Location,
+    D.`vendor` as vendor,
+    D.`model` as model,
+    D.`location` as location,
     D.`ip_adress` as IPAdress,
-    D.`port_number` as PortNumber,
-    D.`bus_id` as BusID,
-    D.`is_programmable` as IsProgrammable,
-    D.`is_connected` as IsConnected
+    D.`port_number` as portNumber,
+    D.`bus_id` as busID,
+    D.`is_programmable` as isProgrammable,
+    D.`is_connected` as isConnected
 FROM `smes_microgrid`.`device` AS D
 LEFT JOIN device_type AS DT ON D.device_type_id  = DT.id
 LEFT JOIN device_class AS DC ON DT.device_class_id = DC.id
@@ -955,7 +925,7 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_device_types`()
 BEGIN
 
-SELECT T.id as TypeID, T.name as TypeName, T.description as TypeDescription, C.id as ClassID, C.Name as ClassName, C.Description as ClassDescription
+SELECT T.id as typeId, T.name as typeName, T.description as typeDescription, C.id as classId, C.Name as className, C.Description as classDescription
 FROM `smes_microgrid`.`device_type` T
 LEFT JOIN `smes_microgrid`.`device_class` C ON T.device_class_id = C.id;
 
@@ -978,10 +948,10 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_units`()
 BEGIN
 
-SELECT `variable_unit`.`id` as ID,
-    `variable_unit`.`code` as 'Code',
-    `variable_unit`.`name` as 'Name',
-    `variable_unit`.`description` as 'Description'
+SELECT `variable_unit`.`id` as id,
+    `variable_unit`.`code` as code,
+    `variable_unit`.`name` as name,
+    `variable_unit`.`description` as description
 FROM `smes_microgrid`.`variable_unit`;
 
 END ;;
@@ -1003,14 +973,14 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_variables`(IN device_id INT)
 BEGIN
 
-SELECT V.`id` as ID,
-    V.`device_id` as DeviceID,
-    V.`name` as Name,
-    V.`description` as Description,
-    V.`unit_id` as UnitID,
-    V.`updating_duration` as UpdatingDuration,
-    V.`set_command_id` as SetCommandID,
-    V.`get_command_id` as GetCommandID
+SELECT V.`id` as id,
+    V.`device_id` as deviceId,
+    V.`name` as name,
+    V.`description` as description,
+    V.`unit_id` as unitID,
+    V.`updating_duration` as updatingDuration,
+    V.`set_command_id` as setCommandID,
+    V.`get_command_id` as getCommandID
 FROM `smes_microgrid`.variable AS V
 LEFT JOIN `smes_microgrid`.variable_unit AS U ON U.id = V.unit_id
 WHERE V.device_id = device_id 
@@ -1193,11 +1163,11 @@ START TRANSACTION;
 	COMMIT;  
     
    -- Note: this SP returns command information without references variables. Use a separate call to get_command_variables(@cmd_id) to get variables as well.
-   SELECT C.`id` as ID,
-    C.`name` as Name,
-    C.`description` as Description,
-    C.`format_string` as FormatString,
-    C.`device_id`
+   SELECT C.`id` as id,
+    C.`name` as name,
+    C.`description` as description,
+    C.`format_string` as formatString,
+    C.`device_id` as deviceId
 	FROM `smes_microgrid`.`command` as C
 	WHERE C.id = command_id 
 	;
@@ -1275,24 +1245,24 @@ START TRANSACTION;
 
 	COMMIT;  
 
-    SELECT D.`id` as ID,
-    D.`device_type_id` as TypeID,
-	 DT.`name` as TypeName,
-     DC.`id` as ClassID,
-     DC.`name` as ClassName,
-    D.`name` as Name,
-    D.`description` as Description,
-    D.`microgrid_id` as MicrogridID,
-     M.`name` as MicrogridName,
+    SELECT D.`id` as id,
+    D.`device_type_id` as typeID,
+	 DT.`name` as typeName,
+     DC.`id` as classId,
+     DC.`name` as className,
+    D.`name` as name,
+    D.`description` as description,
+    D.`microgrid_id` as microgridId,
+     M.`name` as microgridName,
     -- `device`.`scl_file(ICD)` as SCLFile,
-    D.`vendor` as Vendor,
-    D.`model` as Model,
-    D.`location` as Location,
+    D.`vendor` as vendor,
+    D.`model` as model,
+    D.`location` as location,
     D.`ip_adress` as IPAdress,
-    D.`port_number` as PortNumber,
-    D.`bus_id` as BusID,
-    D.`is_programmable` as IsProgrammable,
-    D.`is_connected` as IsConnected
+    D.`port_number` as portNumber,
+    D.`bus_id` as busID,
+    D.`is_programmable` as isProgrammable,
+    D.`is_connected` as isConnected
 FROM `smes_microgrid`.`device` AS D
 LEFT JOIN device_type AS DT ON D.device_type_id  = DT.id
 LEFT JOIN device_class AS DC ON DT.device_class_id = DC.id
@@ -1356,14 +1326,14 @@ WHERE `id` = variable_id;
 
 	COMMIT;  
     
-SELECT V.`id` as ID,
-    V.`device_id` as DeviceID,
-    V.`name` as Name,
-    V.`description` as Description,
-    V.`unit_id` as UnitID,
-    V.`updating_duration` as UpdatingDuration,
-    V.`set_command_id` as SetCommandID,
-    V.`get_command_id` as GetCommandID
+SELECT V.`id` as id,
+    V.`device_id` as deviceId,
+    V.`name` as name,
+    V.`description` as description,
+    V.`unit_id` as unitId,
+    V.`updating_duration` as updatingDuration,
+    V.`set_command_id` as setCommandID,
+    V.`get_command_id` as getCommandID
 FROM `smes_microgrid`.variable AS V
 LEFT JOIN `smes_microgrid`.variable_unit AS U ON U.id = V.unit_id
 WHERE V.id = variable_id; 
@@ -1426,4 +1396,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-09-15 11:57:16
+-- Dump completed on 2016-09-19 17:29:09
