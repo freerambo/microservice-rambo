@@ -5,6 +5,7 @@ import com.erian.microgrid.webapp.domain.*;
 import com.erian.microgrid.webapp.exception.InvalidRequestException;
 
 import com.erian.microgrid.webapp.model.DeviceDetails;
+import com.erian.microgrid.webapp.model.DeviceForm;
 import com.erian.microgrid.webapp.model.ResponseMessage;
 import com.erian.microgrid.webapp.service.DeviceService;
 
@@ -29,35 +30,77 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+/**
+ * 
+ * function description：Device Controller
+ *
+ * @author <a href="mailto:zhuyb@ntu.edu.sg">zhuyuanbo </a>
+ * @version v 1.0 
+ * Create:  Sep 14, 2016 11:42:31 PM
+ */
 @RestController
 @RequestMapping(value = Constants.URI_API + Constants.URI_DEVICES)
 public class DeviceController {
 
-    private static final Logger log = LoggerFactory
-            .getLogger(DeviceController.class);
+	private static final Logger log = LoggerFactory.getLogger(DeviceController.class);
 
-    private DeviceService deviceService;
+	private DeviceService deviceService;
 
-    @Inject
-    public DeviceController(DeviceService deviceService) {
-        this.deviceService = deviceService;
-    }
+	@Inject
+	public DeviceController(DeviceService deviceService) {
+		this.deviceService = deviceService;
+	}
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
-    @ResponseBody
-    public ResponseEntity<Page<DeviceDetails>> getAllDevices(
-            @RequestParam(value = "q", required = false) String keyword, //
-            @RequestParam(value = "bus", required = false) Device.Bus bus, //
-            @PageableDefault(page = 0, size = 5, sort = "id", direction = Direction.ASC) Pageable page) {
 
-        log.warn("get all posts of q@" + keyword + ", bus @" + bus + ", page@" + page);
+	@RequestMapping(value = "", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<Page<DeviceDetails>> getAllDevices(
+			@RequestParam(value = "q", required = false) String keyword, //
+			@RequestParam(value = "bus", required = false) Device.Bus bus, //
+			@PageableDefault(page = 0, size = 5, sort = "id", direction = Direction.ASC) Pageable page) {
 
-        Page<DeviceDetails> posts = deviceService.searchDevicesByCriteria(keyword, bus, page);
+		log.warn("get all devices of q@" + keyword + ", bus @" + bus + ", page@" + page);
 
-        log.debug("get posts size @" + posts.getTotalElements());
+		Page<DeviceDetails> devices = deviceService.searchDevicesByCriteria(keyword, bus, page);
 
-        return new ResponseEntity<>(posts, HttpStatus.OK);
-    }
+		log.debug("get devices size @" + devices.getTotalElements());
 
-   
+		return new ResponseEntity<>(devices, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<Device> getPost(@PathVariable("id") Long id) {
+
+		log.debug("get devicesinfo by id @" + id);
+
+		Device device = deviceService.findDeviceById(id);
+
+		log.debug("get device @" + device);
+
+		return new ResponseEntity<>(device, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<ResponseMessage> createDevice(@RequestBody @Valid DeviceForm device,
+			BindingResult errResult) {
+
+		log.debug("create a new device");
+		if (errResult.hasErrors()) {
+			throw new InvalidRequestException(errResult);
+		}
+
+		DeviceDetails saved = deviceService.saveDevice(device);
+
+		log.debug("saved device id is @" + saved.getId());
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setLocation(ServletUriComponentsBuilder.fromCurrentContextPath()
+				.path(Constants.URI_API + Constants.URI_DEVICES + "/{id}").buildAndExpand(saved.getId()).toUri());
+
+		return new ResponseEntity<>(ResponseMessage.success("device.created"), headers, HttpStatus.CREATED);
+
+	}
+
 }

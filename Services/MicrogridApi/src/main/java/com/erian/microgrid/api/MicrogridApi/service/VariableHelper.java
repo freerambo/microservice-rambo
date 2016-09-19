@@ -57,12 +57,34 @@ public class VariableHelper {
 	
 	
 	public static Variable getVariable(int variableId) {
-		return new Variable();
+		return Mapper.MapVariable(GetVariableData(variableId));
 	}
 	
+	protected static VariableData GetVariableData(int variableId) {
+		VariableData res = null;
+		Connection c  = null;
+ 		try {
+ 			c  = DatabaseHelper.getConnection();
+ 			Statement s = c.createStatement();
+ 			String sql = "{call get_variable (" + variableId + ")}";
+ 			ResultSet rs = s.executeQuery(sql);
+ 			rs.next();
+ 			res = processVariableRow(rs);
+ 		}
+ 		catch (SQLException e) {
+ 			e.printStackTrace();
+ 			throw new RuntimeException(e);
+ 		} finally {
+ 			DatabaseHelper.close(c);
+ 		}
+ 		return res;
+	    
+	}
+
 	public static VariableData addNewVariable(int deviceId, VariableData newVariable) {
 		Connection c = null;
 		PreparedStatement ps=null;
+		VariableData variableAdded = null;
 		try {
 			c = DatabaseHelper.getConnection();
             String query = "{call add_variable(?,?,?,?,?)}";
@@ -73,9 +95,9 @@ public class VariableHelper {
             ps.setInt(4, newVariable.getUnitID());
             ps.setInt(5, newVariable.getUpdatingDuration());
             
-            ResultSet rs= ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-            	newVariable.setID(rs.getInt("ID"));
+            	variableAdded = processVariableRow(rs);
             }
        	}
         catch (Exception e) {
@@ -85,11 +107,38 @@ public class VariableHelper {
         } finally {
             DatabaseHelper.close(c);
         }
-		return newVariable;	// TODO - return inserted variable from insert statement and return it here including ID
+		return variableAdded;
 	}
 	
-	public static Variable updateVariable(Variable variable) {
-		return variable;
+	public static VariableData updateVariable(VariableData variable) {
+		Connection c = null;
+		PreparedStatement ps=null;
+		VariableData variableUpdated = null;
+		try {
+			c = DatabaseHelper.getConnection();
+            String query = "{call update_variable(?,?,?,?,?,?,?)}";
+            ps= c.prepareStatement(query);
+            ps.setInt(1, variable.getID());
+            ps.setString(2, variable.getName());
+            ps.setString(3, variable.getDescription());
+            ps.setInt(4, variable.getUnitID());
+            ps.setInt(5, variable.getUpdatingDuration());
+            ps.setInt(6, variable.getSetCommandID());
+            ps.setInt(7, variable.getGetCommandID());
+            
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+            	variableUpdated = processVariableRow(rs);
+            }
+       	}
+        catch (Exception e) {
+        	e.printStackTrace();
+        	throw new RuntimeException(e);
+               
+        } finally {
+            DatabaseHelper.close(c);
+        }
+		return variableUpdated;
 	}
 	
 	public static Variable removeVariable(int variableId) {
