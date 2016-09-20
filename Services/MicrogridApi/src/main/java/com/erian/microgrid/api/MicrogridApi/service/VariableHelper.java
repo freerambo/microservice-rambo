@@ -122,7 +122,7 @@ public class VariableHelper {
 		return variableAdded;
 	}
 	
-	public static VariableData updateVariable(VariableData variable) {
+	private static VariableData updateVariable(VariableData variable) {
 		Connection c = null;
 		PreparedStatement ps=null;
 		VariableData variableUpdated = null;
