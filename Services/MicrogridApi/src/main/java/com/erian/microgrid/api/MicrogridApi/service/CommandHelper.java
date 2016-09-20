@@ -54,7 +54,13 @@ public class CommandHelper {
 		return commandData;
 	}
 
-	public static CommandData addNewCommand(int deviceId, CommandData newCommand) {
+	public static Command addNewCommand(int deviceId, Command command) {
+		CommandData commandData = Mapper.MapCommand(command);
+		commandData = addNewCommandData(deviceId, commandData);
+		return Mapper.MapCommand(commandData);
+	}
+	
+	private static CommandData addNewCommandData(int deviceId, CommandData newCommand) {
 		Connection c = null;
 		PreparedStatement ps = null;
 		CommandData commandAdded = null;
@@ -84,7 +90,13 @@ public class CommandHelper {
 
 	}
 
-	public static CommandData updateCommand(CommandData command) {
+	public static Command updateCommand(Command command) {
+		CommandData commandData = Mapper.MapCommand(command);
+		commandData = updateCommandData(commandData);
+		return Mapper.MapCommand(commandData);
+	}
+	
+	private static CommandData updateCommandData(CommandData command) {
 		Connection c = null;
 		PreparedStatement ps = null;
 		CommandData commandUpdated = null;

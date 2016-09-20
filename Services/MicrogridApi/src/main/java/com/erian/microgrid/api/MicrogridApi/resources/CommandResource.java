@@ -11,7 +11,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.erian.microgrid.api.MicrogridApi.dataModel.CommandData;
 import com.erian.microgrid.api.MicrogridApi.model.Command;
 import com.erian.microgrid.api.MicrogridApi.service.CommandHelper;
 
@@ -28,15 +27,15 @@ public class CommandResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public CommandData addCommand(@PathParam("deviceId") int deviceId, CommandData commandData) {
-		return CommandHelper.addNewCommand(deviceId, commandData);
+	public Command addCommand(@PathParam("deviceId") int deviceId, Command command) {
+		return CommandHelper.addNewCommand(deviceId, command);
 	}
 	
 	@PUT
 	@Path("/{commandId}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public CommandData updateCommand(@PathParam("commandId") int commandId, CommandData command) {
+	public Command updateCommand(@PathParam("commandId") int commandId, Command command) {
 		command.setID(commandId);		
 		return CommandHelper.updateCommand(command);
 	}
