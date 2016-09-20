@@ -11,7 +11,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.erian.microgrid.api.MicrogridApi.model.Communication;
 import com.erian.microgrid.api.MicrogridApi.model.Variable;
+import com.erian.microgrid.api.MicrogridApi.service.CommunicationHelper;
 import com.erian.microgrid.api.MicrogridApi.service.VariableHelper;
 
 
@@ -57,5 +59,10 @@ public class VariableResource {
 		return VariableHelper.getVariable(variableId);
 	}
 	
+	@GET
+	@Path("/{variableId}/read")
+	public Communication getVariableReadCommand(@PathParam("variableId") int variableId) {
+		return CommunicationHelper.getReadCommand(variableId);
+	}
 	
 }
