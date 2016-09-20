@@ -67,7 +67,7 @@
                     <td>{{device.isConnected}}</td>
                     <td>{{device.isProgrammable}}</td>
                     <td>{{device.location}}</td>
-                    <td> <span class="glyphicon glyphicon-edit" aria-hidden="true" ng-click="update()"></span>| <span class="glyphicon glyphicon-trash" aria-hidden="true" ng-click="delete()"></span></td>
+                    <td> <span class="glyphicon glyphicon-edit" aria-hidden="true" ng-click="update(device.ID)"></span>| <span class="glyphicon glyphicon-trash" aria-hidden="true" ng-click="del(device.ID)"></span></td>
                 </tr>
             </table>
         </div>
