@@ -16,13 +16,13 @@ SELECT
   GROUP_CONCAT(DISTINCT
     CONCAT(
       'coalesce(SUM(case when V.id = ',
-      id,
+      smes_microgrid.variable.id,
       ' then VV.value end), 0) AS ',
       name
     )
   ) INTO @sql
 FROM smes_microgrid.variable
-where device_id = 22;
+where device_id = id;
 select @sql;
 
 
@@ -35,6 +35,7 @@ SET @sql = CONCAT(  'SELECT VV.timestamp, ', @sql,
 PREPARE stmt FROM @sql;
 EXECUTE stmt;
 DEALLOCATE PREPARE stmt;
+
 
 
 END
