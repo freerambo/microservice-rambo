@@ -17,13 +17,23 @@
         <servlet-name>MicrogridApi</servlet-name>
         <url-pattern>/*</url-pattern>
     </servlet-mapping>
-    
+
+<!-- add corsFilter to fix the cross domain issues -->
 <filter>
-  <filter-name>CorsFilter</filter-name>
-  <filter-class>org.apache.catalina.filters.CorsFilter</filter-class>
+    <filter-name>CorsFilter</filter-name>
+    <filter-class>org.apache.catalina.filters.CorsFilter</filter-class>
+    <init-param>
+        <param-name>cors.allowed.origins</param-name>
+        <param-value>*</param-value>
+    </init-param>
+    <!-- allowed methods to avoid 403 for PUT and DELETE -->
+    <init-param>
+        <param-name>cors.allowed.methods</param-name>
+        <param-value>GET,POST,HEAD,OPTIONS,PUT,DELETE</param-value>
+    </init-param>
 </filter>
 <filter-mapping>
-  <filter-name>CorsFilter</filter-name>
-  <url-pattern>/*</url-pattern>
+    <filter-name>CorsFilter</filter-name>
+    <url-pattern>/*</url-pattern>
 </filter-mapping>
 </web-app>
