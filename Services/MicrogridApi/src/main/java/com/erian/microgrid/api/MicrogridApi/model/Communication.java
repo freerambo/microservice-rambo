@@ -1,5 +1,7 @@
 package com.erian.microgrid.api.MicrogridApi.model;
 
+import java.util.Date;
+
 public class Communication {
 	
 	public int variableId;
@@ -9,6 +11,9 @@ public class Communication {
 	public String portNumber;	
 	public int deviceId;
 	public int commandId;
+	public Date valueTimestamp; 
+	public float value;
+	
 	
 	public Communication() {
 		
