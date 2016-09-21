@@ -2,6 +2,11 @@ package com.erian.microgrid.api.MicrogridApi.model;
 
 import java.util.Date;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+import org.glassfish.jersey.server.JSONP;
+
+@XmlRootElement
 public class Communication {
 	
 	public int variableId;
@@ -11,9 +16,9 @@ public class Communication {
 	public String portNumber;	
 	public int deviceId;
 	public int commandId;
-	public Date valueTimestamp; 
-	public float value;
 	
+	public String valueTimestamp;  // TODO find why Date fields are excluded from Json response and how to include them. Then can change String to DateTime
+	public float value;
 	
 	public Communication() {
 		
