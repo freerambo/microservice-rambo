@@ -12,6 +12,7 @@ SELECT V.`id` as id,
 FROM `smes_microgrid`.variable AS V
 LEFT JOIN `smes_microgrid`.variable_unit AS U ON U.id = V.unit_id
 WHERE V.device_id = device_id 
+ORDER BY V.id
 ;
 
 END

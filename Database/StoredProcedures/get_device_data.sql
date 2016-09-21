@@ -22,7 +22,8 @@ SELECT
     )
   ) INTO @sql
 FROM smes_microgrid.variable
-where device_id = id;
+where device_id = id
+ORDER BY smes_microgrid.variable.id;  -- ORDER is important here, we map with headers taken from get_variables
 
 
 
