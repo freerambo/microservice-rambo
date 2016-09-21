@@ -23,7 +23,7 @@ SELECT
   ) INTO @sql
 FROM smes_microgrid.variable
 where device_id = id;
-select @sql;
+
 
 
 SET @sql = CONCAT(  'SELECT VV.timestamp, ', @sql, 
@@ -31,7 +31,7 @@ SET @sql = CONCAT(  'SELECT VV.timestamp, ', @sql,
 					LEFT JOIN smes_microgrid.variable as V ON V.id= VV.variable_id
 					GROUP BY VV.timestamp;');
 
--- SELECT @sql;
+
 PREPARE stmt FROM @sql;
 EXECUTE stmt;
 DEALLOCATE PREPARE stmt;
