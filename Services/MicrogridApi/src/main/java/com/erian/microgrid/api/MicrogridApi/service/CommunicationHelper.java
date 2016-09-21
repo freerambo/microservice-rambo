@@ -15,11 +15,40 @@ import com.erian.microgrid.api.MicrogridApi.model.Communication;
 
 public class CommunicationHelper {
 
+	public static List<Communication> getAllReadCommands() {
+		List<CommunicationData> commandList = getAllReadCommandsData();
+		List<Communication> res = new ArrayList<>();
+		for (CommunicationData var : commandList) {
+			res.add(Mapper.MapCommunication(var));
+		}
+		return res;
+	}
+	
 	public static Communication getReadCommand(int variableId) {
 		
 		return Mapper.MapCommunication(getReadCommandData(variableId));
 	}
 
+	public static List<CommunicationData> getAllReadCommandsData() {
+		List<CommunicationData> list = new ArrayList<>();
+		Connection c = null;
+		try {
+			c = DatabaseHelper.getConnection();
+			Statement s = c.createStatement();
+			String sql = "{call get_read_commands ()}";
+			ResultSet rs = s.executeQuery(sql);
+			while (rs.next()) {
+				list.add(processResultRow(rs));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		} finally {
+			DatabaseHelper.close(c);
+		}
+		return list;
+	}
+	
 	public static CommunicationData getReadCommandData(int variableId) {
 		CommunicationData res = null;
 		Connection c = null;
