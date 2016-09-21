@@ -1,6 +1,7 @@
 (function () {
     var as = angular.module('exampleApp.controllers', []);
     var baseUrl = "http://172.21.76.189/MicrogridApi/devices";
+    var staticUrl = "http://172.21.76.189/MicrogridApi/static";
    
     as.controller('MainController', function ($q, $scope, $rootScope, $http, i18n, $location) {
         var load = function () {
@@ -96,49 +97,35 @@
     });
 
     // new Device
-    as.controller('NewDeviceController', function ($scope, $http, i18n, $location) {
-        var actionUrl = 'api/devices/';
+    as.controller('NewDeviceController', function ($scope, $http, i18n, $location, $q) {
 
 //        $scope.entityId = $routeParams.entityId;
 //        $scope.ID = $routeParams.entityId;
-        $scope.action = "Add ";
+	  $scope.action = "Add ";
 
-        $scope.options = [
-	      
-	          {
-	            name: 'Source',
-	            value: '1'
-	          },
-	          {
-	            name: 'Load',
-	            value: '2'
-	          },
-	          {
-	            name: 'Battery',
-	            value: '3'
-	          }
-	          ,
-	          {
-	            name: 'Conveters',
-	            value: '4'
-	          },
-	          {
-	            name: 'Others',
-	            value: '5'
-	          },
-
-			    {
-			      name: 'Please select device type',
-			      value: '0'
-			    }
-		    
-	          
-	      ];
-	      $scope.selectedOption = $scope.options[0];
+//      $scope.selectedOption = $scope.options[0];
         
+	
+      load = function () {           
+        	
+    	  $http.get(staticUrl+'/deviceTypes')
+	        .success(function (data) {
+	            $scope.deviceTypes = data;	                        
+	        }); 
+			$http.get(staticUrl+'/buses')
+	        .success(function (data) {
+	            $scope.buses = data;	                        
+	        }); 
+        	
+         };
+        load();
+	      
+	      
+	      
         $scope.save = function () {
-            $http.post(baseUrl, $scope.newDevice).success(function () {
-                $location.path('/devices');
+            $http.post(baseUrl, $scope.newDevice).success(function (data) {
+            	
+                $location.path('/devices/'+ data.ID);
             });
         };
 
@@ -151,7 +138,7 @@
     
     
     as.controller('DeviceDetailsController', function ($scope, $http, $routeParams,$location) {
-        var actionUrl = baseUrl + '/' + + $routeParams.id,
+        var actionUrl = baseUrl + '/' + + $routeParams.id;
        
         		
 		 load = function () {           
@@ -174,24 +161,41 @@
     });
 
 
-    as.controller('UpdateDeviceController', function ($scope, $http, $routeParams,$location) {
-    	 var actionUrl = baseUrl + '/' + + $routeParams.id;
+    as.controller('UpdateDeviceController', function ($scope, $http, $routeParams,$location, $q) {
+    	 var actionUrl = baseUrl + '/' + $routeParams.id;
     	 $scope.action = "Update ";
 
     	 $scope.ID = $routeParams.id;
-		 load = function () {           
+		 load = function () { 
+		
+			$http.get(staticUrl+'/deviceTypes')
+	        .success(function (data) {
+	            $scope.deviceTypes = data;	                        
+	        }); 
+			$http.get(staticUrl+'/buses')
+	        .success(function (data) {
+	            $scope.buses = data;	                        
+	        }); 
         	$http.get(actionUrl)
              .success(function (data) {
-            	 
              	 console.log("Console devices " + data.id);
-                 $scope.newDevice = data;	                        
-                 
+                 $scope.newDevice = data;	
              });
+      	
          };
         load();
+        
+
+
 
         $scope.cancel = function () {
             $location.path('/devices');
+        };
+        
+        $scope.save = function () {
+            $http.put(baseUrl, $scope.newDevice).success(function (data) {
+                $location.path('/devices/'+data.ID);
+            });
         };
         
     });

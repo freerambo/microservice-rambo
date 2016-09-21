@@ -32,7 +32,7 @@
                             publicAccess: true}) 
                  .when('/devices/update/:id',
                         {controller: 'UpdateDeviceController',
-                        templateUrl: 'partials/devices/new.html',
+                        templateUrl: 'partials/devices/edit.html',
                         publicAccess: true})            
                  .when('/devices/:id',
                         {controller: 'DeviceDetailsController',

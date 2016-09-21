@@ -1,5 +1,5 @@
 <div class="page-header">
-    <h1>Update Device</h1>
+    <h1>{{action}} Device</h1>
 </div>
 
 <form role="form" ng-submit="save()" name="deviceForm" novalidate>
@@ -12,13 +12,18 @@
         </div>
         <label class="col-sm-1 col-form-label" for="name">Type</label>
 	 	<div class="col-sm-4">	 	
- 
- <select class="custom-select"
-    ng-model="newDevice.classID" 
+<!--    <input  class="form-control" type="text"
+	               placeholder="Device Type" ng-model="newDevice.typeID" ng-required="true"> -->
+ <!-- <select class="custom-select"
+    ng-model="newDevice.typeID" 
     ng-options="option.name for option in options track by id">
     
     <option value="0">Please select device type</option>
-</select>
+</select> -->
+	<select ng-model="newDevice.typeID" 
+	        ng-options="item.typeID as item.typeName for item in deviceTypes"  >
+	    <option value="">Select device type</option>
+	</select>
  
         </div>
     </div>
@@ -37,20 +42,20 @@
        <label class="col-sm-1">Programmable</label>
       <div class="col-sm-4">
         <div class="form-check">
-            <input class="form-check-input" type="checkbox"  ng-model="newDevice.isProgrammable" > Check if Programmable
+            <input class="form-check-input" type="checkbox"  ng-model="newDevice.isProgrammable" ng-true-value=1  ng-false-value=0> Check if Programmable
         </div>
       </div>
     </div>
      <div class="form-group row">
       <label for="Model" class="col-sm-2 col-form-label">Model</label>
       <div class="col-sm-5">
-        <input type="text" class="form-control" id="Model" value="1" ng-model="newDevice.model" placeholder="Model">
+        <input type="text" class="form-control" id="Model" ng-model="newDevice.model" placeholder="Model">
       </div>
       
       <label class="col-sm-1">Connected</label>
       <div class="col-sm-4">
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="1" ng-model="newDevice.isConnected"> Check if Connected
+            <input class="form-check-input" type="checkbox"  ng-model="newDevice.isConnected" ng-true-value=1  ng-false-value=0> Check if Connected
         </div>
       </div>
     </div>
@@ -73,29 +78,54 @@
     </div>
     <div class="form-group row">
       <label for="Bus" class="col-sm-2 col-form-label" >BUS</label>
-      <div class="col-sm-10"  ng-init="newDevice.busID='DC'">
-          <label class="form-check-inline">
-            <input class="form-check-input" type="radio"  id="gridRadios1" ng-model="newDevice.busID" checked value="DC" >
+      <div class="col-sm-10" >
+        <!--   <label class="form-check-inline">
+            <input class="form-check-input" type="radio"  id="gridRadios1" ng-model="newDevice.busID" checked value="1" >
             DC
           </label>&nbsp;&nbsp;
           <label class="form-check-inline">
-            <input class="form-check-input" type="radio" id="gridRadios2" ng-model="newDevice.busID" value="AC">
+            <input class="form-check-input" type="radio" id="gridRadios2" ng-model="newDevice.busID" value="2">
             AC
           </label>&nbsp;&nbsp;
           <label class="form-check-inline">
-            <input class="form-check-input" type="radio"  id="gridRadios3" ng-model="newDevice.busID" value="ALL">
+            <input class="form-check-input" type="radio"  id="gridRadios3" ng-model="newDevice.busID" value="3">
             ALL
-          </label>
+          </label> -->
+          
+          	<select ng-model="newDevice.busID" 
+	        ng-options="item.busID as item.busName for item in buses"  >
+			    <option value="">Select Device Bus</option>
+			</select>
         </div>   
     </div>
     
+<!--     {"ID":22,"IPAdress":"172.21.76.125","busID":2,"classID":1,"className":"Load",
+    "description":"DC LOAD chroma_63211_dc_load","isConnected":1,"isProgrammable":1,
+    "location":"Lab at level 5","microgridID":1,"microgridName":"Lab Level 5 Microgrid",
+    "model":"chroma_63211",    "name":"chroma_63211_dc_load","portNumber":"3030","typeID":4,
+    "typeName":"DC Load","vendor":"chroma"}, -->
+
+ 
+<!-- 
+ 
+ ng-minlength="15"
+ -->  
+
+ 
     
     <div class="form-group row">
       <label for="comments" class="col-sm-2 col-form-label">Comments: </label>
       <div class="col-sm-10">
-        <textarea  ng-minlength="15" ng-model="newDevice.comments" class="form-control" id="description" rows="4" placeholder="please input comments at leasr 15...."></textarea>
+        <textarea   ng-model="newDevice.comments" class="form-control" id="description" rows="4" placeholder="please input comments at leasr 15...."></textarea>
       </div>
     </div>
+    
+<input type="hidden" name="ID" ng-model="newDevice.ID" ng-init="newDevice.ID = ID"/>
+<input type="hidden" name="typeID" ng-model="newDevice.typeID"  ng-init="newDevice.typeID = 4"/>
+<input type="hidden" name="microgridID" ng-model="newDevice.microgridID" ng-init="newDevice.microgridID = 1" />
+<input type="hidden" name="classID" ng-model="newDevice.classID" ng-init="newDevice.classID = 1" />
+     
+     
      <div class="form-group">
         <button type="submit" ng-disabled="deviceForm.$invalid" class="btn btn-lg btn-primary">
             <msg key="save"></msg>

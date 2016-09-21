@@ -64,8 +64,22 @@
                     <td><a ng-href="#/devices/{{device.ID}}">{{device.name}}</a></td>
                     <td>{{device.description}}</td>
                     <td>{{device.busID}}</td>
-                    <td>{{device.isConnected}}</td>
-                    <td>{{device.isProgrammable}}</td>
+                    <td>                    
+                     	<div ng-show="device.isConnected == 0">
+									NO 
+							</div>
+							<div ng-show="device.isConnected == 1">
+									YES 
+							</div>
+                    </td>
+                    <td>
+	                    <div ng-show="device.isProgrammable == 0">
+									NO 
+							</div>
+							<div ng-show="device.isProgrammable == 1">
+									YES 
+							</div>
+                    </td>
                     <td>{{device.location}}</td>
                     <td> <span class="glyphicon glyphicon-edit" aria-hidden="true" ng-click="update(device.ID)"></span>| <span class="glyphicon glyphicon-trash" aria-hidden="true" ng-click="del(device.ID)"></span></td>
                 </tr>
