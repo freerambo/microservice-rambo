@@ -83,13 +83,13 @@ public class VariableHelper {
 	
 	public static Variable addNewVariable(int deviceId, Variable newVariable) {
 		VariableData variableData = Mapper.MapVariable(newVariable);
-		addNewVariableData(deviceId, variableData);
+		variableData = addNewVariableData(deviceId, variableData);
 		return Mapper.MapVariable(variableData);
 	}
 	
 	public static Variable updateVariable(Variable variable) {
 		VariableData variableData = Mapper.MapVariable(variable);
-		updateVariable(variableData);
+		variableData = updateVariable(variableData);
 		return Mapper.MapVariable(variableData);
 	}
 	

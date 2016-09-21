@@ -7,6 +7,7 @@ import com.erian.microgrid.api.MicrogridApi.dataModel.DeviceData;
 import com.erian.microgrid.api.MicrogridApi.dataModel.DeviceTypeData;
 import com.erian.microgrid.api.MicrogridApi.dataModel.UnitData;
 import com.erian.microgrid.api.MicrogridApi.dataModel.VariableData;
+import com.erian.microgrid.api.MicrogridApi.dataModel.VariableValueData;
 import com.erian.microgrid.api.MicrogridApi.model.Bus;
 import com.erian.microgrid.api.MicrogridApi.model.Command;
 import com.erian.microgrid.api.MicrogridApi.model.Communication;
@@ -14,6 +15,7 @@ import com.erian.microgrid.api.MicrogridApi.model.Device;
 import com.erian.microgrid.api.MicrogridApi.model.DeviceType;
 import com.erian.microgrid.api.MicrogridApi.model.Unit;
 import com.erian.microgrid.api.MicrogridApi.model.Variable;
+import com.erian.microgrid.api.MicrogridApi.model.VariableValue;
 
 public final class Mapper {
 
@@ -145,6 +147,22 @@ public final class Mapper {
 		commandData.setDeviceID(command.getDeviceID());
 		
 		return commandData;
+	}
+	
+	public static VariableValue MapVariableValue(VariableValueData variableValueData) {
+		VariableValue variableValue = new VariableValue();
+		variableValue.setVariableId(variableValueData.getVariableId());
+		variableValue.setTimestamp(variableValueData.getTimestamp());
+		variableValue.setValue(variableValueData.getValue());
+		return variableValue;
+	}
+	
+	public static VariableValueData MapVariableValue(VariableValue variableValue) {
+		VariableValueData variableValueData = new VariableValueData();
+		variableValueData.setVariableId(variableValue.getVariableId());
+		variableValueData.setTimestamp(variableValue.getTimestamp());
+		variableValueData.setValue(variableValue.getValue());
+		return variableValueData;
 	}
 	
 	public static Communication MapCommunication(CommunicationData data) {
