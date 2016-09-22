@@ -19,10 +19,14 @@ SELECT D.`id` as id,
     D.`bus_id` as busID,
     D.`is_programmable` as isProgrammable,
     D.`is_connected` as isConnected
+    -- C.id as readCommandId,
+    -- C.format_string as readCommand
 FROM `smes_microgrid`.`device` AS D
 LEFT JOIN device_type AS DT ON D.device_type_id  = DT.id
 LEFT JOIN device_class AS DC ON DT.device_class_id = DC.id
 LEFT JOIN microgrid AS M ON M.id= D.`microgrid_id`
+-- LEFT JOIN command as C ON C.device_id = D.id 
+ORDER BY D.id
 ;
 
 END

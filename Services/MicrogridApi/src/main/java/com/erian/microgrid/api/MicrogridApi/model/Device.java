@@ -22,11 +22,15 @@ public class Device {
 	private int IsProgrammable;
 	private int IsConnected;
 	
+	private int ReadCommandID;
+	private String ReadCommand;
+	
+	
 	public Device(){
 		
 	}
 	
-	public Device(int ID,int TypeID,String TypeName,int ClassID,String ClassName,String Name,String Description,int MicrogridID,String MicrogridName,String Vendor,String Model,String Location,String IPAdress,String PortNumber,int BusID,int IsProgrammable,int IsConnected){
+	public Device(int ID,int TypeID,String TypeName,int ClassID,String ClassName,String Name,String Description,int MicrogridID,String MicrogridName,String Vendor,String Model,String Location,String IPAdress,String PortNumber,int BusID,int IsProgrammable,int IsConnected, String ReadCommand){
 		this.ID=ID;
 		this.TypeID=TypeID;
 		this.TypeName=TypeName;
@@ -44,10 +48,11 @@ public class Device {
 		this.BusID=BusID;
 		this.IsProgrammable=IsProgrammable;
 		this.IsConnected=IsConnected;
+		this.ReadCommand = ReadCommand;
 		
 	}
 	
-	
+
 	public int getID() {
 		return ID;
 	}
@@ -151,7 +156,20 @@ public class Device {
 		IsConnected = isConnected;
 	}
 	
+	public String getReadCommand() {
+		return ReadCommand;
+	}
+
+	public void setReadCommand(String readCommand) {
+		ReadCommand = readCommand;
+	}
 	
-	
-	
+	public int getReadCommandID() {
+		return ReadCommandID;
+	}
+
+	public void setReadCommandID(int readCommandID) {
+		ReadCommandID = readCommandID;
+	}
+
 }

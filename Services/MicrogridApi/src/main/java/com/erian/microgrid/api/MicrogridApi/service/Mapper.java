@@ -40,6 +40,8 @@ public final class Mapper {
 		device.setBusID(deviceData.getBusID());
 		device.setIsProgrammable(deviceData.getIsProgrammable());
 		device.setIsConnected(deviceData.getIsConnected());
+		device.setReadCommandID(deviceData.getReadCommandID());
+		device.setReadCommand(deviceData.getReadCommand());
 
 		return device;
 
@@ -64,6 +66,8 @@ public final class Mapper {
 		deviceData.setBusID(device.getBusID());
 		deviceData.setIsProgrammable(device.getIsProgrammable());
 		deviceData.setIsConnected(device.getIsConnected());
+		deviceData.setReadCommandID(device.getReadCommandID());
+		deviceData.setReadCommand(device.getReadCommand());
 
 		return deviceData;
 	}	

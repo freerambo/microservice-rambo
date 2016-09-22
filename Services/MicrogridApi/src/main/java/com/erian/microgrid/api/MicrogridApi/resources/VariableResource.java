@@ -59,10 +59,11 @@ public class VariableResource {
 		return VariableHelper.getVariable(variableId);
 	}
 	
+	/*
 	@GET
 	@Path("/{variableId}/read")
 	public Communication getVariableReadCommand(@PathParam("variableId") int variableId) {
 		return CommunicationHelper.getReadCommand(variableId);
 	}
-	
+	*/
 }
