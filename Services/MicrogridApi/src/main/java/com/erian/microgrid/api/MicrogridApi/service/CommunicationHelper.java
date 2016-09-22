@@ -50,7 +50,8 @@ public class CommunicationHelper {
 	}
 	
 	public static CommunicationData getReadCommandData(int variableId) {
-		CommunicationData res = null;
+		throw new UnsupportedOperationException("getReadCommandData not implemented");
+		/*CommunicationData res = null;
 		Connection c = null;
 		try {
 			c = DatabaseHelper.getConnection();
@@ -66,14 +67,14 @@ public class CommunicationHelper {
 		} finally {
 			DatabaseHelper.close(c);
 		}
-		return res;
+		return res;*/
 	}
 
 	protected static CommunicationData processResultRow(ResultSet rs) throws SQLException {
 		CommunicationData commData = new CommunicationData();
 		
-		commData.variableId = rs.getInt("variableId");
-		commData.variableName = rs.getString("variableName");
+		commData.variableIds = rs.getString("variableIds");
+		commData.variableNames = rs.getString("variableNames");
 		commData.commandFormatString = rs.getString("commandFormatString");
 		commData.IPAdress = rs.getString("IPAdress");
 		commData.portNumber = rs.getString("portNumber");;

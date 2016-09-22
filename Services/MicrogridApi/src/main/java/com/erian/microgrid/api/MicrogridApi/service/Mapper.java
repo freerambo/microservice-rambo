@@ -1,5 +1,7 @@
 package com.erian.microgrid.api.MicrogridApi.service;
 
+import java.util.Arrays;
+
 import com.erian.microgrid.api.MicrogridApi.dataModel.BusData;
 import com.erian.microgrid.api.MicrogridApi.dataModel.CommandData;
 import com.erian.microgrid.api.MicrogridApi.dataModel.CommunicationData;
@@ -167,13 +169,15 @@ public final class Mapper {
 	
 	public static Communication MapCommunication(CommunicationData data) {
 		Communication res = new Communication();
-		res.variableId = data.variableId;
-		res.variableName = data.variableName;
+		
 		res.commandFormatString = data.commandFormatString;
 		res.IPAdress = data.IPAdress;
 		res.portNumber = data.portNumber;
 		res.deviceId = data.deviceId;
 		res.commandId = data.commandId;
+		
+		res.variableIds = Arrays.asList(data.variableIds.split("\\s*,\\s*")); 
+		res.variableNames = Arrays.asList(data.variableNames.split("\\s*,\\s*")); 
 		return res;
 
 	}
