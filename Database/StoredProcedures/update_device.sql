@@ -11,7 +11,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `update_device`(  IN id INT,
 									IN port_number VARCHAR(10),
 									IN bus_id TINYINT,
 									IN is_programmable BIT,
-									IN is_connected BIT)
+									IN is_connected BIT,
+									IN readCommand VARCHAR(255))
 BEGIN
 
 -- General error handler for any SQL exception
@@ -53,6 +54,25 @@ START TRANSACTION;
 		CALL smes_microgrid.log_info('smes_microgrid.update_device', 'Device Updated, New values are: TODO');
 	-- End of Logging
 
+	-- Log the start of excecution
+		CALL smes_microgrid.log_info('smes_microgrid.update_device', CONCAT('Start Adding new COMMAND to Device with DeviceID =', id, ' Values Are: Command= ', readCommand));
+	-- End of Logging
+
+	DELETE FROM  `smes_microgrid`.`command` WHERE device_id = id; -- remove previous command if exists before adding a new one
+	INSERT INTO `smes_microgrid`.`command`( `name`,
+											`description`,
+											`format_string`,
+											`device_id`)
+	VALUES 								(   CONCAT('Read all for ', name),
+											CONCAT('Command that reads all the variables of device ', name, 'in one communication request'),
+                                            readCommand,
+                                            id
+										);	
+	
+   -- Log the end of excecution
+		CALL smes_microgrid.log_info('smes_microgrid.add_command', CONCAT('Command Added to Device ID=', id, ' New command ID is: ', LAST_INSERT_ID()));
+	-- End of Logging
+    
 	COMMIT;  
 
     SELECT D.`id` as id,
@@ -72,11 +92,14 @@ START TRANSACTION;
     D.`port_number` as portNumber,
     D.`bus_id` as busID,
     D.`is_programmable` as isProgrammable,
-    D.`is_connected` as isConnected
+    D.`is_connected` as isConnected,
+    C.format_string as readCommand,
+    C.id as readCommandId
 FROM `smes_microgrid`.`device` AS D
 LEFT JOIN device_type AS DT ON D.device_type_id  = DT.id
 LEFT JOIN device_class AS DC ON DT.device_class_id = DC.id
 LEFT JOIN microgrid AS M ON M.id= D.`microgrid_id`
+LEFT JOIN command as C ON C.device_id = D.id
 WHERE D.id=id
 ;
 

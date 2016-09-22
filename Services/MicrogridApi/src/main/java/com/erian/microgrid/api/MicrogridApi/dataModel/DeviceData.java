@@ -18,6 +18,8 @@ public class DeviceData {
 	private int BusID;
 	private int IsProgrammable;
 	private int IsConnected;
+	private int ReadCommandID;
+	private String ReadCommand;
 	
 	public DeviceData(){
 		
@@ -147,8 +149,22 @@ public class DeviceData {
 	public void setIsConnected(int isConnected) {
 		IsConnected = isConnected;
 	}
-	
-	
+
+	public int getReadCommandID() {
+		return ReadCommandID;
+	}
+
+	public void setReadCommandID(int readCommandID) {
+		ReadCommandID = readCommandID;
+	}
+
+	public String getReadCommand() {
+		return ReadCommand;
+	}
+
+	public void setReadCommand(String readCommand) {
+		ReadCommand = readCommand;
+	}
 	
 	
 }
