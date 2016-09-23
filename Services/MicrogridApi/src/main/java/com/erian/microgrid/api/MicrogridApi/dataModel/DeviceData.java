@@ -16,6 +16,9 @@ public class DeviceData {
 	private String IPAdress;
 	private String PortNumber;
 	private int BusID;
+	private String BusName;
+	
+
 	private int IsProgrammable;
 	private int IsConnected;
 	private int ReadCommandID;
@@ -25,7 +28,11 @@ public class DeviceData {
 		
 	}
 	
-	public DeviceData(int ID,int TypeID,String TypeName,int ClassID,String ClassName,String Name,String Description,int MicrogridID,String MicrogridName,String Vendor,String Model,String Location,String IPAdress,String PortNumber,int BusID,int IsProgrammable,int IsConnected){
+	public DeviceData(int ID,int TypeID,String TypeName,int ClassID,String ClassName,
+			String Name,String Description,int MicrogridID,String MicrogridName,String Vendor,String Model,
+			String Location,String IPAdress,String PortNumber,
+			int BusID, String BusName, int IsProgrammable,int IsConnected)
+	{
 		this.ID=ID;
 		this.TypeID=TypeID;
 		this.TypeName=TypeName;
@@ -41,6 +48,7 @@ public class DeviceData {
 		this.IPAdress=IPAdress;
 		this.PortNumber=PortNumber;
 		this.BusID=BusID;
+		this.BusName = BusName;
 		this.IsProgrammable=IsProgrammable;
 		this.IsConnected=IsConnected;
 		
@@ -137,9 +145,19 @@ public class DeviceData {
 	public void setBusID(int busID) {
 		BusID = busID;
 	}
+	
+	public String getBusName() {
+		return BusName;
+	}
+
+	public void setBusName(String busName) {
+		BusName = busName;
+	}
+	
 	public int getIsProgrammable() {
 		return IsProgrammable;
 	}
+	
 	public void setIsProgrammable(int isProgrammable) {
 		IsProgrammable = isProgrammable;
 	}

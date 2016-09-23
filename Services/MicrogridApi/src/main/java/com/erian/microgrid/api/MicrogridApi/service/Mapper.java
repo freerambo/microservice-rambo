@@ -38,6 +38,7 @@ public final class Mapper {
 		device.setIPAdress(deviceData.getIPAdress());
 		device.setPortNumber(deviceData.getPortNumber());
 		device.setBusID(deviceData.getBusID());
+		device.setBusName(deviceData.getBusName());
 		device.setIsProgrammable(deviceData.getIsProgrammable());
 		device.setIsConnected(deviceData.getIsConnected());
 		device.setReadCommandID(deviceData.getReadCommandID());
@@ -64,6 +65,7 @@ public final class Mapper {
 		deviceData.setIPAdress(device.getIPAdress());
 		deviceData.setPortNumber(device.getPortNumber());
 		deviceData.setBusID(device.getBusID());
+		deviceData.setBusName(device.getBusName());
 		deviceData.setIsProgrammable(device.getIsProgrammable());
 		deviceData.setIsConnected(device.getIsConnected());
 		deviceData.setReadCommandID(device.getReadCommandID());

@@ -177,6 +177,7 @@ public class DeviceHelper
     	deviceData.setIPAdress(rs.getString("IPAdress"));
     	deviceData.setPortNumber(rs.getString("portNumber"));
     	deviceData.setBusID(rs.getInt("busID"));
+    	deviceData.setBusName(rs.getString("busName"));
     	deviceData.setIsProgrammable(rs.getInt("isProgrammable"));
     	deviceData.setIsConnected(rs.getInt("isConnected"));
     	deviceData.setReadCommand(rs.getString("readCommand"));

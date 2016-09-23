@@ -101,6 +101,7 @@ START TRANSACTION;
     D.`ip_adress` as IPAdress,
     D.`port_number` as portNumber,
     D.`bus_id` as busID,
+    B.name as busName,
     D.`is_programmable` as isProgrammable,
     D.`is_connected` as isConnected,
     C.format_string as readCommand,
@@ -110,6 +111,7 @@ LEFT JOIN device_type AS DT ON D.device_type_id  = DT.id
 LEFT JOIN device_class AS DC ON DT.device_class_id = DC.id
 LEFT JOIN microgrid AS M ON M.id= D.`microgrid_id`
 LEFT JOIN command as C ON C.device_id = D.id
+LEFT JOIN bus as B on B.id = D.bus_id
 WHERE D.id=@newDeviceID
 ;
 
