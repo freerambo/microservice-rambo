@@ -15,7 +15,7 @@ public class DatabaseHelper
     	
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			url = "jdbc:mysql://localhost:3306/smes_microgrid?user=root&password=12345";
+			url = "jdbc:mysql://172.21.76.125:3306/smes_microgrid?user=mysqluser&password=mysql@erian";
             
 		} catch (Exception e) {
 			e.printStackTrace();

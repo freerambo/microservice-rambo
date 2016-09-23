@@ -100,6 +100,7 @@ public class StaticDataHelper
 		res.setUnitID(rs.getInt("id"));
 		res.setUnitName(rs.getString("name"));
 		res.setUnitDescription(rs.getString("description"));
+		res.setUnitCode(rs.getString("code")); // add by Yuanbo 
 		return res;
 	}
 }

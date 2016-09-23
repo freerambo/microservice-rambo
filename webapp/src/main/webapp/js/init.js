@@ -53,12 +53,4 @@
 //        $httpProvider.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
     });
-<<<<<<< HEAD
-    
-    
-    
-    
-=======
->>>>>>> branch 'Sprint1' of git@ict.eri.ntu.edu.sg:SMES/SMES_WP2_Microgrid.git
-
 }());
