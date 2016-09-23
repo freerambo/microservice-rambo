@@ -15,3 +15,9 @@ b'MEAS:VOLT?;CURR?;POW?;FREQ?;:MEAS:POW:APP?;:MEAS:CURR:AMPL:MAX?;:MEAS:POW:PFAC
 AMETEK_bps75
 
 destinationPort=4001
+
+
+# id, code, name, description
+1, 	kWh, 		Power, 		power in kWh
+2, 	A, 		Energy, 	energy in A
+3, 	V, 		Voltage, v	olt
