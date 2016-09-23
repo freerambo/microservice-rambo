@@ -82,17 +82,17 @@
 
 		
 		<!--AspectJ -->
-		<dependency>
+	<!-- 	<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjweaver</artifactId>
-		</dependency>
+		</dependency> -->
 
 		<!-- Spring BOM -->
-		<dependency>
+<!-- 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
 		</dependency>
@@ -141,8 +141,8 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-websocket</artifactId>
 		</dependency>
-		<!-- Spring security -->
-		<dependency>
+ -->		<!-- Spring security -->
+	<!-- 	<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
 		</dependency>
@@ -154,9 +154,9 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
 		</dependency>
-
+ -->
 		<!-- Spring Data -->
-		<dependency>
+	<!-- 	<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-commons</artifactId>
 		</dependency>
@@ -165,7 +165,7 @@
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-jpa</artifactId>
 		</dependency>
-
+ -->
 		<!--java ee 7 facilities -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -179,7 +179,7 @@
 			<version>1.2</version>
 		</dependency>
 		<!-- javax.el -->
-		<dependency>
+	<!-- 	<dependency>
 			<groupId>javax.el</groupId>
 			<artifactId>javax.el-api</artifactId>
 			<version>3.0.1-b04</version>
@@ -189,10 +189,10 @@
 			<artifactId>javax.el</artifactId>
 			<version>3.0.1-b08</version>
 		</dependency>
-
+ -->
 
 		<!--java persistence API 2.1 -->
-		<dependency>
+	<!-- 	<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>
 			<artifactId>hibernate-jpa-2.1-api</artifactId>
 			<version>1.0.0.Final</version>
@@ -215,21 +215,21 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
+ -->
 		<!--bean validation -->
-		<dependency>
+	<!-- 	<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<!-- <version>5.2.4.Final</version> -->
+			<version>5.2.4.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
 			<version>1.1.0.Final</version>
 		</dependency>
-
+ -->
 		<!-- dependency injection jsr 330 -->
-		<dependency>
+	<!-- 	<dependency>
 			<groupId>javax.inject</groupId>
 			<artifactId>javax.inject</artifactId>
 			<version>1</version>
@@ -239,9 +239,9 @@
 			<artifactId>jsr250-api</artifactId>
 			<version>1.0</version>
 		</dependency>
-
+ -->
 		<!-- java mail -->
-		<dependency>
+	<!-- 	<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>javax.mail-api</artifactId>
 			<version>1.5.5</version>
@@ -251,9 +251,9 @@
 			<artifactId>activation</artifactId>
 			<version>1.1.1</version>
 		</dependency>
-
+ -->
 		<!--jackson -->
-		<dependency>
+	<!-- 	<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
 			<version>${jackson.version}</version>
@@ -270,9 +270,9 @@
 			<artifactId>jackson-annotations</artifactId>
 			<version>${jackson.version}</version>
 		</dependency>
-
+ -->
 		<!-- SpringFox Swagger UI -->
-		<dependency>
+	<!-- 	<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>
 			<version>${springfox.version}</version>
@@ -291,13 +291,13 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!--mdoelmapper -->
-		<dependency>
+ -->		<!--mdoelmapper -->
+	<!-- 	<dependency>
 			<groupId>org.modelmapper</groupId>
 			<artifactId>modelmapper</artifactId>
 			<version>${modelmapper.version}</version>
 		</dependency>
-
+ -->
 		<!--log4j -->
 		<dependency>
 			<groupId>log4j</groupId>
