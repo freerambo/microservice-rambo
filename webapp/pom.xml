@@ -167,7 +167,7 @@
 		</dependency>
  -->
 		<!--java ee 7 facilities -->
-		<dependency>
+<!-- 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.1.0</version>
@@ -177,7 +177,7 @@
 			<groupId>javax.transaction</groupId>
 			<artifactId>javax.transaction-api</artifactId>
 			<version>1.2</version>
-		</dependency>
+		</dependency> -->
 		<!-- javax.el -->
 	<!-- 	<dependency>
 			<groupId>javax.el</groupId>
@@ -299,7 +299,7 @@
 		</dependency>
  -->
 		<!--log4j -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>${log4j.version}</version>
@@ -352,7 +352,7 @@
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 			<version>4.5.2</version>
-		</dependency>
+		</dependency> -->
 
 		<!--webjars static resources -->
 		<dependency>
@@ -385,7 +385,7 @@
 		</dependency>
 
 		<!--test -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<scope>test</scope>
@@ -417,7 +417,7 @@
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-		</dependency>
+		</dependency> -->
 	</dependencies>
 	<build>
 		<finalName>${project.artifactId}</finalName>
@@ -490,35 +490,7 @@
 					<encoding>${project.build.sourceEncoding}</encoding>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.bsc.maven</groupId>
-				<artifactId>maven-processor-plugin</artifactId>
-				<version>2.0.5</version>
-				<executions>
-					<execution>
-						<id>process</id>
-						<goals>
-							<goal>process</goal>
-						</goals>
-						<phase>generate-sources</phase>
-						<configuration>
-							<processors>
-								<processor>org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor
-								</processor>
-							</processors>
-							<outputDirectory>${project.build.directory}/generated-sources/java/
-							</outputDirectory>
-						</configuration>
-					</execution>
-				</executions>
-				<dependencies>
-					<dependency>
-						<groupId>org.hibernate</groupId>
-						<artifactId>hibernate-jpamodelgen</artifactId>
-						<version>1.2.0.Final</version>
-					</dependency>
-				</dependencies>
-			</plugin>
+			
 			
 
 			<plugin>
