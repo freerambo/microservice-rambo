@@ -24,7 +24,13 @@ public class AccessResource {
 	
 	@GET
 	public List<Communication> getAllReadCommands() {
-		return CommunicationHelper.getAllReadCommands();
+		try {
+			return CommunicationHelper.getAllReadCommands();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

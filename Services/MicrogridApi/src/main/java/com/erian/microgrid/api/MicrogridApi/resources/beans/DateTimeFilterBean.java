@@ -21,7 +21,7 @@ public class DateTimeFilterBean {
 			ret = df.parse(dateStr);
 		} catch (ParseException e) {
 			e.printStackTrace();
-			//throw e;
+			throw e;
 		}
 		
 		return ret;

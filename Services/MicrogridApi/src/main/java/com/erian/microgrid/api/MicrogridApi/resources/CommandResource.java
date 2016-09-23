@@ -21,14 +21,28 @@ public class CommandResource {
 	
 	@GET
 	public List<Command> getAllCommands(@PathParam("deviceID") int deviceId) {
-		return CommandHelper.getAllCommands(deviceId);
+		try {
+			return CommandHelper.getAllCommands(deviceId);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+		
 	}
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Command addCommand(@PathParam("deviceId") int deviceId, Command command) {
-		return CommandHelper.addNewCommand(deviceId, command);
+		try {
+			return CommandHelper.addNewCommand(deviceId, command);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+		
 	}
 	
 	@PUT
@@ -36,8 +50,14 @@ public class CommandResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Command updateCommand(@PathParam("commandId") int commandId, Command command) {
-		command.setID(commandId);		
-		return CommandHelper.updateCommand(command);
+		try {
+			command.setID(commandId);		
+			return CommandHelper.updateCommand(command);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }
