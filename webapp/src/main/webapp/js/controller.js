@@ -157,11 +157,18 @@
                  $scope.variables = data;	                        
                 
             });
-        	$http.get(actionUrl+"/commands")
+/*        	$http.get(actionUrl+"/commands")
             .success(function (data) {
            	 
             	 console.log("Console commands " + data.id);
                  $scope.commands = data;	                        
+                
+            });*/
+        	
+        	$http.get(staticUrl+"/units")
+            .success(function (data) {
+           	 
+                 $scope.units = data;	                        
                 
             });
         	
@@ -176,10 +183,10 @@
 // save the variable
         
         $scope.saveVariable = function (id) {
-        	 $http.post(actionUrl + "variables", $scope.newVariable).success(function (data) {
-                 $location.path('/devices/'+id);
+        	$scope.newVariable.deviceID = id;
+        	 $http.post(actionUrl + "/variables", $scope.newVariable).success(function (data) {
         		 // push the new variables to the list
-//                 $scope.variables.push($scope.newVariable);
+                 $scope.variables.push(data);
              });
         	 
         };
