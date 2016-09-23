@@ -8,20 +8,25 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.erian.microgrid.api.MicrogridApi.model.VariableValue;
+import com.erian.microgrid.api.MicrogridApi.service.VariableValueHelper;
 
-@Path("/devices/{deviceID}/variables")
+@Path("/data")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class VariableValueResource {
 
 	/*
-	 *  POST: http://localhost:8080/MicrogridApi/devices/1/variables/1/value
+	 *  POST: http://localhost:8080/MicrogridApi/data
 	 *  JSON: {"variableId": 1, "timestamp": "2016-06-09 11:05:45.0", "value": 123}
 	 */
 	@POST
-	@Path("/{variableId}/value")
-	public VariableValue addVariableValue(@PathParam("variableId") int variableId, VariableValue varValue) {
-		varValue.setVariableId(variableId);
-		return varValue;
+	public VariableValue addVariableValue(VariableValue varValue) {
+		try {
+			return VariableValueHelper.addVariableValue(varValue);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

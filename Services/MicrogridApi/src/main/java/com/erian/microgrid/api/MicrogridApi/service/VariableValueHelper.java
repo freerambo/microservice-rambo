@@ -10,7 +10,7 @@ import com.erian.microgrid.api.MicrogridApi.model.VariableValue;
 
 public class VariableValueHelper {
 
-	public static VariableValue updateVariableValue(VariableValue varValue) {
+	public static VariableValue addVariableValue(VariableValue varValue) {
 		VariableValueData varValueData = Mapper.MapVariableValue(varValue);
 		varValueData = addVariableValue(varValueData);
 		return Mapper.MapVariableValue(varValueData);
@@ -28,19 +28,23 @@ public class VariableValueHelper {
 			ps.setString(2, varValueData.getTimestamp());
 			ps.setDouble(3, varValueData.getValue());
 			ResultSet rs = ps.executeQuery();
+			/* No need to read back because sql return null
             while (rs.next()) {
             	addedVarValueData = processVariableValueRow(rs);
             }
+            */
 		}
 		catch (Exception e) {
         	e.printStackTrace();
-        	throw new RuntimeException(e);
+        	//throw new RuntimeException(e);
+        	return null;
                
         } finally {
             DatabaseHelper.close(c);
         }
 		
-		return addedVarValueData;
+		return varValueData;
+		//return addedVarValueData;
 	}
 	
 	private static VariableValueData processVariableValueRow(ResultSet rs) throws SQLException {
