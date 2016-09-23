@@ -99,13 +99,12 @@
         </div>   
     </div>
     
-<!--     {"ID":22,"IPAdress":"172.21.76.125","busID":2,"classID":1,"className":"Load",
-    "description":"DC LOAD chroma_63211_dc_load","isConnected":1,"isProgrammable":1,
-    "location":"Lab at level 5","microgridID":1,"microgridName":"Lab Level 5 Microgrid",
-    "model":"chroma_63211",    "name":"chroma_63211_dc_load","portNumber":"3030","typeID":4,
-    "typeName":"DC Load","vendor":"chroma"}, -->
-
- 
+   <div class="form-group row">
+      <label for="command" class="col-sm-2 col-form-label">ReadCommand: </label>
+      <div class="col-sm-10">
+        <input type="text" ng-model="newDevice.readCommand" class="form-control" placeholder="please input the command string"></textarea>
+      </div>
+    </div>
 <!-- 
  
  ng-minlength="15"

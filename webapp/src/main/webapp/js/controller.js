@@ -149,6 +149,22 @@
                  $scope.device = data;	                        
                  
              });
+        	
+        	$http.get(actionUrl+"/variables")
+            .success(function (data) {
+           	 
+            	 console.log("Console variable " + data.id);
+                 $scope.variables = data;	                        
+                
+            });
+        	$http.get(actionUrl+"/commands")
+            .success(function (data) {
+           	 
+            	 console.log("Console commands " + data.id);
+                 $scope.commands = data;	                        
+                
+            });
+        	
          };
         load();
         $scope.update = function (id) {
@@ -157,7 +173,16 @@
         $scope.cancel = function () {
             $location.path('/devices');
         };
-
+// save the variable
+        
+        $scope.saveVariable = function (id) {
+        	 $http.post(actionUrl + "variables", $scope.newVariable).success(function (data) {
+                 $location.path('/devices/'+id);
+        		 // push the new variables to the list
+//                 $scope.variables.push($scope.newVariable);
+             });
+        	 
+        };
     });
 
 
