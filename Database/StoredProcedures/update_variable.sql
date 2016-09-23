@@ -43,6 +43,7 @@ SELECT V.`id` as id,
     V.`name` as name,
     V.`description` as description,
     V.`unit_id` as unitId,
+	U.code as unitCode,
     V.`updating_duration` as updatingDuration,
     V.`set_command_id` as setCommandID,
     V.`get_command_id` as getCommandID

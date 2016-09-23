@@ -112,6 +112,7 @@ public final class Mapper {
 		variable.setDisplayData(variableData.getDisplayData());
 		variable.setDisplayDiagram(variableData.getDisplayDiagram());
 		variable.setUnitID(variableData.getUnitID());
+		variable.setUnitCode(variableData.getUnitCode());
 		variable.setUpdatingDuration(variableData.getUpdatingDuration());
 		
 		return variable;

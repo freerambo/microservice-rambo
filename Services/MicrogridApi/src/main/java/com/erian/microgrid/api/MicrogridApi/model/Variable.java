@@ -10,6 +10,7 @@ public class Variable {
 	private Boolean DisplayData;
 	private Boolean DisplayDiagram;
 	private int UnitID;
+	private String UnitCode;
 	private int UpdatingDuration;
 	
 	public Variable() {
@@ -18,7 +19,8 @@ public class Variable {
 
 	public Variable(int id, int deviceId, String name, String description,
 			int getCommandId, int setCommandId,
-			Boolean displayData, Boolean displayDiagram, int unit_Id,
+			Boolean displayData, Boolean displayDiagram, 
+			int unitId, String unitCode,
 			int updatingDuration) {
 		super();
 		ID = id;
@@ -29,7 +31,8 @@ public class Variable {
 		SetCommandID = setCommandId;
 		DisplayData = displayData;
 		DisplayDiagram = displayDiagram;
-		UnitID = unit_Id;
+		UnitID = unitId;
+		UnitCode = unitCode;
 		UpdatingDuration = updatingDuration;
 	}
 
@@ -113,7 +116,12 @@ public class Variable {
 		UpdatingDuration = updatingDuration;
 	}
 
-	
+	public String getUnitCode() {
+		return UnitCode;
+	}
 
+	public void setUnitCode(String unitCode) {
+		UnitCode = unitCode;
+	}
 
 }

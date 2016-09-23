@@ -51,6 +51,7 @@ public class VariableHelper {
 		variableData.setGetCommandID(rs.getInt("getCommandId"));
 		variableData.setSetCommandID(rs.getInt("setCommandId"));
 		variableData.setUnitID(rs.getInt("unitId"));
+		variableData.setUnitCode(rs.getString("unitCode"));
 		variableData.setUpdatingDuration(rs.getInt("updatingDuration"));
 		return variableData;
 	}
