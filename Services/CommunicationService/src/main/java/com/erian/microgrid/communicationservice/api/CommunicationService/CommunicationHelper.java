@@ -18,17 +18,16 @@ public class CommunicationHelper {
 	}
 
 	public static JSONObject getConnection(String ip, String formattedCommand) throws IOException{
-
-		System.out.println("ip is" + " " + ip + "& command is " + " " +formattedCommand );
-		String feedback = createSocketConnection(ip,formattedCommand);
-		System.out.println("data received is:" + " "+ feedback);
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy h:mm:ss a");
 		String formattedDate = sdf.format(date);
 		System.out.println(formattedDate);
+		System.out.println("ip is" + " " + ip + "& command is " + " " +formattedCommand );
+		String feedback = createSocketConnection(ip,formattedCommand);
+		System.out.println("data received is:" + " "+ feedback);
 		JSONObject obj=new JSONObject();
-		JSONObject.toString("result",feedback);
-		JSONObject.toString("timestamp",formattedDate);
+		obj.put("result",feedback);
+		obj.put("timestamp",formattedDate);
 		System.out.println(obj);
 		return obj;
 		
