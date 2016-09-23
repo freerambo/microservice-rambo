@@ -24,14 +24,26 @@ public class DeviceResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Device> getDeviceDetails(){
-		return DeviceHelper.GetAllDevices();
+		try {
+			return DeviceHelper.GetAllDevices();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	@GET
 	@Path("/{deviceId}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Device getDevice(@PathParam("deviceId") int deviceId){
-		return DeviceHelper.GetDevice(deviceId);
+		try {
+			return DeviceHelper.GetDevice(deviceId);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	@POST
@@ -40,7 +52,13 @@ public class DeviceResource {
 	 // POST action + "devices/" is a recommended URI to "create new device" resource
 	// URI to test : http://localhost:8080/MicrogridApi/devices?{"ID"=2,"IPAdress":"127.34.5646.12","busID":2,"classID":2,"className":"Source","description":"test Update Load 2 top Load 2device","isConnected":1,"isProgrammable":1,"location":"somewhere 2","microgridID":1,"microgridName":"Lab Level 5 Microgrid","model":"Model S2","name":"Load 2","portNumber":"3030upd2","typeID":2,"typeName":"DC source","vendor":"Some Vendor"} 
 	public Device addDevice(Device newDevice){
-		return DeviceHelper.AddNewDevice(newDevice);
+		try {
+			return DeviceHelper.AddNewDevice(newDevice);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}	
 	
 	@PUT
@@ -49,7 +67,13 @@ public class DeviceResource {
 	 // POST action + "devices/" is a recommended URI to "create new device" resource
 	// URI to test : http://localhost:8080/MicrogridApi/devices?{"ID"=2,"IPAdress":"127.34.5646.12","busID":2,"classID":2,"className":"Source","description":"test Update Load 2 top Load 2device","isConnected":1,"isProgrammable":1,"location":"somewhere 2","microgridID":1,"microgridName":"Lab Level 5 Microgrid","model":"Model S2","name":"Load 2","portNumber":"3030upd2","typeID":2,"typeName":"DC source","vendor":"Some Vendor"} 
 	public Device updateDevice(Device updDevice){
-		return DeviceHelper.UpdateDevice(updDevice);
+		try {
+			return DeviceHelper.UpdateDevice(updDevice);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}	
 	
 	/*

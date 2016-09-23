@@ -29,35 +29,42 @@ public class DeviceValuesResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getDeviceData(@PathParam("deviceID") int deviceId, @BeanParam DateTimeFilterBean filterBean) throws ParseException {
-		//System.out.println("startDate: " + filterBean.getStartDate() + " endDate: " + filterBean.getEndDate());
-		JSONArray deviceValuesDataList = new JSONArray();
-		List<DeviceValuesData> list = null;
-		String strStartDate = filterBean.getStartDateString();
-		String strEndDate = filterBean.getEndDateString();
-		if(strStartDate != null || strEndDate != null) {
-			list = DeviceValuesHelper.getDeviceValuesWithDatesString(deviceId, strStartDate, strEndDate);
-		}
-		else
-			list = DeviceValuesHelper.getDeviceValues(deviceId);
-		
-		for (DeviceValuesData devValues : list) {
-			Map<String,String> map = devValues.getDict();
-			JSONObject jsonObj = new JSONObject();
-			for(Map.Entry<String, String> entry : map.entrySet()) {
-				String key = entry.getKey();
-				String value = entry.getValue();
-				try {
-					jsonObj.put(key, value);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+		try {
+			//System.out.println("startDate: " + filterBean.getStartDate() + " endDate: " + filterBean.getEndDate());
+			JSONArray deviceValuesDataList = new JSONArray();
+			List<DeviceValuesData> list = null;
+			String strStartDate = filterBean.getStartDateString();
+			String strEndDate = filterBean.getEndDateString();
+			if(strStartDate != null || strEndDate != null) {
+				list = DeviceValuesHelper.getDeviceValuesWithDatesString(deviceId, strStartDate, strEndDate);
 			}
-			deviceValuesDataList.add(jsonObj);
+			else
+				list = DeviceValuesHelper.getDeviceValues(deviceId);
+			
+			for (DeviceValuesData devValues : list) {
+				Map<String,String> map = devValues.getDict();
+				JSONObject jsonObj = new JSONObject();
+				for(Map.Entry<String, String> entry : map.entrySet()) {
+					String key = entry.getKey();
+					String value = entry.getValue();
+					try {
+						jsonObj.put(key, value);
+					} catch (Exception e) {
+						e.printStackTrace();
+						continue;
+					}
+				}
+				deviceValuesDataList.add(jsonObj);
+			}
+	
+			return Response.status(Response.Status.OK)
+					.entity(deviceValuesDataList.toString())
+					.build();
 		}
-
-		return Response.status(Response.Status.OK)
-				.entity(deviceValuesDataList.toString())
-				.build();
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 
 	}
 

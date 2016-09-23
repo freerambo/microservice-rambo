@@ -25,15 +25,26 @@ public class VariableResource {
 	
 	@GET
 	public List<Variable> getAllVariables(@PathParam("deviceID") int deviceId) {
-
-		return VariableHelper.getAllVariables(deviceId);
+		try {
+			return VariableHelper.getAllVariables(deviceId);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Variable addVariable(@PathParam("deviceId") int deviceId, Variable variable) {
-		return VariableHelper.addNewVariable(deviceId, variable);
+		try {
+			return VariableHelper.addNewVariable(deviceId, variable);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	@PUT
@@ -41,27 +52,50 @@ public class VariableResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Variable updateVariable(@PathParam("variableId") int variableId, Variable variable) {
-		variable.setID(variableId);		
-		return VariableHelper.updateVariable(variable);
+		try {
+			variable.setID(variableId);		
+			return VariableHelper.updateVariable(variable);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	@DELETE
 	@Path("/{variableId}")
 	public void deleteVariable(@PathParam("deviceId") int deviceId, @PathParam("variableId") int variableId) {
-		VariableHelper.removeVariable(deviceId);
+		try {
+			VariableHelper.removeVariable(deviceId);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@GET
 	@Path("/{variableId}")
 	public Variable getVariable(@PathParam("variableId") int variableId) {
-		return VariableHelper.getVariable(variableId);
+		try {
+			return VariableHelper.getVariable(variableId);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	/*
 	@GET
 	@Path("/{variableId}/read")
 	public Communication getVariableReadCommand(@PathParam("variableId") int variableId) {
-		return CommunicationHelper.getReadCommand(variableId);
+		try {
+			return CommunicationHelper.getReadCommand(variableId);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	*/
 }

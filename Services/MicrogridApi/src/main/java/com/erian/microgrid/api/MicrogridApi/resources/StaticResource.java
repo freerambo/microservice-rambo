@@ -19,7 +19,13 @@ public class StaticResource {
 	@GET	
 	@Path("/deviceTypes")
 	public List<DeviceType> getDeviceTypes(){
-		return StaticDataHelper.GetDeviceTypes();
+		try {
+			return StaticDataHelper.GetDeviceTypes();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	@GET
@@ -38,7 +44,13 @@ public class StaticResource {
 	@GET	
 	@Path("/units")
 	public List<Unit> getUnits(){
-		return StaticDataHelper.GetUnits();
+		try {
+			return StaticDataHelper.GetUnits();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
 
