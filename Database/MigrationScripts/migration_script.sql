@@ -1,8 +1,10 @@
+CREATE DATABASE  IF NOT EXISTS `smes_microgrid` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `smes_microgrid`;
 -- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
 --
--- Host: localhost    Database: smes_microgrid
+-- Host: 172.21.76.125    Database: smes_microgrid
 -- ------------------------------------------------------
--- Server version	5.7.13-log
+-- Server version	5.7.12-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -38,6 +40,410 @@ LOCK TABLES `bus` WRITE;
 /*!40000 ALTER TABLE `bus` DISABLE KEYS */;
 INSERT INTO `bus` VALUES (1,'AC Bus 1','desc1'),(2,'DC Bus 1','desc2');
 /*!40000 ALTER TABLE `bus` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `command`
+--
+
+DROP TABLE IF EXISTS `command`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `command` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `format_string` varchar(255) DEFAULT NULL,
+  `device_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_device_command_idx` (`device_id`),
+  CONSTRAINT `fk_device_command` FOREIGN KEY (`device_id`) REFERENCES `device` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `command`
+--
+
+LOCK TABLES `command` WRITE;
+/*!40000 ALTER TABLE `command` DISABLE KEYS */;
+INSERT INTO `command` VALUES (15,'Read all for DC Load Chroma 63211','Command that reads all the variables of device DC Load Chroma 63211in one communication request','MEAS:VOLT?;CURR?;POW?;RES?;:LOAD?;:MODE?\\n',26),(16,'Read all for DC Source Magna','Command that reads all the variables of device DC Source Magnain one communication request','MEAS:VOLT?;CURR?;VOLT:PROT?;CURR:PROT?;VOLT?;CURR?;OUTP?\\n',27);
+/*!40000 ALTER TABLE `command` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `command_device_variable`
+--
+
+DROP TABLE IF EXISTS `command_device_variable`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `command_device_variable` (
+  `command_id` int(11) NOT NULL,
+  `variable_id` int(11) NOT NULL,
+  `parameter_type_id` tinyint(4) NOT NULL,
+  PRIMARY KEY (`command_id`,`variable_id`,`parameter_type_id`),
+  KEY `fk_command_param_type_idx` (`parameter_type_id`),
+  KEY `fk_command_variable_idx` (`variable_id`),
+  CONSTRAINT `fk_command_param_type` FOREIGN KEY (`parameter_type_id`) REFERENCES `parameter_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_command_variable` FOREIGN KEY (`variable_id`) REFERENCES `variable` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_command_variable_cmd` FOREIGN KEY (`command_id`) REFERENCES `command` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `command_device_variable`
+--
+
+LOCK TABLES `command_device_variable` WRITE;
+/*!40000 ALTER TABLE `command_device_variable` DISABLE KEYS */;
+/*!40000 ALTER TABLE `command_device_variable` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `device`
+--
+
+DROP TABLE IF EXISTS `device`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `device` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `device_type_id` int(11) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `microgrid_id` tinyint(4) DEFAULT NULL,
+  `scl_file(ICD)` varchar(255) DEFAULT NULL COMMENT 'This is SCL file',
+  `vendor` varchar(100) DEFAULT NULL,
+  `model` varchar(100) DEFAULT NULL,
+  `location` varchar(100) DEFAULT NULL,
+  `ip_adress` varchar(255) DEFAULT NULL,
+  `port_number` varchar(10) DEFAULT NULL,
+  `bus_id` tinyint(4) DEFAULT NULL,
+  `is_programmable` bit(1) DEFAULT NULL,
+  `is_connected` bit(1) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_device_microgrid_1` (`microgrid_id`),
+  KEY `fk_device_device_type_1` (`device_type_id`),
+  KEY `fk_device_bus_idx` (`bus_id`),
+  CONSTRAINT `fk_device_bus` FOREIGN KEY (`bus_id`) REFERENCES `bus` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_device_device_type_1` FOREIGN KEY (`device_type_id`) REFERENCES `device_type` (`id`),
+  CONSTRAINT `fk_device_microgrid_1` FOREIGN KEY (`microgrid_id`) REFERENCES `microgrid` (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `device`
+--
+
+LOCK TABLES `device` WRITE;
+/*!40000 ALTER TABLE `device` DISABLE KEYS */;
+INSERT INTO `device` VALUES (26,4,'DC Load Chroma 63211','DC Load Chroma 63211 at the LVL 5 Lab',1,NULL,'Chroma','63211','Clean Tech 1, Lvl 5, ERIAN Lab','192.168.127.121','4001',2,'',''),(27,2,'DC Source Magna','DC Source Magna Power at the LVL 5 Lab',1,NULL,'Magna','Magna Power X','Clean Tech 1, Lvl 5, ERIAN Lab','192.168.127.105','4001',2,'',''),(28,4,'DC Load Chroma 63211','DC Load Chroma 63211 at the LVL 5 Lab',1,NULL,'Chroma','63211','Clean Tech 1, Lvl 5, ERIAN Lab','192.168.127.121','4001',2,'','');
+/*!40000 ALTER TABLE `device` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `device_class`
+--
+
+DROP TABLE IF EXISTS `device_class`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `device_class` (
+  `ID` int(11) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `device_class`
+--
+
+LOCK TABLES `device_class` WRITE;
+/*!40000 ALTER TABLE `device_class` DISABLE KEYS */;
+INSERT INTO `device_class` VALUES (1,'Load','any load'),(2,'Source','any converter'),(3,'Storage','Battery etc.'),(4,'Converter','any converter');
+/*!40000 ALTER TABLE `device_class` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `device_type`
+--
+
+DROP TABLE IF EXISTS `device_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `device_type` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `device_class_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_device_type_device_class_1` (`device_class_id`),
+  CONSTRAINT `fk_device_type_device_class_1` FOREIGN KEY (`device_class_id`) REFERENCES `device_class` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `device_type`
+--
+
+LOCK TABLES `device_type` WRITE;
+/*!40000 ALTER TABLE `device_type` DISABLE KEYS */;
+INSERT INTO `device_type` VALUES (1,'AC Source','ac source desc',2),(2,'DC source',NULL,2),(3,'AC Load',NULL,1),(4,'DC Load',NULL,1),(5,'PV battery',NULL,3),(6,'Lion battery',NULL,3),(7,'Some battery',NULL,3),(8,'DC/DC converter',NULL,4),(9,'AC/AC COnverter',NULL,4),(10,'BIC Converter',NULL,4);
+/*!40000 ALTER TABLE `device_type` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `device_variable`
+--
+
+DROP TABLE IF EXISTS `device_variable`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `device_variable` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `device_id` int(11) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `unit_id` int(11) DEFAULT NULL,
+  `updating_duration` int(255) DEFAULT NULL,
+  `set_command_id` int(11) DEFAULT NULL,
+  `get_command_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_device_variable_variable` (`unit_id`) USING BTREE,
+  KEY `fk_device_variable_device_idx` (`device_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `device_variable`
+--
+
+LOCK TABLES `device_variable` WRITE;
+/*!40000 ALTER TABLE `device_variable` DISABLE KEYS */;
+/*!40000 ALTER TABLE `device_variable` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `log`
+--
+
+DROP TABLE IF EXISTS `log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `log` (
+  `msg_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `level` char(7) NOT NULL DEFAULT 'INFO',
+  `code` smallint(6) DEFAULT NULL,
+  `sqlstate` char(10) DEFAULT NULL,
+  `message` varchar(250) DEFAULT NULL,
+  `process_id` int(11) DEFAULT NULL,
+  `procedure` varchar(50) DEFAULT NULL,
+  `user` varchar(45) DEFAULT NULL,
+  KEY `index_timestamp` (`process_id`,`msg_timestamp`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `log`
+--
+
+LOCK TABLES `log` WRITE;
+/*!40000 ALTER TABLE `log` DISABLE KEYS */;
+INSERT INTO `log` VALUES ('2016-09-22 14:33:41','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',822,'smes_microgrid.add_device','root@localhost'),('2016-09-22 14:33:42','INFO',NULL,'00111','Device Added, New device ID is: 26',822,'smes_microgrid.add_device','root@localhost'),('2016-09-22 14:33:42','ERROR',NULL,NULL,NULL,822,'smes_microgrid.add_device','root@localhost'),('2016-09-22 14:33:49','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',823,'smes_microgrid.add_device','root@localhost'),('2016-09-22 14:33:49','INFO',NULL,'00111','Device Added, New device ID is: 27',823,'smes_microgrid.add_device','root@localhost'),('2016-09-22 14:33:49','ERROR',NULL,NULL,NULL,823,'smes_microgrid.add_device','root@localhost'),('2016-09-22 14:34:09','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',824,'smes_microgrid.add_device','root@localhost'),('2016-09-22 14:34:09','INFO',NULL,'00111','Device Added, New device ID is: 28',824,'smes_microgrid.add_device','root@localhost'),('2016-09-22 14:34:09','ERROR',NULL,NULL,NULL,824,'smes_microgrid.add_device','root@localhost'),('2016-09-22 14:36:09','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',827,'smes_microgrid.add_device','root@localhost'),('2016-09-22 14:36:09','INFO',NULL,'00111','Device Added, New device ID is: 29',827,'smes_microgrid.add_device','root@localhost'),('2016-09-22 14:36:09','ERROR',NULL,NULL,NULL,827,'smes_microgrid.add_device','root@localhost'),('2016-09-22 14:42:00','INFO',NULL,'00111','Start Adding new device, Values Are:  TODO',829,'smes_microgrid.add_device','root@localhost'),('2016-09-22 14:42:00','INFO',NULL,'00111','Device Added, New device ID is: 30',829,'smes_microgrid.add_device','root@localhost'),('2016-09-22 14:42:00','INFO',NULL,'00111',NULL,829,'smes_microgrid.add_device','root@localhost'),('2016-09-22 14:42:00','INFO',NULL,'00111','Command Added to Device ID=30 New command ID is: 12',829,'smes_microgrid.add_command','root@localhost'),('2016-09-22 14:48:29','INFO',NULL,'00111','Start device update ,ID= 27',847,'smes_microgrid.update_device','root@localhost'),('2016-09-22 14:48:29','INFO',NULL,'00111','Device Updated, New values are: TODO',847,'smes_microgrid.update_device','root@localhost'),('2016-09-22 14:48:29','INFO',NULL,'00111',NULL,847,'smes_microgrid.update_device','root@localhost'),('2016-09-22 14:48:30','INFO',NULL,'00111','Command Added to Device ID=27 New command ID is: 13',847,'smes_microgrid.add_command','root@localhost'),('2016-09-23 01:45:08','INFO',NULL,'00111','Start device update ,ID= 27',897,'smes_microgrid.update_device','root@localhost'),('2016-09-23 01:45:09','INFO',NULL,'00111','Device Updated, New values are: TODO',897,'smes_microgrid.update_device','root@localhost'),('2016-09-23 01:45:09','INFO',NULL,'00111','Start Adding new COMMAND to Device with DeviceID =27 Values Are: Command= Tes command',897,'smes_microgrid.update_device','root@localhost'),('2016-09-23 01:45:09','INFO',NULL,'00111','Command Added to Device ID=27 New command ID is: 14',897,'smes_microgrid.add_command','root@localhost'),('2016-09-23 01:49:07','INFO',NULL,'00111','Start device update ,ID= 26',912,'smes_microgrid.update_device','root@localhost'),('2016-09-23 01:49:07','INFO',NULL,'00111','Device Updated, New values are: TODO',912,'smes_microgrid.update_device','root@localhost'),('2016-09-23 01:49:07','INFO',NULL,'00111','Start Adding new COMMAND to Device with DeviceID =26 Values Are: Command= MEAS:VOLT?;CURR?;POW?;RES?;:LOAD?;:MODE?\\n',912,'smes_microgrid.update_device','root@localhost'),('2016-09-23 01:49:07','INFO',NULL,'00111','Command Added to Device ID=26 New command ID is: 15',912,'smes_microgrid.add_command','root@localhost'),('2016-09-23 01:54:50','INFO',NULL,'00111','Start device update ,ID= 27',929,'smes_microgrid.update_device','root@localhost'),('2016-09-23 01:54:50','INFO',NULL,'00111','Device Updated, New values are: TODO',929,'smes_microgrid.update_device','root@localhost'),('2016-09-23 01:54:50','INFO',NULL,'00111','Start Adding new COMMAND to Device with DeviceID =27 Values Are: Command= MEAS:VOLT?;CURR?;VOLT:PROT?;CURR:PROT?;VOLT?;CURR?;OUTP?\\n',929,'smes_microgrid.update_device','root@localhost'),('2016-09-23 01:54:51','INFO',NULL,'00111','Command Added to Device ID=27 New command ID is: 16',929,'smes_microgrid.add_command','root@localhost'),('2016-09-23 02:17:08','ERROR',NULL,NULL,NULL,944,'smes_microgrid.get_device_data','root@localhost'),('2016-09-23 02:17:17','ERROR',NULL,NULL,NULL,945,'smes_microgrid.get_device_data','root@localhost'),('2016-09-23 02:17:30','ERROR',NULL,NULL,NULL,946,'smes_microgrid.get_device_data','root@localhost'),('2016-09-23 03:24:21','ERROR',NULL,NULL,NULL,1005,'smes_microgrid.get_device_data','root@localhost'),('2016-09-23 04:39:00','INFO',NULL,'00111','Start Adding new VARIABLE to Device with DeviceID =15 Values Are:  TODO',859,'smes_microgrid.add_variable','root@localhost'),('2016-09-23 04:39:00','ERROR',NULL,NULL,NULL,859,'smes_microgrid.add_variable','root@localhost'),('2016-09-23 04:39:57','INFO',NULL,'00111','Start Adding new VARIABLE to Device with DeviceID =15 Values Are:  TODO',859,'smes_microgrid.add_variable','root@localhost'),('2016-09-23 04:39:57','ERROR',NULL,NULL,NULL,859,'smes_microgrid.add_variable','root@localhost'),('2016-09-23 04:40:33','INFO',NULL,'00111','Start Adding new VARIABLE to Device with DeviceID =26 Values Are:  TODO',859,'smes_microgrid.add_variable','root@localhost'),('2016-09-23 04:40:33','INFO',NULL,'00111','Variable Added to Device ID=26 New variable ID is: 18',859,'smes_microgrid.add_variable','root@localhost'),('2016-09-23 04:41:19','INFO',NULL,'00111','Start Adding new VARIABLE to Device with DeviceID =26 Values Are:  TODO',859,'smes_microgrid.add_variable','root@localhost'),('2016-09-23 04:41:19','INFO',NULL,'00111','Variable Added to Device ID=26 New variable ID is: 19',859,'smes_microgrid.add_variable','root@localhost'),('2016-09-23 04:41:20','INFO',NULL,'00111','Start Adding new VARIABLE to Device with DeviceID =26 Values Are:  TODO',859,'smes_microgrid.add_variable','root@localhost'),('2016-09-23 04:41:20','INFO',NULL,'00111','Variable Added to Device ID=26 New variable ID is: 20',859,'smes_microgrid.add_variable','root@localhost'),('2016-09-23 04:49:21','INFO',NULL,'00111','Start Adding new VARIABLE to Device with DeviceID =26 Values Are:  TODO',859,'smes_microgrid.add_variable','root@localhost'),('2016-09-23 04:49:21','INFO',NULL,'00111','Variable Added to Device ID=26 New variable ID is: 21',859,'smes_microgrid.add_variable','root@localhost'),('2016-09-23 04:49:21','INFO',NULL,'00111','Start Adding new VARIABLE to Device with DeviceID =26 Values Are:  TODO',859,'smes_microgrid.add_variable','root@localhost'),('2016-09-23 04:49:21','INFO',NULL,'00111','Variable Added to Device ID=26 New variable ID is: 22',859,'smes_microgrid.add_variable','root@localhost'),('2016-09-23 04:49:21','INFO',NULL,'00111','Start Adding new VARIABLE to Device with DeviceID =26 Values Are:  TODO',859,'smes_microgrid.add_variable','root@localhost'),('2016-09-23 04:49:21','INFO',NULL,'00111','Variable Added to Device ID=26 New variable ID is: 23',859,'smes_microgrid.add_variable','root@localhost'),('2016-09-23 05:18:24','ERROR',NULL,NULL,NULL,1095,'smes_microgrid.get_device_data','root@localhost'),('2016-09-23 05:28:40','ERROR',NULL,NULL,NULL,1102,'smes_microgrid.get_device_data','root@localhost'),('2016-09-23 05:31:46','ERROR',NULL,NULL,NULL,859,'smes_microgrid.get_device_data','root@localhost'),('2016-09-23 05:33:19','ERROR',NULL,NULL,NULL,1103,'smes_microgrid.get_device_data','root@localhost'),('2016-09-23 05:34:04','ERROR',NULL,NULL,NULL,1104,'smes_microgrid.get_device_data','root@localhost'),('2016-09-23 05:35:34','ERROR',NULL,NULL,NULL,1106,'smes_microgrid.get_device_data','root@localhost'),('2016-09-23 05:36:10','ERROR',NULL,NULL,NULL,1107,'smes_microgrid.get_device_data','root@localhost'),('2016-09-23 05:36:12','ERROR',NULL,NULL,NULL,1108,'smes_microgrid.get_device_data','root@localhost'),('2016-09-23 05:36:30','ERROR',NULL,NULL,NULL,1109,'smes_microgrid.get_device_data','root@localhost');
+/*!40000 ALTER TABLE `log` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `microgrid`
+--
+
+DROP TABLE IF EXISTS `microgrid`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `microgrid` (
+  `ID` tinyint(4) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `microgrid_type_id` int(11) DEFAULT NULL,
+  `scl_file(SSD)` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `fk_microgrid_microgrid_type_1` (`microgrid_type_id`),
+  CONSTRAINT `fk_microgrid_microgrid_type_1` FOREIGN KEY (`microgrid_type_id`) REFERENCES `microgrid_type` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `microgrid`
+--
+
+LOCK TABLES `microgrid` WRITE;
+/*!40000 ALTER TABLE `microgrid` DISABLE KEYS */;
+INSERT INTO `microgrid` VALUES (1,'Lab Level 5 Microgrid','THis is microgrid at level 5 lab, ERIAN, NTU',1,NULL);
+/*!40000 ALTER TABLE `microgrid` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `microgrid_type`
+--
+
+DROP TABLE IF EXISTS `microgrid_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `microgrid_type` (
+  `ID` int(11) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `microgrid_type`
+--
+
+LOCK TABLES `microgrid_type` WRITE;
+/*!40000 ALTER TABLE `microgrid_type` DISABLE KEYS */;
+INSERT INTO `microgrid_type` VALUES (1,'Microgrid type  1','TBD');
+/*!40000 ALTER TABLE `microgrid_type` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `parameter_type`
+--
+
+DROP TABLE IF EXISTS `parameter_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `parameter_type` (
+  `id` tinyint(4) NOT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `parameter_type`
+--
+
+LOCK TABLES `parameter_type` WRITE;
+/*!40000 ALTER TABLE `parameter_type` DISABLE KEYS */;
+INSERT INTO `parameter_type` VALUES (1,'Inpit Param','input to command'),(2,'Output','output of the command');
+/*!40000 ALTER TABLE `parameter_type` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `translation`
+--
+
+DROP TABLE IF EXISTS `translation`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `translation` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `code` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=107 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `translation`
+--
+
+LOCK TABLES `translation` WRITE;
+/*!40000 ALTER TABLE `translation` DISABLE KEYS */;
+INSERT INTO `translation` VALUES (1,'Acc','Accumulated '),(2,'Act ','Active, activated '),(3,'Algn',' Alignment '),(4,'Alt ','Altitude '),(5,'Amb ','Ambient '),(6,'Arr ','Array '),(7,'Aval ','Available '),(8,'Azi ','Azimuth '),(9,'Bas',' Base'),(10,'Bck','Backup'),(11,'Bnd ','Band'),(12,'Cal','Calorie, caloric '),(13,'Cct','Circuit '),(14,'Cmpl','Complete, completed '),(15,'Cmut','Commute, commutator '),(16,'Cnfg','Configuration'),(17,'Cntt','Contractual'),(18,'Con','Constant'),(19,'Conn','Connected, connections'),(20,'Conv','Conversion, converted'),(21,'Cool','Coolant'),(22,'Cost','Cost'),(23,'Csmp','Consumption, consumed'),(24,'Day','Day'),(25,'Db','Deadband'),(26,'Dc ','Direct current'),(27,'Dct','Direct'),(28,'DCV','DC voltage'),(29,'Deg','Degrees'),(30,'Dep','Dependent'),(31,'DER','Distributed energy resource'),(32,'Dff','Diffuse'),(33,'Drt','Derate'),(34,'Drv','Drive'),(35,'ECP','Electrical connection point'),(36,'Efc','Efficiency'),(37,'El','Elevation'),(38,'Em','Emission'),(39,'Emg','Emergency'),(40,'Encl','Enclosure'),(41,'Eng','Engine'),(42,'Est','Estimated'),(43,'ExIm','Export/import'),(44,'Exp','Export'),(45,'Forc','Forced'),(46,'Fuel','Fuel'),(47,'Fx','Fixed'),(48,'Gov','Governor'),(49,'Heat','Heat'),(50,'Hor','Horizontal'),(51,'Hr','Hour'),(52,'Hyd','Hydrogen (suggested in addition to H2)'),(53,'Id','Identity'),(54,'Imp','Import'),(55,'Ind','Independent'),(56,'Inert','Inertia'),(57,'lnf','Information'),(58,'Insol','Insolation'),(59,'Isld','Islanded'),(60,'Iso','Isolation'),(61,'Maint','Maintenance'),(62,'Man','Manual'),(63,'Mat','Material'),(64,'MduI','Module'),(65,'Mgt','Management'),(66,'Mrk','Market'),(67,'ObI','Obligation'),(68,'Off','Off'),(69,'On','On'),(70,'Ox','Oxidant'),(71,'Oxy','Oxygen'),(72,'Pan','Panel'),(73,'PCC','Point of common coupling'),(74,'Perm','Permission'),(75,'Pk','Peak'),(76,'Plnt','Plant, facility'),(77,'Proc','Process'),(78,'Pv','Photovoltaics'),(79,'Qud','Quad'),(80,'Rad','Radiation'),(81,'Ramp','Ramp'),(82,'Rdy','Ready'),(83,'Reg','Regulation'),(84,'Rng','Range'),(85,'Rsv','Reserve'),(86,'Schd','Schedule '),(87,'Self','Self'),(88,'Ser','Series, serial'),(89,'Slp','Sleep'),(90,'Snw','Snow'),(91,'Srt','Short'),(92,'Stab','Stabilizer'),(93,'Stp','Step'),(94,'Thrm','Thermal'),(95,'Tilt','Tilt'),(96,'Tm','Time'),(97,'Trk','Track'),(98,'Tur','Turbine'),(99,'Unld','Unload'),(100,'Util','Utility'),(101,'Vbr','Vibration'),(102,'Ver','Vertical'),(103,'Volm','Volume'),(104,'Wtr','Water (suggested in addition to H20 )'),(105,'Wup','Wake up'),(106,'Xsec','Cross-section');
+/*!40000 ALTER TABLE `translation` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `variable`
+--
+
+DROP TABLE IF EXISTS `variable`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `variable` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `device_id` int(11) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `unit_id` int(11) DEFAULT NULL,
+  `updating_duration` int(255) DEFAULT NULL,
+  `set_command_id` int(11) DEFAULT NULL,
+  `get_command_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_variable_variable` (`unit_id`) USING BTREE,
+  KEY `fk_variable_device_idx` (`device_id`) USING BTREE,
+  CONSTRAINT `fk_variable_device` FOREIGN KEY (`device_id`) REFERENCES `device` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_variable_unit` FOREIGN KEY (`unit_id`) REFERENCES `variable_unit` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `variable`
+--
+
+LOCK TABLES `variable` WRITE;
+/*!40000 ALTER TABLE `variable` DISABLE KEYS */;
+INSERT INTO `variable` VALUES (21,26,'Voltage','Voltage of the device',3,10,NULL,NULL),(22,26,'Current','Current of the device',2,10,NULL,NULL),(23,26,'Power','Power',1,10,NULL,NULL);
+/*!40000 ALTER TABLE `variable` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `variable_unit`
+--
+
+DROP TABLE IF EXISTS `variable_unit`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `variable_unit` (
+  `id` int(11) NOT NULL,
+  `code` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_variable_unit_device_variable_1` FOREIGN KEY (`id`) REFERENCES `device_variable` (`unit_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `variable_unit`
+--
+
+LOCK TABLES `variable_unit` WRITE;
+/*!40000 ALTER TABLE `variable_unit` DISABLE KEYS */;
+INSERT INTO `variable_unit` VALUES (1,'kWh','Power','power in kWh'),(2,'A','Energy','energy in A'),(3,'V','Voltage','volt');
+/*!40000 ALTER TABLE `variable_unit` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `variable_value`
+--
+
+DROP TABLE IF EXISTS `variable_value`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `variable_value` (
+  `timestamp` datetime NOT NULL,
+  `variable_id` int(11) NOT NULL,
+  `value` decimal(59,6) DEFAULT NULL,
+  KEY `fk_variable_value_variable_1` (`variable_id`) USING BTREE,
+  CONSTRAINT `fk_variable_value_variable_1` FOREIGN KEY (`variable_id`) REFERENCES `variable` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `variable_value`
+--
+
+LOCK TABLES `variable_value` WRITE;
+/*!40000 ALTER TABLE `variable_value` DISABLE KEYS */;
+/*!40000 ALTER TABLE `variable_value` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1282,4 +1688,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-09-23 13:55:39
+-- Dump completed on 2016-09-23 14:02:50
