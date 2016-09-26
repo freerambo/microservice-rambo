@@ -1,5 +1,5 @@
 <div class="page-header">
-    <h1>{{action}} Device</h1>
+    <h1>{{action}} Device : {{newDevice.name}}</h1>
 </div>
 
 <form role="form" ng-submit="save()" name="deviceForm" novalidate>
@@ -113,9 +113,9 @@
  
     
     <div class="form-group row">
-      <label for="comments" class="col-sm-2 col-form-label">Comments: </label>
+      <label for="comment" class="col-sm-2 col-form-label">comment: </label>
       <div class="col-sm-10">
-        <textarea   ng-model="newDevice.comments" class="form-control" id="description" rows="4" placeholder="please input comments at leasr 15...."></textarea>
+        <textarea   ng-model="newDevice.comment" class="form-control" id="description" rows="4" placeholder="please input comment at leasr 15...."></textarea>
       </div>
     </div>
     
