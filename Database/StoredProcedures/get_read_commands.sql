@@ -14,7 +14,7 @@ FROM device as D
 INNER JOIN command as C ON C.device_id = D.id
 INNER JOIN variable as V ON D.id = V.device_id
 GROUP BY C.id  -- or b y D.id assuming that 1 device has 1 command only
-ORDER BY D.id;
+ORDER BY D.id, V.id;
 
 /* Put it back later when we resolve device concurrency problem
 SELECT  V.id as variableId,
