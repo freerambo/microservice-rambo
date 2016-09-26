@@ -1,7 +1,7 @@
 (function () {
     var as = angular.module('exampleApp.controllers', []);
-    var baseUrl = "http://172.21.76.189/MicrogridApi/devices";
-    var staticUrl = "http://172.21.76.189/MicrogridApi/static";
+    var baseUrl = "http://172.21.76.125:8080/MicrogridApi/devices";
+    var staticUrl = "http://172.21.76.125:8080/MicrogridApi/static";
    
     as.controller('MainController', function ($q, $scope, $rootScope, $http, i18n, $location) {
         var load = function () {

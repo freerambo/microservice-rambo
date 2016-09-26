@@ -97,7 +97,7 @@ public final class Mapper {
 		unit.setUnitID(data.getUnitID());
 		unit.setUnitName(data.getUnitName());
 		unit.setUnitDescription(data.getUnitDescription());
-		
+		unit.setUnitCode(data.getUnitCode());
 		return unit;
 
 	}

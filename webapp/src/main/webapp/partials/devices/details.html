@@ -188,8 +188,8 @@
       <label for="unitID" class="col-sm-2 col-form-label">Unit</label>
       <div class="col-sm-10">
     	
-      		<select ng-model="newVariable.unitID"  ng-init="newVariable.unitID = ''"
-			        ng-options="item.unitID as item.unitName for item in units"  >
+      		<select ng-model="newVariable.unitID"  
+			        ng-options="item.unitID as item.unitCode for item in units"  >
 			    <option value="">Select an Unit</option>
 			</select>
 		      
