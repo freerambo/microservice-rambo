@@ -43,7 +43,7 @@ public final class Mapper {
 		device.setIsConnected(deviceData.getIsConnected());
 		device.setReadCommandID(deviceData.getReadCommandID());
 		device.setReadCommand(deviceData.getReadCommand());
-
+		device.setComment(deviceData.getComment());
 		return device;
 
 	}
