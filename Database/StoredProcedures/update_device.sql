@@ -12,6 +12,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `update_device`(  IN id INT,
 									IN bus_id TINYINT,
 									IN is_programmable BIT,
 									IN is_connected BIT,
+                                    IN comment VARCHAR(255),
 									IN readCommand VARCHAR(255))
 BEGIN
 
@@ -45,7 +46,8 @@ START TRANSACTION;
 	`port_number` = COALESCE( port_number, D.port_number),
 	`bus_id` = COALESCE(bus_id , D.bus_id),
 	`is_programmable` = COALESCE( is_programmable, D.is_programmable),
-	`is_connected` = COALESCE( is_connected, D.is_connected) 
+	`is_connected` = COALESCE( is_connected, D.is_connected),
+    `comment` = COALESCE(comment, D.comment)
 	WHERE D.id = id;
 
 
@@ -94,6 +96,7 @@ START TRANSACTION;
     B.name as busName,
     D.`is_programmable` as isProgrammable,
     D.`is_connected` as isConnected,
+    D.`comment` as comment,
     C.format_string as readCommand,
     C.id as readCommandId
 FROM `smes_microgrid`.`device` AS D

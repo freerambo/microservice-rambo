@@ -12,6 +12,7 @@ IN port_number VARCHAR(10),
 IN bus_id TINYINT,
 IN is_programmable BIT,
 IN is_connected BIT,
+IN comment VARCHAR(255),
 IN readCommand VARCHAR(255)
 )
 BEGIN
@@ -43,7 +44,8 @@ START TRANSACTION;
 						`port_number`,
 						`bus_id`,
 						`is_programmable`,
-						`is_connected`)
+						`is_connected`,
+                        `comment`)
 			VALUES
 						(device_type_id,
 						name,
@@ -56,7 +58,8 @@ START TRANSACTION;
 						port_number,
 						bus_id,
 						is_programmable,
-						is_connected
+						is_connected,
+                        comment
 						);
 		SET @newDeviceID = LAST_INSERT_ID();
         
@@ -104,6 +107,7 @@ START TRANSACTION;
     B.name as busName,
     D.`is_programmable` as isProgrammable,
     D.`is_connected` as isConnected,
+    D.`comment` as comment,
     C.format_string as readCommand,
     C.id as readCommandId
 FROM `smes_microgrid`.`device` AS D

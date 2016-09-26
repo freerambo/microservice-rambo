@@ -20,6 +20,7 @@ SELECT D.`id` as id,
     B.name as busName,
     D.`is_programmable` as isProgrammable,
     D.`is_connected` as isConnected,
+    D.`comment` as comment,
     C.id as readCommandId,
     C.format_string as readCommand
 FROM `smes_microgrid`.`device` AS D

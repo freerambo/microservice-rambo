@@ -20,6 +20,7 @@ SELECT D.`id` as id,
 	B.name as busName,
     D.`is_programmable` as isProgrammable,
     D.`is_connected` as isConnected,
+    D.`comment` as comment,
     0 as readCommandId,
     '' as readCommand
     -- C.id as readCommandId,
