@@ -87,7 +87,7 @@ public class DeviceHelper
        PreparedStatement ps=null;
        try {
            c = DatabaseHelper.getConnection();
-           String query = "{call add_device(?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+           String query = "{call add_device(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
            ps= c.prepareStatement(query);
            ps.setInt(1, newDevice.getTypeID());
            ps.setString(2, newDevice.getName());
@@ -101,7 +101,9 @@ public class DeviceHelper
            ps.setInt(10, newDevice.getBusID());
            ps.setInt(11, newDevice.getIsProgrammable());
            ps.setInt(12, newDevice.getIsConnected());
-           ps.setString(13, newDevice.getReadCommand());
+           ps.setString(13, newDevice.getComment());
+           ps.setString(14, newDevice.getReadCommand());
+
            ResultSet rs= ps.executeQuery();
            
            while (rs.next()) { // Read the inserted device row, the complete data row from DB
@@ -127,7 +129,7 @@ public class DeviceHelper
        DeviceData deviceData = new DeviceData();
        try {
            c = DatabaseHelper.getConnection();
-           String query = "{call update_device(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+           String query = "{call update_device(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
            ps= c.prepareStatement(query);
            ps.setInt(1, updDevice.getID());
            ps.setInt(2, updDevice.getTypeID());
@@ -142,7 +144,9 @@ public class DeviceHelper
            ps.setInt(11, updDevice.getBusID());
            ps.setInt(12, updDevice.getIsProgrammable());
            ps.setInt(13, updDevice.getIsConnected());
-           ps.setString(14, updDevice.getReadCommand());  // we don't send command ID as we recreate it each time
+           ps.setString(14, updDevice.getComment()); // add comment
+           ps.setString(15, updDevice.getReadCommand());  // we don't send command ID as we recreate it each time
+
            ResultSet rs= ps.executeQuery();
            
            while (rs.next()) { // Read the updated device row, the complete data row from DB
@@ -182,6 +186,10 @@ public class DeviceHelper
     	deviceData.setIsConnected(rs.getInt("isConnected"));
     	deviceData.setReadCommand(rs.getString("readCommand"));
     	deviceData.setReadCommandID(rs.getInt("readCommandId"));
+    	deviceData.setReadCommandID(rs.getInt("readCommandId"));
+    	deviceData.setReadCommandID(rs.getInt("readCommandId"));
+    	deviceData.setComment(rs.getString("comment"));
+    	System.out.println(rs.getString("comment"));
     	return deviceData;
    }	
 

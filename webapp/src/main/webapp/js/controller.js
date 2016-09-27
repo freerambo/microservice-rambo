@@ -53,6 +53,7 @@
         	$http.get(baseUrl)
             .success(function (response) {
                 $scope.devices = response;
+//                $scope.totalItems = response.length;
                 console.log("devices list success ");
             }).error(function(response, status, headers, config) {
 		        $scope.error = true;
@@ -182,14 +183,50 @@
         };
 // save the variable
         
+        
+        $scope.cancelVariable = function (id) {
+        	 $('#myModal1').toggle();	
+        	
+        };
+        
+        
         $scope.saveVariable = function (id) {
         	$scope.newVariable.deviceID = id;
         	 $http.post(actionUrl + "/variables", $scope.newVariable).success(function (data) {
         		 // push the new variables to the list
                  $scope.variables.push(data);
+                
              });
         	 
         };
+        
+        $scope.updatedVariable = function (deviceId,id) {
+        	$scope.updateVariable.deviceID = deviceId;
+        	$scope.updateVariable.ID = id;
+//        	alert(deviceId + " : " + id);
+        	 $http.put(actionUrl + "/variables/"+id, $scope.updateVariable).success(function (data) {
+        		 // push the new variables to the list
+                 $('#myModal1').toggle();
+//                 $location.path('/devices/'+ deviceId);
+                 load();
+             });
+        	 
+        };
+        
+        $scope.goUpdateVariable = function (id) {
+//        	$scope.newVariable.deviceID = id;
+//        	alert(id);
+        	 $http.get(actionUrl + "/variables/"+id).success(function (data) {
+        		 // push the new variables to the list
+//                 $scope.variables.push(data);
+        		
+        		 $scope.updateVariable = data;
+        		 $('#myModal1').toggle();	
+             });
+        	 
+        };
+        
+        
     });
 
 
@@ -234,7 +271,10 @@
     
     
     
-    as.controller('devicedetailCtrl', function($scope, $http) {
+    as.controller('devicedetailCtrl', function($scope, $http, $routeParams) {
+    	
+    	 var actionUrl = baseUrl + '/' + $routeParams.id;
+    	
     	 $scope.itemsPerPage = 50;
     	 $scope.currentPage = 0;
     	 $scope.entities = [];

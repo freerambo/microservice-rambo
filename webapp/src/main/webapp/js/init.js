@@ -24,7 +24,7 @@
                             publicAccess: true})
                 .when('/monitor',
                     {
-                	controller: 'devicedetailCtrl',
+                	/*controller: 'devicedetailCtrl',*/
                 	templateUrl: 'partials/devices/monitor.html',
                             publicAccess: true})
                 .when('/devices',
