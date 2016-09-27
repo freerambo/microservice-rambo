@@ -1,7 +1,11 @@
 (function () {
     var as = angular.module('exampleApp.controllers', []);
-    var baseUrl = "http://172.21.76.125:8080/MicrogridApi/devices";
-    var staticUrl = "http://172.21.76.125:8080/MicrogridApi/static";
+    //Test
+    var baseUrl = "http://172.21.76.125:8080/MicrogridApiTest/devices";
+    var staticUrl = "http://172.21.76.125:8080/MicrogridApiTest/static";
+    //Dev
+//    var baseUrl = "http://172.21.76.125:8080/MicrogridApiDev/devices";
+//    var staticUrl = "http://172.21.76.125:8080/MicrogridApiDev/static";
    
     as.controller('MainController', function ($q, $scope, $rootScope, $http, i18n, $location) {
         var load = function () {
@@ -329,7 +333,7 @@
         $http({
             method : "GET",
             //url : "http://172.21.76.189/MicrogridApi/devices"
-            url: "http://172.21.76.125:8080/MicrogridApi/devices/26/data"
+            url: actionUrl + "/data"
         }).then(function mySucces(response) {
         	console.log(response.data);
             $scope.entities = response.data;
@@ -344,7 +348,7 @@
         $http({
             method : "GET",
             //url : "http://172.21.76.189/MicrogridApi/devices"
-            url: "http://172.21.76.125:8080/MicrogridApi/devices/26"
+            url: actionUrl
         }).then(function mySucces(response) {
         	console.log(response.data);
             $scope.device = response.data;

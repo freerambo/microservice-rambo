@@ -40,8 +40,8 @@
                                 href="#/devices"><msg key="devices"></msg></a></li>
                         <li ng-class="activeWhen(path() == '/devices/new')"><a
                                 href="#/devices/new"><msg key="newDevice"></msg></a></li>
-                      	<li ng-class="activeWhen(path() == '/monitor')"><a
-                                href="#/monitor">Monitor</a></li>         
+                      	<li ng-class="activeWhen(path() == '/chart')"><a
+                                href="#/chart">Chart</a></li>         
                         
                     </ul>
                     <span class="navbar-right" ng-if="!authenticated">
@@ -106,6 +106,8 @@
         <!-- https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.12.1-1/ui-bootstrap.min.js -->
         <script type="text/javascript" src="js/jquery.i18n.properties-min-1.0.9.js"></script>
         <script type="text/javascript" src="js/controller.js"></script>
+         <script src="http://code.highcharts.com/highcharts.js"></script> 
+        <script type="text/javascript" src="js/chart.js"></script>
         <script type="text/javascript" src="js/filter.js"></script>
         <script type="text/javascript" src="js/i18n.js"></script>
         <script type="text/javascript" src="js/base64.js"></script>
