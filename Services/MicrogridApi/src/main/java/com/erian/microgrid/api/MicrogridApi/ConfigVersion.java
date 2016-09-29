@@ -23,8 +23,9 @@ public class ConfigVersion {
 
 	/**
 	 * Get the hardcoded version SHA from the config file
+	 * API: http://localhost:8080/MicrogridApi/version
 	 * @return  
-	 * ConfigVersion object
+	 * ConfigVersion object JSON - {"api":"1c663e1","webApp":"1.0"}
 	 *
 	 */
 	@GET
