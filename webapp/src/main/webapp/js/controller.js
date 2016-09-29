@@ -1,14 +1,22 @@
 (function () {
     var as = angular.module('exampleApp.controllers', []);
     //Test
-    var baseUrl = "http://172.21.76.125:8080/MicrogridApiTest/devices";
-    var staticUrl = "http://172.21.76.125:8080/MicrogridApiTest/static";
+//    var baseUrl = "http://172.21.76.125:8080/MicrogridApiTest/devices";
+//    var staticUrl = "http://172.21.76.125:8080/MicrogridApiTest/static";
+//    var url = "http://172.21.76.125:8080/MicrogridApiTest";
+    
     //Dev
-//    var baseUrl = "http://172.21.76.125:8080/MicrogridApiDev/devices";
-//    var staticUrl = "http://172.21.76.125:8080/MicrogridApiDev/static";
+    var baseUrl = "http://172.21.76.125:8080/MicrogridApiDev/devices";
+    var staticUrl = "http://172.21.76.125:8080/MicrogridApiDev/static";
+    var url = "http://172.21.76.125:8080/MicrogridApiDev";
    
     as.controller('MainController', function ($q, $scope, $rootScope, $http, i18n, $location) {
         var load = function () {
+        	$http.get(url+'/version')
+	        .success(function (data) {
+	            $scope.version = data;	                        
+	        }); 
+        	
         };
 
         load();

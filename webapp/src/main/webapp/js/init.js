@@ -14,7 +14,9 @@
         //configure the rounting of ng-view
         $routeProvider
                 .when('/',
-                        {templateUrl: 'partials/home.html',
+                        {
+                	controller: 'MainController',
+                	templateUrl: 'partials/home.html',
                             publicAccess: true})
                 .when('/home',
                         {templateUrl: 'partials/home.html',
