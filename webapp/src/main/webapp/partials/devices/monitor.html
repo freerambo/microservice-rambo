@@ -1,4 +1,3 @@
-
 <div ng-app="myApp" ng-controller="devicedetailCtrl">
 
 	<div class="row">
@@ -9,124 +8,195 @@
 		</div>
 	</div>
 
-	
-<div class="row">
-	<div class="col-sm-1"></div>
-	<div class="col-sm-9">
-		<div class="page-header">
-			<h1>Device Details : {{device.name}}</h1>
-		</div>
 
-		<div class="container-fluid">
-			<div class="form-group row">
-				<label class="col-sm-2 col-form-label">Name</label>
-				<div class="col-sm-5">{{device.name}}</div>
-				<label class="col-sm-1 col-form-label">Type</label>
-				<div class="col-sm-4">{{device.typeName}}</div>
-			</div>
-
-			<div class="form-group row">
-				<label for="description" class="col-sm-2 col-form-label">Description</label>
-				<div class="col-sm-10">{{device.description}}</div>
-			</div>
-			<div class="form-group row">
-				<label for="vendor" class="col-sm-2 col-form-label">Vendor</label>
-				<div class="col-sm-5">{{device.vendor}}</div>
-				<label class="col-sm-2">Programmable</label>
-				<div class="col-sm-3">
-					<div class="form-check">
-						<!-- {{device.isProgrammable}} -->
-
-						<div ng-show="device.isProgrammable == 0">NO</div>
-						<div ng-show="device.isProgrammable == 1">YES</div>
-					</div>
-				</div>
-			</div>
-			<div class="form-group row">
-				<label for="Model" class="col-sm-2 col-form-label">Model</label>
-				<div class="col-sm-5">{{device.model}}</div>
-
-				<label class="col-sm-2">Connected</label>
-				<div class="col-sm-3">
-					<div class="form-check">
-						<div ng-show="device.isConnected == 0">NO</div>
-						<div ng-show="device.isConnected == 1">YES</div>
-					</div>
-				</div>
-			</div>
-			<div class="form-group row">
-				<label for="Location" class="col-sm-2 col-form-label">Location</label>
-				<div class="col-sm-10">{{device.location}}</div>
-			</div>
-
-			<div class="form-group row">
-				<label for="ip" class="col-sm-2 col-form-label">IP</label>
-				<div class="col-sm-5">{{device.IPAdress}}</div>
-				<label for="ip" class="col-sm-1 col-form-label">Port</label>
-				<div class="col-sm-2">{{device.portNumber}}</div>
-			</div>
-			<div class="form-group row">
-				<label for="Bus" class="col-sm-2 col-form-label">BUS</label>
-				<div class="col-sm-10">
-
-					<div ng-show="device.busID == 2">AC</div>
-					<div ng-show="device.busID == 1">DC</div>
-					<div ng-show="device.busID == 3">ALL</div>
-				</div>
-			</div>
-			<div class="form-group row">
-				<label for="command" class="col-sm-2 col-form-label">ReadCommand:
-				</label>
-				<div class="col-sm-10">{{device.readCommand}}</div>
-			</div>
-			<div class="form-group row">
-				<label for="comments" class="col-sm-2 col-form-label">Comments:
-				</label>
-				<div class="col-sm-10">{{device.comment}} Please input some
-					comments here</div>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div class="row">
+	<div class="row">
 		<div class="col-sm-1"></div>
 		<div class="col-sm-9">
-			
-			<table ng-table="tableParams" class="table table-striped" border=1>
-				<thead>
-					<tr>
-						<th ng-repeat="(key, val) in entity">{{key}}</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr class="paginationclass" ng-repeat="item in entities | pagination : currentPage*itemsPerPage | limitTo: itemsPerPage"  >
-						<td ng-repeat="(key, val) in item">{{val}}</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		
-	</div>
-	
-	<div class="row">
-			<div class="col-sm-9"></div>
-			<div class="col-sm-3">
-				<div class="pagination-div" align="right">
+			<div class="page-header">
+				<h1>Device Details : {{device.name}}</h1>
+			</div>
 
-        <ul class="pagination" >
-              <li ng-class="DisablePrevPage()">
-                <a href ng-click="prevPage()">  &laquo; Prev</a>
-              </li>
-              <li ng-repeat="n in range()" ng-class="{active: n == currentPage}" ng-click="setPage(n)">
-                <a href="#">{{n+1}}</a>
-              </li>
-              <li ng-class="DisableNextPage()">
-                <a href ng-click="nextPage()">Next &raquo; </a>
-                 
-              </li>
-            </ul>
-        
-</div>
-			</div>	
+			<div class="container-fluid">
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label">Name</label>
+					<div class="col-sm-5">{{device.name}}</div>
+					<label class="col-sm-1 col-form-label">Type</label>
+					<div class="col-sm-4">{{device.typeName}}</div>
+				</div>
+
+				<div class="form-group row">
+					<label for="description" class="col-sm-2 col-form-label">Description</label>
+					<div class="col-sm-10">{{device.description}}</div>
+				</div>
+				<div class="form-group row">
+					<label for="vendor" class="col-sm-2 col-form-label">Vendor</label>
+					<div class="col-sm-5">{{device.vendor}}</div>
+					<label class="col-sm-2">Programmable</label>
+					<div class="col-sm-3">
+						<div class="form-check">
+							<!-- {{device.isProgrammable}} -->
+
+							<div ng-show="device.isProgrammable == 0">NO</div>
+							<div ng-show="device.isProgrammable == 1">YES</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="Model" class="col-sm-2 col-form-label">Model</label>
+					<div class="col-sm-5">{{device.model}}</div>
+
+					<label class="col-sm-2">Connected</label>
+					<div class="col-sm-3">
+						<div class="form-check">
+							<div ng-show="device.isConnected == 0">NO</div>
+							<div ng-show="device.isConnected == 1">YES</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="Location" class="col-sm-2 col-form-label">Location</label>
+					<div class="col-sm-10">{{device.location}}</div>
+				</div>
+
+				<div class="form-group row">
+					<label for="ip" class="col-sm-2 col-form-label">IP</label>
+					<div class="col-sm-5">{{device.IPAdress}}</div>
+					<label for="ip" class="col-sm-1 col-form-label">Port</label>
+					<div class="col-sm-2">{{device.portNumber}}</div>
+				</div>
+				<div class="form-group row">
+					<label for="Bus" class="col-sm-2 col-form-label">BUS</label>
+					<div class="col-sm-10">
+
+						<div ng-show="device.busID == 2">AC</div>
+						<div ng-show="device.busID == 1">DC</div>
+						<div ng-show="device.busID == 3">ALL</div>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="command" class="col-sm-2 col-form-label">ReadCommand:
+					</label>
+					<div class="col-sm-10">{{device.readCommand}}</div>
+				</div>
+				<div class="form-group row">
+					<label for="comments" class="col-sm-2 col-form-label">Comments:
+					</label>
+					<div class="col-sm-10">{{device.comments}} Please input some
+						comments here</div>
+				</div>
+			</div>
+		</div>
 	</div>
+
+
+	<div class="row">
+	<div class="col-sm-1"></div>
+		<div class="col-sm-9">
+
+			<div class="tab-pane" id="tab1b">
+				<form ng-submit="find()" class="form-horizontal" name="auditForm"
+					method="GET">
+
+
+					<div class="col-sm-4">
+						<div class="input-group">
+							<span class="input-group-addon"><b>From</b></span> <input
+								ntype="text" class="form-control" datepicker-popup="{{format}}"
+								ng-model="fromDate" is-open="opened" min="minDate"
+								max="'2050-06-22'" datepicker-options="dateOptions"
+								date-disabled="disabled(date, mode)" close-text="Close" /> <span
+								class="input-group-btn"><button class="btn"
+									ng-click="open($event)">
+									<i class="glyphicon glyphicon-calendar"></i>
+								</button></span>
+						</div>
+					</div>
+
+
+
+					<div class="col-sm-4">
+						<div class="input-group">
+							<span class="input-group-addon"><b>To</b></span> <input
+								ntype="text" class="form-control" datepicker-popup="{{format}}"
+								ng-model="toDate" is-open="opened1"
+								min="{{fromDate == null ? 'minDate' : 'fromDate'}}"
+								max="'2050-06-01'" datepicker-options="dateOptions"
+								date-disabled="disabled(date, mode)" close-text="Close" /> <span
+								class="input-group-btn"><button class="btn"
+									ng-click="open1($event)">
+									<i class="glyphicon glyphicon-calendar"></i>
+								</button></span>
+						</div>
+					</div>
+
+
+
+
+					<div class="col-sm-2">
+						<div class="center-block" align="center">
+							<p>
+								<input type="submit" id="Go" value="filter"
+									class="btn btn-primary btn-sm" role="button" />
+							</p>
+						</div>
+					</div>
+
+
+				</form>
+			</div>
+			<div id="tab2b" ng-show="isVisible" class="col-lg-12">
+
+
+				<div class="row">
+					<div id="info">
+						<table ng-table="tableParams" class="table table-striped" border="1">
+							<thead>
+								<tr>
+									<th ng-repeat="(key, val) in entity">{{key}}</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="paginationclass"
+									ng-repeat="item in entities | pagination : currentPage*itemsPerPage | limitTo: itemsPerPage">
+									<td ng-repeat="(key, val) in item">{{val}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-7"></div>
+					<div class="col-sm-5">
+						<div class="pagination-div" align="right">
+
+							<ul class="pagination">
+								<li ng-class="DisablePrevPage()"><a href
+									ng-click="prevPage()"><span class="glyphicon glyphicon-backward"></span> Prev</a></li>
+								<li ng-repeat="n in range()"
+									ng-class="{active: n == currentPage}" ng-click="setPage(n)"><a
+									href="#">{{n+1}}</a></li>
+								<li ng-class="DisableNextPage()"><a href
+									ng-click="nextPage()">Next <span class="glyphicon glyphicon-forward"></span></a></li>
+							</ul>
+
+						</div>
+					</div>
+				</div>
+
+
+			</div>
+			<div class="row">
+					<div class="col-sm-2"></div>
+					<div class="col-sm-5"><div ng-hide="isVisible">{{response}}</div></div>
+			</div>
+			
+
+		</div>
+
+
+	</div>
+
+
+</div>
+
