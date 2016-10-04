@@ -1,10 +1,22 @@
 (function () {
-    var as = angular.module('exampleApp.controllers', []);
-    var baseUrl = "http://172.21.76.125:8080/MicrogridApi/devices";
-    var staticUrl = "http://172.21.76.125:8080/MicrogridApi/static";
+    var as = angular.module('exampleApp.controllers', ['ui.bootstrap']);
+    //Test
+//    var baseUrl = "http://172.21.76.125:8080/MicrogridApiTest/devices";
+//    var staticUrl = "http://172.21.76.125:8080/MicrogridApiTest/static";
+//    var url = "http://172.21.76.125:8080/MicrogridApiTest";
+    
+    //Dev
+    var baseUrl = "http://172.21.76.125:8080/MicrogridApiDev/devices";
+    var staticUrl = "http://172.21.76.125:8080/MicrogridApiDev/static";
+    var url = "http://172.21.76.125:8080/MicrogridApiDev";
    
     as.controller('MainController', function ($q, $scope, $rootScope, $http, i18n, $location) {
         var load = function () {
+        	$http.get(url+'/version')
+	        .success(function (data) {
+	            $scope.version = data;	                        
+	        }); 
+        	
         };
 
         load();
@@ -271,91 +283,150 @@
     
     
     
-    as.controller('devicedetailCtrl', function($scope, $http, $routeParams) {
+    as.controller('devicedetailCtrl', function($scope, $http, $routeParams,$filter) {
     	
     	 var actionUrl = baseUrl + '/' + $routeParams.id;
     	
+    	 //start
     	 $scope.itemsPerPage = 50;
-    	 $scope.currentPage = 0;
-    	 $scope.entities = [];
-    	 
-    	 $scope.range = function() {
-    		    var rangeSize = 4;
-    		    var ps = [];
-    		    var start;
+    		$scope.currentPage = 0;
+    		$scope.entities = [];
+    		$scope.isVisible = false;
+    		$scope.showWeeks = true;
+    		$scope.formats = [ 'dd-MMMM-yyyy', 'yyyy/MM/dd', 'shortDate' ];
+    		$scope.format = $scope.formats[0];
 
-    		    start = $scope.currentPage;
-    		    if ( start > $scope.pageCount()-rangeSize ) {
-    		      start = $scope.pageCount()-rangeSize+1;
-    		    }
+    		$scope.range = function() {
+    			var rangeSize = 4;
+    			var ps = [];
+    			var start;
 
-    		    for (var i=start; i<start+rangeSize; i++) {
-    		      ps.push(i);
-    		    }
-    		    return ps;
-    		  };
+    			start = $scope.currentPage;
+    			if (start > $scope.pageCount() - rangeSize) {
+    				start = $scope.pageCount() - rangeSize + 1;
+    			}
 
-    		  $scope.prevPage = function() {
-    		    if ($scope.currentPage > 0) {
-    		      $scope.currentPage--;
-    		    }
-    		  };
+    			for (var i = start; i < start + rangeSize; i++) {
+    				ps.push(i);
+    			}
+    			return ps;
+    		};
 
-    		  $scope.DisablePrevPage = function() {
-    		    return $scope.currentPage === 0 ? "disabled" : "";
-    		  };
+    		$scope.prevPage = function() {
+    			if ($scope.currentPage > 0) {
+    				$scope.currentPage--;
+    			}
+    		};
 
-    		  $scope.pageCount = function() {
-    		    return Math.ceil($scope.entities.length/$scope.itemsPerPage)-1;
-    		  };
+    		$scope.DisablePrevPage = function() {
+    			return $scope.currentPage === 0 ? "disabled" : "";
+    		};
 
-    		  $scope.nextPage = function() {
-    		    if ($scope.currentPage < $scope.pageCount()) {
-    		      $scope.currentPage++;
-    		    }
-    		  };
+    		$scope.pageCount = function() {
+    			return Math.ceil($scope.entities.length / $scope.itemsPerPage) - 1;
+    		};
 
-    		  $scope.DisableNextPage = function() {
-    		    return $scope.currentPage === $scope.pageCount() ? "disabled" : "";
-    		  };
+    		$scope.nextPage = function() {
+    			if ($scope.currentPage < $scope.pageCount()) {
+    				$scope.currentPage++;
+    			}
+    		};
 
-    		  $scope.setPage = function(n) {
-    		    $scope.currentPage = n;
-    		  };
-    	 
-    	 
-    	 
-    	 
-        $http({
-            method : "GET",
-            //url : "http://172.21.76.189/MicrogridApi/devices"
-            url: "http://172.21.76.125:8080/MicrogridApi/devices/26/data"
-        }).then(function mySucces(response) {
-        	console.log(response.data);
-            $scope.entities = response.data;
-            $scope.entity = response.data[0];
+    		$scope.DisableNextPage = function() {
+    			return $scope.currentPage === $scope.pageCount() ? "disabled" : "";
+    		};
 
-        }, function myError(response) {
-        	console.log("error");
-        	console.log(response.data);
-            //$scope.entities = response.statusText;
-        });
-        
-        $http({
-            method : "GET",
-            //url : "http://172.21.76.189/MicrogridApi/devices"
-            url: "http://172.21.76.125:8080/MicrogridApi/devices/26"
-        }).then(function mySucces(response) {
-        	console.log(response.data);
-            $scope.device = response.data;
-            //$scope.entity = response.data[0];
+    		$scope.setPage = function(n) {
+    			$scope.currentPage = n;
+    		};
 
-        }, function myError(response) {
-        	console.log("error");
-        	console.log(response.data);
-            //$scope.entities = response.statusText;
-        });
-    });
+    		$scope.today = function() {
+    			$scope.fromDate = new Date();
+    			$scope.toDate = new Date();
+    		};
+    		$scope.today();
+    		$scope.toggleWeeks = function() {
+    			$scope.showWeeks = !$scope.showWeeks;
+    		};
+    		$scope.clear = function() {
+    			$scope.fromDate = null;
+    			$scope.toDate = null;
+    		};
+    		// Disable weekend selection
+    		//$scope.disabled = function(date, mode) {
+    		//  return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+    		// };
+    		$scope.toggleMin = function() {
+    			$scope.minDate = ($scope.minDate) ? new Date() : null;
+    		};
+    		$scope.toggleMin();
+    		$scope.open = function($event) {
+    			$scope.fromDate = new Date();
+    			$event.preventDefault();
+    			$event.stopPropagation();
+    			$scope.opened = true;
+    		};
+    		$scope.dateOptions = {
+    			'year-format' : "'yy'",
+    			'starting-day' : 1
+    		};
+    		$scope.open1 = function($event) {
+    			$scope.toDate = new Date();
+    			$event.preventDefault();
+    			$event.stopPropagation();
+    			$scope.opened1 = true;
+    		};
+    		
+    		$scope.find = function () {
+    			$scope.fromDate = $filter('date')($scope.fromDate, "yyyy-MM-dd HH:mm:ss");
+    			$scope.toDate = $filter('date')($scope.toDate, "yyyy-MM-dd HH:mm:ss");
+    			console.log($scope.fromDate);
+    			console.log($scope.toDate);
+    			
+    			$http({
+    				method : "GET",
+    				url: actionUrl + "/data"+"?startDate='"+$scope.fromDate+"'&endDate='"+$scope.toDate+"'"
+    				
+    			}).then(function mySucces(response) {
+    				console.log(response.data);
+    				$scope.entities = response.data;
+    				if ($scope.entities.length > 0) {
+    					$scope.entity = response.data[0];
+    					$scope.isVisible = true;
+    				} else {
+    					$scope.response = "No records to display"
+    				}
+    				
+
+    			}, function myError(response) {
+    				console.log("error");
+    				console.log(response.data);
+    				//$scope.entities = response.statusText;
+    			});
+    			
+    		};	
+    		
+
+
+
+    		$http({
+    			method : "GET",
+    			 url: actionUrl
+    		}).then(function mySucces(response) {
+    			console.log(response.data);
+    			$scope.device = response.data;
+    			//$scope.entity = response.data[0];
+
+    		}, function myError(response) {
+    			console.log("error");
+    			console.log(response.data);
+    			//$scope.entities = response.statusText;
+    		});
+    	 //end
+  
+       
+    });   
+       
    
 
 }());

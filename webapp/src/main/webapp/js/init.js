@@ -8,13 +8,15 @@
             message,
             //Define the main module.
             //The module is accessible everywhere using "angular.module('angularspring')", therefore global variables can be avoided totally.
-            as = angular.module('exampleApp', ['ngRoute', 'ngResource', 'ngCookies', 'ui.bootstrap', 'ngMessages', 'exampleApp.i18n', 'exampleApp.services', 'exampleApp.controllers', 'exampleApp.filters']);
+            as = angular.module('exampleApp', ['ngRoute', 'ngResource', 'ngCookies', 'ui.bootstrap', 'ngMessages', 'exampleApp.i18n', 'exampleApp.services', 'exampleApp.controllers', 'exampleApp.filters', 'charts']);
 
     as.config(function ($routeProvider, $httpProvider) {
         //configure the rounting of ng-view
         $routeProvider
                 .when('/',
-                        {templateUrl: 'partials/home.html',
+                        {
+                	controller: 'MainController',
+                	templateUrl: 'partials/home.html',
                             publicAccess: true})
                 .when('/home',
                         {templateUrl: 'partials/home.html',
@@ -22,9 +24,14 @@
                 .when('/login',
                         {templateUrl: 'partials/login.html',
                             publicAccess: true})
-                .when('/monitor',
+             .when('/chart',
                     {
-                	/*controller: 'devicedetailCtrl',*/
+                	controller: 'Ctrl',
+                	templateUrl: 'partials/devices/chart.html',
+                            publicAccess: true})
+                .when('/monitor/:id',
+                    {
+                	controller: 'devicedetailCtrl',
                 	templateUrl: 'partials/devices/monitor.html',
                             publicAccess: true})
                 .when('/devices',
