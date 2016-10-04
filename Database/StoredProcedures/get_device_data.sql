@@ -7,8 +7,10 @@ BEGIN
 -- If some part of loading wasn't successful, continue with next steps but log the problem
 	CALL smes_microgrid.log_error('smes_microgrid.get_device_data');
     ROLLBACK; -- NOTE: Rollback statement should come AFTER Get Diagnostics  (that is inside log_error sp)
-    SET @msg = CONCAT('ERROR: An error occurred when getting DEVICE DATA, Device id = ', id);
-    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = @msg ;
+    
+    RESIGNAL;
+    -- SET @msg = CONCAT('ERROR: An error occurred when getting DEVICE DATA, Device id = ', id);
+    -- SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = @msg ;
 END;
 
 SET @sql = NULL;
@@ -25,7 +27,7 @@ FROM smes_microgrid.variable
 where device_id = id
 ORDER BY smes_microgrid.variable.id;  -- ORDER is important here, we map with headers taken from get_variables
 
- -- select @sql as sql1;
+-- select @sql as sql1;
 
 -- This this a quick fix, need to rewrite for null/not null parameters in one SQL statement.
 IF dateFrom IS NULL OR dateTo IS NULL  -- no filtering
