@@ -93,10 +93,10 @@
        };
        $scope.del = function (id) {
     	   
-    	   if (confirm("Are you SURE to delete the device " + id + " ?")) {
-    		   $location.path('/devices/update/'+id);
-    	    }
-           
+//    	   if (confirm("Are you SURE to delete the device " + id + " ?")) {
+//    		   $location.path('/devices/update/'+id);
+//    	    }
+    	   $location.path('/devices/'+id);
        };
        
     });
