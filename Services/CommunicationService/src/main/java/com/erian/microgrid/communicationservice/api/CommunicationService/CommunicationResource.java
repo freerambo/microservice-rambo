@@ -9,7 +9,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import org.json.simple.JSONObject;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -17,7 +16,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-@Path("Data")
+@Path("devicedata")
 @Api(value = "/Data")
 public class CommunicationResource {
 
@@ -31,7 +30,7 @@ public class CommunicationResource {
 		@ApiResponse(code = 404, message = "Not Found"),
 		@ApiResponse(code = 403, message = "Request Forbidden") })
 
-public JSONObject getDataFromDevices(@PathParam("ipAddress") String ipAddress, @PathParam("command") String command) throws IOException{
+public JSONObject getDataFromDevices(@PathParam("ipAddress") String ipAddress, @PathParam("command") String command) throws IOException, InterruptedException{
 	System.out.println(ipAddress);
 	System.out.println(command);
 	String formattedCommand= command + "\n";
