@@ -10,7 +10,7 @@ import javax.ws.rs.Produces;
 
 import org.json.simple.JSONObject;
 
-@Path("Data")
+@Path("devicedata")
 
 public class CommunicationResource {
 
@@ -18,7 +18,7 @@ public class CommunicationResource {
 @Path("/{ipAddress}/{command}")
 @Produces(MediaType.APPLICATION_JSON)
 
-public JSONObject getDataFromDevices(@PathParam("ipAddress") String ipAddress, @PathParam("command") String command) throws IOException{
+public JSONObject getDataFromDevices(@PathParam("ipAddress") String ipAddress, @PathParam("command") String command) throws IOException, InterruptedException{
 	System.out.println(ipAddress);
 	System.out.println(command);
 	String formattedCommand= command + "\n";
