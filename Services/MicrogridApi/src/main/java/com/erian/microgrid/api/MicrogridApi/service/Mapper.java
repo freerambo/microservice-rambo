@@ -147,7 +147,10 @@ public final class Mapper {
 		command.setDesription(commandData.getDescription());
 		command.setFormatString(commandData.getFormatString());
 		command.setDeviceID(commandData.getDeviceID());
-		
+		command.setCommandTypeID(commandData.getCommandTypeID());
+		command.setCommandTypeName(commandData.getCommandTypeName());
+		command.setProtocolID(commandData.getProtocolID());
+		command.setProtocolName(commandData.getProtocolName());
 		return command;
 	}
 	
@@ -158,7 +161,10 @@ public final class Mapper {
 		commandData.setDescription(command.getDescription());
 		commandData.setFormatString(command.getFormatString());
 		commandData.setDeviceID(command.getDeviceID());
-		
+		commandData.setCommandTypeID(command.getCommandTypeID());
+		commandData.setCommandTypeName(command.getCommandTypeName());
+		commandData.setProtocolID(command.getProtocolID());
+		commandData.setProtocolName(command.getProtocolName());
 		return commandData;
 	}
 	
