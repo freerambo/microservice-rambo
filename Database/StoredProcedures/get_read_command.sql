@@ -10,8 +10,10 @@ SELECT  V.id as variableId,
         D.id as deviceId,
         D.ip_adress as IPAdress,
         D.port_number as portNumber,
-		CP.name as protocolName,
-		CT.name as commandTypeName
+    CP.id as protocolId,
+    CP.name as protocolName,
+    CT.id as commandTypeId,
+	CT.name as commandTypeName
 FROM variable as V 
 INNER JOIN command 			as C ON C.id = V.get_command_id
 INNER JOIN device 			as D ON D.id = V.device_id

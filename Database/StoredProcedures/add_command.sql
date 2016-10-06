@@ -9,7 +9,7 @@ BEGIN
 DECLARE EXIT HANDLER FOR SQLEXCEPTION
 BEGIN	
 -- If some part of loading wasn't successful, continue with next steps but log the problem
-	CALL smes_microgrid_dev.log_error('smes_microgrid_dev.add_command');
+	CALL smes_microgrid.log_error('smes_microgrid.add_command');
     ROLLBACK; -- NOTE: Rollback statement should come AFTER Get Diagnostics  (that is inside log_error sp)
     RESIGNAL;
     -- SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'ERROR: An error occurred when ADDING NEW Command';
@@ -18,11 +18,11 @@ END;
 START TRANSACTION;	
 
 -- Log the start of excecution
-	CALL smes_microgrid_dev.log_info('smes_microgrid_dev.add_command', CONCAT('Start Adding new COMMAND to Device with DeviceID =', device_id, ' Values Are: Name= ', name));
+	CALL smes_microgrid.log_info('smes_microgrid.add_command', CONCAT('Start Adding new COMMAND to Device with DeviceID =', device_id, ' Values Are: Name= ', name));
 -- End of Logging
 
 	
-	INSERT INTO `smes_microgrid_dev`.`command`( `name`,
+	INSERT INTO `smes_microgrid`.`command`( `name`,
 											`description`,
 											`format_string`,
 											`device_id`,
@@ -37,7 +37,7 @@ START TRANSACTION;
 								);	
 	
    -- Log the end of excecution
-		CALL smes_microgrid_dev.log_info('smes_microgrid_dev.add_command', CONCAT('Command Added to Device ID=', device_id, ' New command ID is: ', LAST_INSERT_ID()));
+		CALL smes_microgrid.log_info('smes_microgrid.add_command', CONCAT('Command Added to Device ID=', device_id, ' New command ID is: ', LAST_INSERT_ID()));
 	-- End of Logging
     
     SET @cmd_id = LAST_INSERT_ID();
@@ -47,20 +47,20 @@ START TRANSACTION;
 -- 1	Inpit Param	input to command
 -- 2	Output	output of the command
 
-	INSERT INTO `smes_microgrid_dev`.`command_device_variable`
+	INSERT INTO `smes_microgrid`.`command_device_variable`
 	(`command_id`,
 	`variable_id`,
 	`parameter_type_id`)
 	SELECT @cmd_id, variable.id, 1 FROM variable WHERE FIND_IN_SET(variable.id, input_variables);
 
- 	INSERT INTO `smes_microgrid_dev`.`command_device_variable`
+ 	INSERT INTO `smes_microgrid`.`command_device_variable`
 	(`command_id`,
 	`variable_id`,
 	`parameter_type_id`)
 	SELECT @cmd_id, variable.id, 2 FROM variable WHERE FIND_IN_SET(variable.id, output_variables);                                       
     
   -- Log the end of excecution
-		CALL smes_microgrid_dev.log_info('smes_microgrid_dev.add_command', CONCAT('Added INPUT and OUTPUT variables to the Command:', @cmd_id, ' Device ID is: ', device_id));
+		CALL smes_microgrid.log_info('smes_microgrid.add_command', CONCAT('Added INPUT and OUTPUT variables to the Command:', @cmd_id, ' Device ID is: ', device_id));
 	-- End of Logging                                          
 	
 	COMMIT;  
@@ -71,9 +71,11 @@ START TRANSACTION;
     C.`description` as description,
     C.`format_string` as formatString,
     C.`device_id` as deviceID,
+    CP.id as protocolId,
     CP.name as protocolName,
+    CT.id as commandTypeId,
 	CT.name as commandTypeName
-	FROM `smes_microgrid_dev`.`command` as C
+	FROM `smes_microgrid`.`command` as C
     INNER JOIN command_protocol as CP ON CP.id = C.command_protocol_id
 	INNER JOIN command_type 	as CT ON CT.id = C.command_type_id
 	WHERE C.id = @cmd_id

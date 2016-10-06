@@ -8,7 +8,9 @@ SELECT
         D.id as deviceId,
         D.ip_adress as IPAdress,
         D.port_number as portNumber,
-        CP.name as protocolName,
+		CP.id as protocolId,
+		CP.name as protocolName,
+		CT.id as commandTypeId,
 		CT.name as commandTypeName,
 		GROUP_CONCAT(V.id) as variableIds,  -- for first version we assume all varables of the device expected to be returned by the read command
 		GROUP_CONCAT(V.name) as variableNames
