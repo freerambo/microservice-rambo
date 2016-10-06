@@ -612,7 +612,9 @@ START TRANSACTION;
     C.`description` as description,
     C.`format_string` as formatString,
     C.`device_id` as deviceID,
+    CP.id as protocolId,
     CP.name as protocolName,
+    CT.id as commandTypeId,
 	CT.name as commandTypeName
 	FROM `smes_microgrid`.`command` as C
     INNER JOIN command_protocol as CP ON CP.id = C.command_protocol_id
@@ -977,7 +979,9 @@ SELECT C.`id` as id,
     C.`description` as description,
     C.`format_string` as formatString,
     C.`device_id` as deviceId,
+    CP.id as protocolId,
     CP.name as protocolName,
+    CT.id as commandTypeId,
 	CT.name as commandTypeName
 FROM `smes_microgrid`.`command` as C
 INNER JOIN command_protocol as CP ON CP.id = C.command_protocol_id
@@ -1283,8 +1287,10 @@ SELECT  V.id as variableId,
         D.id as deviceId,
         D.ip_adress as IPAdress,
         D.port_number as portNumber,
-		CP.name as protocolName,
-		CT.name as commandTypeName
+    CP.id as protocolId,
+    CP.name as protocolName,
+    CT.id as commandTypeId,
+	CT.name as commandTypeName
 FROM variable as V 
 INNER JOIN command 			as C ON C.id = V.get_command_id
 INNER JOIN device 			as D ON D.id = V.device_id
@@ -1318,7 +1324,9 @@ SELECT
         D.id as deviceId,
         D.ip_adress as IPAdress,
         D.port_number as portNumber,
-        CP.name as protocolName,
+		CP.id as protocolId,
+		CP.name as protocolName,
+		CT.id as commandTypeId,
 		CT.name as commandTypeName,
 		GROUP_CONCAT(V.id) as variableIds,  -- for first version we assume all varables of the device expected to be returned by the read command
 		GROUP_CONCAT(V.name) as variableNames
@@ -1624,7 +1632,9 @@ START TRANSACTION;
     C.`description` as description,
     C.`format_string` as formatString,
     C.`device_id` as deviceId,
+    CP.id as protocolId,
     CP.name as protocolName,
+    CT.id as commandTypeId,
 	CT.name as commandTypeName
 	FROM `smes_microgrid`.`command` as C
 	INNER JOIN command_protocol as CP ON CP.id = C.command_protocol_id
@@ -1903,4 +1913,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-10-06 13:03:05
+-- Dump completed on 2016-10-06 14:28:10
