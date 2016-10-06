@@ -8,11 +8,15 @@ SELECT
         D.id as deviceId,
         D.ip_adress as IPAdress,
         D.port_number as portNumber,
+        CP.name as protocolName,
+		CT.name as commandTypeName,
 		GROUP_CONCAT(V.id) as variableIds,  -- for first version we assume all varables of the device expected to be returned by the read command
 		GROUP_CONCAT(V.name) as variableNames
 FROM device as D  
 INNER JOIN command as C ON C.device_id = D.id
 INNER JOIN variable as V ON D.id = V.device_id
+INNER JOIN command_protocol as CP ON CP.id = C.command_protocol_id
+INNER JOIN command_type 	as CT ON CT.id = C.command_type_id
 WHERE D.is_connected = 1
 GROUP BY C.id  -- or b y D.id assuming that 1 device has 1 command only
 ORDER BY D.id, V.id;

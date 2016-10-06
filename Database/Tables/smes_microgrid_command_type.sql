@@ -18,33 +18,28 @@ USE `smes_microgrid`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `command_device_variable`
+-- Table structure for table `command_type`
 --
 
-DROP TABLE IF EXISTS `command_device_variable`;
+DROP TABLE IF EXISTS `command_type`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `command_device_variable` (
-  `command_id` int(11) NOT NULL,
-  `variable_id` int(11) NOT NULL,
-  `parameter_type_id` tinyint(4) NOT NULL,
-  PRIMARY KEY (`command_id`,`variable_id`,`parameter_type_id`),
-  KEY `fk_command_param_type_idx` (`parameter_type_id`),
-  KEY `fk_command_variable_idx` (`variable_id`),
-  CONSTRAINT `fk_command_param_type` FOREIGN KEY (`parameter_type_id`) REFERENCES `parameter_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_command_variable` FOREIGN KEY (`variable_id`) REFERENCES `variable` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_command_variable_cmd` FOREIGN KEY (`command_id`) REFERENCES `command` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+CREATE TABLE `command_type` (
+  `id` tinyint(4) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `command_device_variable`
+-- Dumping data for table `command_type`
 --
 
-LOCK TABLES `command_device_variable` WRITE;
-/*!40000 ALTER TABLE `command_device_variable` DISABLE KEYS */;
-INSERT INTO `command_device_variable` VALUES (7,5,1),(7,5,2);
-/*!40000 ALTER TABLE `command_device_variable` ENABLE KEYS */;
+LOCK TABLES `command_type` WRITE;
+/*!40000 ALTER TABLE `command_type` DISABLE KEYS */;
+INSERT INTO `command_type` VALUES (10,'Read','Read all values from device'),(11,'Switch ON',NULL),(12,'Switch OFF',NULL),(90,'Other',NULL);
+/*!40000 ALTER TABLE `command_type` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -56,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-09-30 10:48:34
+-- Dump completed on 2016-10-06  9:05:56

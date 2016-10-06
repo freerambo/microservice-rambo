@@ -30,10 +30,16 @@ CREATE TABLE `command` (
   `description` varchar(255) DEFAULT NULL,
   `format_string` varchar(255) DEFAULT NULL,
   `device_id` int(11) DEFAULT NULL,
+  `command_type_id` tinyint(4) NOT NULL DEFAULT '90',
+  `command_protocol_id` tinyint(4) NOT NULL DEFAULT '90',
   PRIMARY KEY (`id`),
   KEY `fk_device_command_idx` (`device_id`),
+  KEY `fk_command_type_idx` (`command_type_id`),
+  KEY `fk_command_protocol_idx` (`command_protocol_id`),
+  CONSTRAINT `fk_command_protocol` FOREIGN KEY (`command_protocol_id`) REFERENCES `command_protocol` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_command_type` FOREIGN KEY (`command_type_id`) REFERENCES `command_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_device_command` FOREIGN KEY (`device_id`) REFERENCES `device` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +48,7 @@ CREATE TABLE `command` (
 
 LOCK TABLES `command` WRITE;
 /*!40000 ALTER TABLE `command` DISABLE KEYS */;
-INSERT INTO `command` VALUES (1,'CMD1','test Add cmd SP1','VOL {0}, CUR {1}, VOL1{2}',1),(2,'CMD1','test Add cmd SP1','VOL {0}, CUR {1}, VOL1{2}',1),(3,'CMD1','test Add cmd SP1','VOL {0}, CUR {1}, VOL1{2}',1),(4,'CMD1','test Add cmd SP1','VOL {0}, CUR {1}, VOL1{2}',1);
+INSERT INTO `command` VALUES (17,'Read all for AC Load Chroma 63804','Command that reads all the variables of device AC Load Chroma 63804in one communication request','MEAS:CURR?;FREQ?;POW?;RES?;VOLT?;TIME:HOLD?;TRAN?;:MODE?;:LOAD?\\n',30,90,90),(18,'Read all for DC Load Chroma 63211','Command that reads all the variables of device DC Load Chroma 63211in one communication request','MEAS:VOLT?;CURR?;POW?;RES?;:LOAD?;:MODE?',31,90,90),(19,'Read all for AC Source AMETEK  bps75','Command that reads all the variables of device AC Source AMETEK  bps75in one communication request','MEAS:VOLT?;CURR?;POW?;FREQ?;:MEAS:POW:APP?;:MEAS:CURR:AMPL:MAX?;:MEAS:POW:PFAC?;:VOLT:RANG?;:CURR?;:VOLT?;:MODE?;:OUTP?',32,90,90);
 /*!40000 ALTER TABLE `command` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +61,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-09-14 15:57:41
+-- Dump completed on 2016-10-06  9:05:57

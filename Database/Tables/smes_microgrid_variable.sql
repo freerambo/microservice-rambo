@@ -38,7 +38,7 @@ CREATE TABLE `variable` (
   KEY `fk_variable_device_idx` (`device_id`) USING BTREE,
   CONSTRAINT `fk_variable_device` FOREIGN KEY (`device_id`) REFERENCES `device` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_variable_unit` FOREIGN KEY (`unit_id`) REFERENCES `variable_unit` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -47,7 +47,7 @@ CREATE TABLE `variable` (
 
 LOCK TABLES `variable` WRITE;
 /*!40000 ALTER TABLE `variable` DISABLE KEYS */;
-INSERT INTO `variable` VALUES (1,1,'var1','test add SP1',1,NULL,NULL,NULL),(4,1,'var2','test add SP1',1,NULL,NULL,NULL),(5,1,'var2','test add SP1',1,NULL,NULL,NULL),(6,1,'VAR6','Var 6 desc',1,100,NULL,NULL),(7,2,'var22','test add SP1',1,NULL,NULL,NULL),(8,1,'Var5','desc 5',1,2,NULL,NULL),(9,22,'Voltage','Voltage',1,5,NULL,8),(10,22,'Current','Current',1,5,NULL,9),(11,22,'Power','Power',3,5,NULL,10),(12,24,'Voltage','Voltage',1,5,NULL,8),(13,24,'Current','Current',1,5,NULL,9),(14,24,'Power','Power',3,5,NULL,10),(15,26,'Voltage','Voltage of the device',3,10,NULL,NULL),(16,26,'Current','Current of the device',2,10,NULL,NULL),(17,26,'Power','Power',1,10,NULL,NULL);
+INSERT INTO `variable` VALUES (18,30,'Current','Current value',2,10,NULL,NULL),(19,30,'Voltage','Voltage value',3,10,NULL,NULL),(20,31,'Voltage','Voltage reading from the device',3,10,NULL,NULL),(21,31,'Current','Current reading from the device',2,10,0,0),(22,32,'Current','current value',2,10,NULL,NULL),(23,32,'Voltage','current Voltage',3,10,NULL,NULL);
 /*!40000 ALTER TABLE `variable` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -60,4 +60,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-09-30 10:48:33
+-- Dump completed on 2016-10-06  9:05:56
