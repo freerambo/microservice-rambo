@@ -50,6 +50,10 @@ public class CommandHelper {
 		commandData.setDescription(rs.getString("description"));
 		commandData.setFormatString(rs.getString("formatString"));
 		commandData.setDeviceID(rs.getInt("deviceID"));
+		commandData.setCommandTypeID(rs.getInt("commandTypeId"));
+		commandData.setCommandTypeName(rs.getString("commandTypeName"));
+		commandData.setProtocolID(rs.getInt("protocolId"));
+		commandData.setProtocolName(rs.getString("protocolName"));
 
 		return commandData;
 	}

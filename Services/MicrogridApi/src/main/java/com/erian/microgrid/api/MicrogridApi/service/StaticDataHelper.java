@@ -144,7 +144,7 @@ public class StaticDataHelper
 			try {
 					c = DatabaseHelper.getConnection();
 		            Statement s = c.createStatement();
-		            String sql = "{call get_command_types ()}";
+		            String sql = "{call get_command_protocols ()}";
 		            ResultSet rs = s.executeQuery(sql);
 		            while (rs.next()) {
 		                list.add(Mapper.mapCommandProtocol(processCommandProtocolRow(rs)));
