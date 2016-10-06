@@ -164,7 +164,7 @@
 				</div>
 
 				<div class="row">
-					<div class="col-sm-7"></div>
+					<div class="col-sm-7"><span ng-bind="$location.path()"></span></div>
 					<div class="col-sm-5">
 						<div class="pagination-div" align="right">
 
@@ -173,7 +173,7 @@
 									ng-click="prevPage()"><span class="glyphicon glyphicon-backward"></span> Prev</a></li>
 								<li ng-repeat="n in range()"
 									ng-class="{active: n == currentPage}" ng-click="setPage(n)"><a
-									href="#">{{n+1}}</a></li>
+									href = "javascript:">{{n+1}}</a></li>
 								<li ng-class="DisableNextPage()"><a href
 									ng-click="nextPage()">Next <span class="glyphicon glyphicon-forward"></span></a></li>
 							</ul>

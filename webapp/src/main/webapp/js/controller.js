@@ -1,7 +1,7 @@
 (function () {
     var as = angular.module('exampleApp.controllers', ['ui.bootstrap']);
     //Test
-//    var baseUrl = "http://172.21.76.125:8080/MicrogridApiTest/devices";
+ //  var baseUrl = "http://172.21.76.125:8080/MicrogridApiTest/devices";
 //    var staticUrl = "http://172.21.76.125:8080/MicrogridApiTest/static";
 //    var url = "http://172.21.76.125:8080/MicrogridApiTest";
     
@@ -302,13 +302,18 @@
     			var start;
 
     			start = $scope.currentPage;
+    			
     			if (start > $scope.pageCount() - rangeSize) {
-    				start = $scope.pageCount() - rangeSize + 1;
-    			}
+    				start = $scope.pageCount() - rangeSize ;
+    				if (start < 0) {
+    			        start = 0;
+    			    }
+    			} 
 
-    			for (var i = start; i < start + rangeSize; i++) {
+    			for (var i = start; i < start + rangeSize && i <= $scope.pageCount(); i++) {
     				ps.push(i);
     			}
+    			console.log(ps);
     			return ps;
     		};
 
@@ -323,7 +328,8 @@
     		};
 
     		$scope.pageCount = function() {
-    			return Math.ceil($scope.entities.length / $scope.itemsPerPage) - 1;
+    			console.log($scope.entities.length / $scope.itemsPerPage);
+    			return Math.ceil($scope.entities.length / $scope.itemsPerPage) - 1 ;
     		};
 
     		$scope.nextPage = function() {
@@ -337,7 +343,9 @@
     		};
 
     		$scope.setPage = function(n) {
-    			$scope.currentPage = n;
+    			if (n > 0 && n < $scope.pageCount()) {
+    			      $scope.currentPage = n;
+    			    }
     		};
 
     		$scope.today = function() {
