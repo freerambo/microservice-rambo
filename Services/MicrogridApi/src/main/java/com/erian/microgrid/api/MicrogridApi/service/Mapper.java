@@ -4,6 +4,8 @@ import java.util.Arrays;
 
 import com.erian.microgrid.api.MicrogridApi.dataModel.BusData;
 import com.erian.microgrid.api.MicrogridApi.dataModel.CommandData;
+import com.erian.microgrid.api.MicrogridApi.dataModel.CommandProtocolData;
+import com.erian.microgrid.api.MicrogridApi.dataModel.CommandTypeData;
 import com.erian.microgrid.api.MicrogridApi.dataModel.CommunicationData;
 import com.erian.microgrid.api.MicrogridApi.dataModel.DeviceData;
 import com.erian.microgrid.api.MicrogridApi.dataModel.DeviceTypeData;
@@ -12,6 +14,8 @@ import com.erian.microgrid.api.MicrogridApi.dataModel.VariableData;
 import com.erian.microgrid.api.MicrogridApi.dataModel.VariableValueData;
 import com.erian.microgrid.api.MicrogridApi.model.Bus;
 import com.erian.microgrid.api.MicrogridApi.model.Command;
+import com.erian.microgrid.api.MicrogridApi.model.CommandProtocol;
+import com.erian.microgrid.api.MicrogridApi.model.CommandType;
 import com.erian.microgrid.api.MicrogridApi.model.Communication;
 import com.erian.microgrid.api.MicrogridApi.model.Device;
 import com.erian.microgrid.api.MicrogridApi.model.DeviceType;
@@ -187,5 +191,25 @@ public final class Mapper {
 		res.variableNames = Arrays.asList(data.variableNames.split("\\s*,\\s*")); 
 		return res;
 
+	}
+	
+	public static CommandType mapCommandType(CommandTypeData commandTypeData) {
+		CommandType commandType = new CommandType();
+		
+		commandType.setId(commandTypeData.getId());
+		commandType.setName(commandTypeData.getName());
+		commandType.setDescription(commandTypeData.getDescription());
+		
+		return commandType;
+	}
+	
+	public static CommandProtocol mapCommandProtocol(CommandProtocolData commandProtocolData) {
+		CommandProtocol commandProtocol = new CommandProtocol();
+		
+		commandProtocol.setId(commandProtocolData.getId());
+		commandProtocol.setName(commandProtocolData.getName());
+		commandProtocol.setDescription(commandProtocolData.getDescription());
+		
+		return commandProtocol;
 	}
 }
