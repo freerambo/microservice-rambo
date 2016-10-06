@@ -50,6 +50,10 @@ public class CommandHelper {
 		commandData.setDescription(rs.getString("description"));
 		commandData.setFormatString(rs.getString("formatString"));
 		commandData.setDeviceID(rs.getInt("deviceID"));
+		commandData.setCommandTypeID(rs.getInt("commandTypeId"));
+		commandData.setCommandTypeName(rs.getString("commandTypeName"));
+		commandData.setProtocolID(rs.getInt("protocolId"));
+		commandData.setProtocolName(rs.getString("protocolName"));
 
 		return commandData;
 	}
@@ -66,14 +70,16 @@ public class CommandHelper {
 		CommandData commandAdded = null;
 		try {
 			c = DatabaseHelper.getConnection();
-			String query = "{call add_command(?,?,?,?,?,?)}";
+			String query = "{call add_command(?,?,?,?,?,?,?,?)}";
 			ps = c.prepareStatement(query);
 			ps.setInt(1, newCommand.getDeviceID());
 			ps.setString(2, newCommand.getName());
 			ps.setString(3, newCommand.getDescription());
 			ps.setString(4, newCommand.getFormatString());
-			ps.setString(5, newCommand.getInputVariables());
-			ps.setString(6, newCommand.getOutputVariables());
+			ps.setInt(5, newCommand.getProtocolID());
+			ps.setInt(6, newCommand.getCommandTypeID());
+			ps.setString(7, newCommand.getInputVariables());
+			ps.setString(8, newCommand.getOutputVariables());
 
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -102,14 +108,16 @@ public class CommandHelper {
 		CommandData commandUpdated = null;
 		try {
 			c = DatabaseHelper.getConnection();
-			String query = "{call update_command(?,?,?,?,?,?)}";
+			String query = "{call update_command(?,?,?,?,?,?,?,?)}";
 			ps = c.prepareStatement(query);
 			ps.setInt(1, command.getID());
 			ps.setString(2, command.getName());
 			ps.setString(3, command.getDescription());
 			ps.setString(4, command.getFormatString());
-			ps.setString(5, command.getInputVariables());
-			ps.setString(6, command.getOutputVariables());
+			ps.setInt(5, command.getProtocolID());
+			ps.setInt(6, command.getCommandTypeID());
+			ps.setString(7, command.getInputVariables());
+			ps.setString(8, command.getOutputVariables());
 
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {

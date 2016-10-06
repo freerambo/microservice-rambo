@@ -7,18 +7,28 @@ public class CommandData {
 	private String FormatString;
 	private int DeviceID;
 	
+	private int ProtocolID;
+	private String ProtocolName;
+	private int CommandTypeID;
+	private String CommandTypeName;
+	
 	public CommandData() {
 		
 	}
 
 	public CommandData(int iD, String name, String description,
-			String formatString, int deviceID) {
+			String formatString, int deviceID, int protocolId, String protocolName, int commandTypeId,
+			String commandTypeName) {
 		super();
 		ID = iD;
 		Name = name;
 		Description = description;
 		FormatString = formatString;
 		DeviceID = deviceID;
+		ProtocolID = protocolId;
+		ProtocolName = protocolName;
+		CommandTypeID = commandTypeId;
+		CommandTypeName = commandTypeName;
 	}
 
 	public int getID() {
@@ -59,6 +69,38 @@ public class CommandData {
 
 	public void setDeviceID(int deviceID) {
 		DeviceID = deviceID;
+	}
+	
+	public int getProtocolID() {
+		return ProtocolID;
+	}
+	
+	public void setProtocolID(int protocolID) {
+		ProtocolID = protocolID;
+	}
+	
+	public String getProtocolName() {
+		return ProtocolName;
+	}
+	
+	public void setProtocolName(String protocolName) {
+		ProtocolName = protocolName;
+	}
+	
+	public int getCommandTypeID() {
+		return CommandTypeID;
+	}
+	
+	public void setCommandTypeID(int commandTypeID) {
+		CommandTypeID = commandTypeID;
+	}
+	
+	public String getCommandTypeName() {
+		return CommandTypeName;
+	}
+	
+	public void setCommandTypeName(String commandTypeName) {
+		CommandTypeName = commandTypeName; 
 	}
 	
 	public String getInputVariables() {
