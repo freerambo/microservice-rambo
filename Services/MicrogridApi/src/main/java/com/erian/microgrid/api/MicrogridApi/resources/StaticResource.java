@@ -8,6 +8,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.erian.microgrid.api.MicrogridApi.model.Bus;
+import com.erian.microgrid.api.MicrogridApi.model.CommandProtocol;
+import com.erian.microgrid.api.MicrogridApi.model.CommandType;
 import com.erian.microgrid.api.MicrogridApi.model.DeviceType;
 import com.erian.microgrid.api.MicrogridApi.model.Unit;
 import com.erian.microgrid.api.MicrogridApi.service.StaticDataHelper;
@@ -46,6 +48,30 @@ public class StaticResource {
 	public List<Unit> getUnits(){
 		try {
 			return StaticDataHelper.GetUnits();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@GET
+	@Path("/commandTypes")
+	public List<CommandType> getCommandTypes() {
+		try {
+			return StaticDataHelper.getCommandTypes();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@GET
+	@Path("/commandProtocols")
+	public List<CommandProtocol> getCommandProtocols() {
+		try {
+			return StaticDataHelper.getCommandProtocols();
 		}
 		catch (Exception e) {
 			e.printStackTrace();
