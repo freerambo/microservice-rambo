@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `smes_microgrid` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `smes_microgrid`;
 -- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
 --
 -- Host: localhost    Database: smes_microgrid
@@ -73,7 +71,7 @@ CREATE TABLE `command` (
 
 LOCK TABLES `command` WRITE;
 /*!40000 ALTER TABLE `command` DISABLE KEYS */;
-INSERT INTO `command` VALUES (17,'Read all for AC Load Chroma 63804','Command that reads all the variables of device AC Load Chroma 63804in one communication request','MEAS:CURR?;FREQ?;POW?;RES?;VOLT?;TIME:HOLD?;TRAN?;:MODE?;:LOAD?\\n',30,90,90),(18,'Read all for DC Load Chroma 63211','Command that reads all the variables of device DC Load Chroma 63211in one communication request','MEAS:VOLT?;CURR?;POW?;RES?;:LOAD?;:MODE?',31,90,90),(19,'Read all for AC Source AMETEK  bps75','Command that reads all the variables of device AC Source AMETEK  bps75in one communication request','MEAS:VOLT?;CURR?;POW?;FREQ?;:MEAS:POW:APP?;:MEAS:CURR:AMPL:MAX?;:MEAS:POW:PFAC?;:VOLT:RANG?;:CURR?;:VOLT?;:MODE?;:OUTP?',32,90,90),(20,'SwitchOnDevice30','','CMD HERE',30,11,90),(21,'SwitchOFFDevice30','','OFF CMD HERE 2',30,12,90);
+INSERT INTO `command` VALUES (17,'Read all for AC Load Chroma 63804','Command that reads all the variables of device AC Load Chroma 63804in one communication request','MEAS:CURR?;FREQ?;POW?;RES?;VOLT?;TIME:HOLD?;TRAN?;:MODE?;:LOAD?\\n',30,90,90),(18,'Read all for DC Load Chroma 63211','Command that reads all the variables of device DC Load Chroma 63211in one communication request','MEAS:VOLT?;CURR?;POW?;RES?;:LOAD?;:MODE?',31,90,90),(19,'Read all for AC Source AMETEK  bps75','Command that reads all the variables of device AC Source AMETEK  bps75in one communication request','MEAS:VOLT?;CURR?;POW?;FREQ?;:MEAS:POW:APP?;:MEAS:CURR:AMPL:MAX?;:MEAS:POW:PFAC?;:VOLT:RANG?;:CURR?;:VOLT?;:MODE?;:OUTP?',32,90,90),(20,'SwitchOnDevice30','','CMD HERE',30,11,20),(21,'SwitchOFFDevice30','','OFF CMD HERE 2',30,12,20);
 /*!40000 ALTER TABLE `command` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -103,7 +101,7 @@ CREATE TABLE `command_device_variable` (
 
 LOCK TABLES `command_device_variable` WRITE;
 /*!40000 ALTER TABLE `command_device_variable` DISABLE KEYS */;
-INSERT INTO `command_device_variable` VALUES (7,5,1),(7,5,2);
+INSERT INTO `command_device_variable` VALUES (7,5,1),(20,24,1),(21,24,1),(7,5,2),(20,24,2),(21,24,2);
 /*!40000 ALTER TABLE `command_device_variable` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -128,7 +126,7 @@ CREATE TABLE `command_protocol` (
 
 LOCK TABLES `command_protocol` WRITE;
 /*!40000 ALTER TABLE `command_protocol` DISABLE KEYS */;
-INSERT INTO `command_protocol` VALUES (10,'TCP/IP','NPort communication'),(11,'Web Socket','Communication through websocket'),(12,'Web Service','API call'),(90,'Other',NULL);
+INSERT INTO `command_protocol` VALUES (10,'TCP/IP','NPort communication'),(11,'Web Socket','Communication through websocket'),(12,'Web Service','API call'),(20,'URL','Redirect to URL'),(90,'Other',NULL);
 /*!40000 ALTER TABLE `command_protocol` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -239,7 +237,17 @@ SET character_set_client = utf8;
  1 AS `VariableName`,
  1 AS `variableId`,
  1 AS `valueTimestamp`,
- 1 AS `latestValue`*/;
+ 1 AS `latestValue`,
+ 1 AS `switchOnCommandId`,
+ 1 AS `switchOnCommandName`,
+ 1 AS `switchOnCommand`,
+ 1 AS `switchOnCommandProtocolId`,
+ 1 AS `switchOffCommandId`,
+ 1 AS `switchOfCommandName`,
+ 1 AS `switchOffCommand`,
+ 1 AS `switchOffCommandProtocolId`,
+ 1 AS `URL_On`,
+ 1 AS `URL_OFF`*/;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -411,6 +419,27 @@ INSERT INTO `parameter_type` VALUES (1,'Inpit Param','input to command'),(2,'Out
 UNLOCK TABLES;
 
 --
+-- Temporary view structure for view `status_on_off_commands`
+--
+
+DROP TABLE IF EXISTS `status_on_off_commands`;
+/*!50001 DROP VIEW IF EXISTS `status_on_off_commands`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE VIEW `status_on_off_commands` AS SELECT 
+ 1 AS `statusVariableId`,
+ 1 AS `statusVariableName`,
+ 1 AS `switchOnCommandId`,
+ 1 AS `switchOnCommandName`,
+ 1 AS `switchOnCommand`,
+ 1 AS `switchOnCommandProtocolId`,
+ 1 AS `switchOffCommandId`,
+ 1 AS `switchOfCommandName`,
+ 1 AS `switchOffCommand`,
+ 1 AS `switchOffCommandProtocolId`*/;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Table structure for table `translation`
 --
 
@@ -456,7 +485,7 @@ CREATE TABLE `variable` (
   KEY `fk_variable_device_idx` (`device_id`) USING BTREE,
   CONSTRAINT `fk_variable_device` FOREIGN KEY (`device_id`) REFERENCES `device` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_variable_unit` FOREIGN KEY (`unit_id`) REFERENCES `variable_unit` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -465,7 +494,7 @@ CREATE TABLE `variable` (
 
 LOCK TABLES `variable` WRITE;
 /*!40000 ALTER TABLE `variable` DISABLE KEYS */;
-INSERT INTO `variable` VALUES (18,30,'Current','Current value',2,10,NULL,NULL),(19,30,'Voltage','Voltage value',3,10,NULL,NULL),(20,31,'Voltage','Voltage reading from the device',3,10,NULL,NULL),(21,31,'Current','Current reading from the device',2,10,0,0),(22,32,'Current','current value',2,10,NULL,NULL),(23,32,'Voltage','current Voltage',3,10,NULL,NULL);
+INSERT INTO `variable` VALUES (18,30,'Current','Current value',2,10,NULL,NULL),(19,30,'Voltage','Voltage value',3,10,NULL,NULL),(20,31,'Voltage','Voltage reading from the device',3,10,NULL,NULL),(21,31,'Current','Current reading from the device',2,10,0,0),(22,32,'Current','current value',2,10,NULL,NULL),(23,32,'Voltage','current Voltage',3,10,NULL,NULL),(24,30,'DeviceStatus','DeviceStatus ON or OFF',50,10,NULL,NULL),(25,31,'Ch1Status','Status ON/OFF channel 1',50,10,NULL,NULL),(26,31,'Ch2Status','Status ON/OFF channel 2',50,10,NULL,NULL);
 /*!40000 ALTER TABLE `variable` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -481,8 +510,7 @@ CREATE TABLE `variable_unit` (
   `code` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  CONSTRAINT `fk_variable_unit_device_variable_1` FOREIGN KEY (`id`) REFERENCES `device_variable` (`unit_id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -492,7 +520,7 @@ CREATE TABLE `variable_unit` (
 
 LOCK TABLES `variable_unit` WRITE;
 /*!40000 ALTER TABLE `variable_unit` DISABLE KEYS */;
-INSERT INTO `variable_unit` VALUES (1,'kWh','Power','power in kWh'),(2,'A','Energy','energy in A'),(3,'V','Voltage','volt');
+INSERT INTO `variable_unit` VALUES (1,'kWh','Power','power in kWh'),(2,'A','Energy','energy in A'),(3,'V','Voltage','volt'),(50,'Status','Status','');
 /*!40000 ALTER TABLE `variable_unit` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1185,11 +1213,23 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_devices_data_latest`()
 BEGIN
 
+-- This is important as the MySQL default setting is 1024!
+SET SESSION group_concat_max_len = 500000;
+
 SELECT CONCAT('{"Devices" : [', GROUP_CONCAT(CONCAT('{"DeviceId":"', deviceId, '", "DeviceName":"', deviceName, '", "Variables":[', list, ']}')), ']}') as jsonStr 
 FROM 
 (SELECT
   deviceId, deviceName,
-  GROUP_CONCAT(CONCAT('{"VariableId":"', VariableId, '", "VariableName":"', VariableName, '", "LatestValue":"',latestValue,'", "ValueTimestamp":"', valueTimestamp,'"}')) list
+  GROUP_CONCAT(CONCAT('{"VariableId":"', VariableId, '", "VariableName":"', VariableName, '", "LatestValue":"', IFNULL(latestValue, ''),'", "ValueTimestamp":"', IFNULL(valueTimestamp, ''),
+  '", "URL_ON":"', URL_On,
+  '", "URL_OFF":"', URL_Off,
+  '", "IsSwitcher":"', CASE WHEN switchOnCommandId IS NOT NULL  
+								THEN 1 ELSE 0 
+						END,
+  '", "IsLink":"', CASE WHEN URL_On ='' AND   URL_OFF = ''
+								THEN 0 ELSE 1 
+						END,                        
+  '"}')) list
 FROM
   smes_microgrid.device_data_view
 GROUP BY
@@ -1472,7 +1512,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_switch_OFF_command`(IN device_id INT)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_switch_OFF_command`(IN device_id INT, IN variable_id INT)
 BEGIN
 
 -- SELECT * FROM smes_microgrid.command_type;
@@ -1486,6 +1526,7 @@ BEGIN
 SELECT  
 		C.format_string as commandFormatString,
         C.id as commandId,
+        C.name as commandName,
         C.command_protocol_id as protocolId,
         C.command_type_id as commandTypeId,
         D.id as deviceId,
@@ -1494,12 +1535,17 @@ SELECT
 		CP.id as protocolId,
 		CP.name as protocolName,
 		CT.id as commandTypeId,
-		CT.name as commandTypeName
+		CT.name as commandTypeName,
+        CDV.variable_id as statusVariableId,
+        V.name as statusVariableName
 FROM device 			as D 
 INNER JOIN command 			as C ON C.device_id = D.id
+INNER JOIN command_device_variable CDV ON CDV.command_id = C.id AND CDV.variable_id = variable_id 
+INNER JOIN variable V ON V.id = variable_id 
 INNER JOIN command_protocol as CP ON CP.id = C.command_protocol_id
 INNER JOIN command_type 	as CT ON CT.id = C.command_type_id
-WHERE D.id = device_id AND CT.id = 12;  -- Command type 11 is 'Switch On'
+WHERE D.id = device_id AND CT.id = 12 -- Command type 11 is 'Switch On'
+LIMIT 1;
 
 END ;;
 DELIMITER ;
@@ -1517,8 +1563,13 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_switch_ON_command`(IN device_id INT)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_switch_ON_command`(IN device_id INT, IN variable_id INT)
 BEGIN
+
+-- Parameter variable_id used to return switchON command when there are more than one CHANNELS
+-- Channel_1_Status is one variable with some ON/OFF commands,
+-- Channel_2_Status is another variable with some ON/OFF commands
+
 
 -- SELECT * FROM smes_microgrid.command_type;
 
@@ -1530,6 +1581,7 @@ BEGIN
 
 SELECT  C.format_string as commandFormatString,
         C.id as commandId,
+        C.name as commandName,
         C.command_protocol_id as protocolId,
         C.command_type_id as commandTypeId,
         D.id as deviceId,
@@ -1538,12 +1590,17 @@ SELECT  C.format_string as commandFormatString,
     CP.id as protocolId,
     CP.name as protocolName,
     CT.id as commandTypeId,
-	CT.name as commandTypeName
+	CT.name as commandTypeName,
+    CDV.variable_id as statusVariableId,
+    V.name as statusVariableName 
 FROM device 			as D 
 INNER JOIN command 			as C ON C.device_id = D.id
+INNER JOIN command_device_variable CDV ON CDV.command_id = C.id AND CDV.variable_id = variable_id 
+INNER JOIN variable V ON V.id = variable_id 
 INNER JOIN command_protocol as CP ON CP.id = C.command_protocol_id
 INNER JOIN command_type 	as CT ON CT.id = C.command_type_id
-WHERE D.id = device_id AND CT.id = 11;  -- Command type 11 is 'Switch On'
+WHERE D.id = device_id  AND CT.id = 11 -- Command type 11 is 'Switch On'
+LIMIT 1;  
 
 END ;;
 DELIMITER ;
@@ -2090,7 +2147,25 @@ DELIMITER ;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `device_data_view` AS select `d`.`id` AS `deviceId`,`d`.`name` AS `deviceName`,`v`.`name` AS `VariableName`,`v`.`id` AS `variableId`,`vv`.`timestamp` AS `valueTimestamp`,`vv`.`value` AS `latestValue` from (((`smes_microgrid`.`device` `d` join `smes_microgrid`.`variable` `v` on((`v`.`device_id` = `d`.`id`))) left join (select max(`smes_microgrid`.`variable_value`.`timestamp`) AS `latestTimestamp`,`smes_microgrid`.`variable_value`.`variable_id` AS `variable_id` from `smes_microgrid`.`variable_value` group by `smes_microgrid`.`variable_value`.`variable_id`) `latestvv` on((`latestvv`.`variable_id` = `v`.`id`))) left join `smes_microgrid`.`variable_value` `vv` on(((`vv`.`variable_id` = `latestvv`.`variable_id`) and (`vv`.`timestamp` = `latestvv`.`latestTimestamp`)))) order by `d`.`id`,`v`.`id` */;
+/*!50001 VIEW `device_data_view` AS select distinct `d`.`id` AS `deviceId`,`d`.`name` AS `deviceName`,`v`.`name` AS `VariableName`,`v`.`id` AS `variableId`,`vv`.`timestamp` AS `valueTimestamp`,`vv`.`value` AS `latestValue`,`onoff`.`switchOnCommandId` AS `switchOnCommandId`,`onoff`.`switchOnCommandName` AS `switchOnCommandName`,`onoff`.`switchOnCommand` AS `switchOnCommand`,`onoff`.`switchOnCommandProtocolId` AS `switchOnCommandProtocolId`,`onoff`.`switchOffCommandId` AS `switchOffCommandId`,`onoff`.`switchOfCommandName` AS `switchOfCommandName`,`onoff`.`switchOffCommand` AS `switchOffCommand`,`onoff`.`switchOffCommandProtocolId` AS `switchOffCommandProtocolId`,(case when (`onoff`.`switchOnCommandProtocolId` = 20) then `onoff`.`switchOnCommand` else '' end) AS `URL_On`,(case when (`onoff`.`switchOffCommandProtocolId` = 20) then `onoff`.`switchOffCommand` else '' end) AS `URL_OFF` from (((((`smes_microgrid`.`device` `d` join `smes_microgrid`.`variable` `v` on((`v`.`device_id` = `d`.`id`))) left join (select max(`smes_microgrid`.`variable_value`.`timestamp`) AS `latestTimestamp`,`smes_microgrid`.`variable_value`.`variable_id` AS `variable_id` from `smes_microgrid`.`variable_value` group by `smes_microgrid`.`variable_value`.`variable_id`) `latestvv` on((`latestvv`.`variable_id` = `v`.`id`))) left join `smes_microgrid`.`variable_value` `vv` on(((`vv`.`variable_id` = `latestvv`.`variable_id`) and (`vv`.`timestamp` = `latestvv`.`latestTimestamp`)))) left join `smes_microgrid`.`command_device_variable` `cdv` on(((`cdv`.`variable_id` = `v`.`id`) and (`v`.`unit_id` = 50)))) left join `smes_microgrid`.`status_on_off_commands` `onoff` on((`onoff`.`statusVariableId` = `cdv`.`variable_id`))) order by `d`.`id`,`v`.`id` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `status_on_off_commands`
+--
+
+/*!50001 DROP VIEW IF EXISTS `status_on_off_commands`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `status_on_off_commands` AS select `v`.`id` AS `statusVariableId`,`v`.`name` AS `statusVariableName`,max(`onoff`.`switchOnCommandId`) AS `switchOnCommandId`,max(`onoff`.`switchOnCommandName`) AS `switchOnCommandName`,max(`onoff`.`switchOnCommand`) AS `switchOnCommand`,max(`onoff`.`switchOnCommandProtocolId`) AS `switchOnCommandProtocolId`,max(`onoff`.`switchOffCommandId`) AS `switchOffCommandId`,max(`onoff`.`switchOfCommandName`) AS `switchOfCommandName`,max(`onoff`.`switchOffCommand`) AS `switchOffCommand`,max(`onoff`.`switchOffCommandProtocolId`) AS `switchOffCommandProtocolId` from (`smes_microgrid`.`variable` `v` left join (select `c_on`.`id` AS `switchOnCommandId`,`c_on`.`name` AS `switchOnCommandName`,`c_on`.`format_string` AS `switchOnCommand`,`c_on`.`command_protocol_id` AS `switchOnCommandProtocolId`,NULL AS `switchOffCommandId`,NULL AS `switchOfCommandName`,NULL AS `switchOffCommand`,NULL AS `switchOffCommandProtocolId`,`cdv`.`variable_id` AS `variable_id` from (`smes_microgrid`.`command` `c_on` left join `smes_microgrid`.`command_device_variable` `cdv` on((`cdv`.`command_id` = `c_on`.`id`))) where ((`c_on`.`id` = `cdv`.`command_id`) and (`c_on`.`command_type_id` = 11)) union all select NULL AS `switchOnCommandId`,NULL AS `switchOnCommandName`,NULL AS `switchOnCommand`,NULL AS `switchOnCommandProtocolId`,`c_off`.`id` AS `switchOffCommandId`,`c_off`.`name` AS `switchOfCommandName`,`c_off`.`format_string` AS `switchOffCommand`,`c_off`.`command_protocol_id` AS `switchOffCommandProtocolId`,`cdv`.`variable_id` AS `variableId` from (`smes_microgrid`.`command` `c_off` left join `smes_microgrid`.`command_device_variable` `cdv` on((`cdv`.`command_id` = `c_off`.`id`))) where ((`c_off`.`id` = `cdv`.`command_id`) and (`c_off`.`command_type_id` = 12))) `onoff` on((`v`.`id` = `onoff`.`variable_id`))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -2104,4 +2179,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-10-06 18:30:52
+-- Dump completed on 2016-10-07 17:48:48
