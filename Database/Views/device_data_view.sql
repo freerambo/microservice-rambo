@@ -17,7 +17,15 @@ VIEW `device_data_view` AS
         `onoff`.`switchOffCommandId` AS `switchOffCommandId`,
         `onoff`.`switchOfCommandName` AS `switchOfCommandName`,
         `onoff`.`switchOffCommand` AS `switchOffCommand`,
-        `onoff`.`switchOffCommandProtocolId` AS `switchOffCommandProtocolId`
+        `onoff`.`switchOffCommandProtocolId` AS `switchOffCommandProtocolId`,
+        (CASE
+            WHEN (`onoff`.`switchOnCommandProtocolId` = 20) THEN `onoff`.`switchOnCommand`
+            ELSE ''
+        END) AS `URL_On`,
+        (CASE
+            WHEN (`onoff`.`switchOffCommandProtocolId` = 20) THEN `onoff`.`switchOffCommand`
+            ELSE ''
+        END) AS `URL_OFF`
     FROM
         (((((`smes_microgrid`.`device` `d`
         JOIN `smes_microgrid`.`variable` `v` ON ((`v`.`device_id` = `d`.`id`)))
