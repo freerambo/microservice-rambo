@@ -50,7 +50,6 @@ public class DeviceValuesHelper {
 			c = DatabaseHelper.getConnection();
             Statement s = c.createStatement();
             String sql = "{call get_device_data (" + deviceId + "," + startDate + "," + endDate + ")}";
-            System.out.println("sql:" + sql);
             ResultSet rs = s.executeQuery(sql);
             ResultSetMetaData rsmd = rs.getMetaData();
             int columnNumber = rsmd.getColumnCount();

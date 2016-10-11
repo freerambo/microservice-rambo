@@ -3,10 +3,13 @@ package com.erian.microgrid.api.MicrogridApi.service;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.erian.microgrid.api.MicrogridApi.dataModel.CommandData;
 import com.erian.microgrid.api.MicrogridApi.model.Command;
@@ -131,5 +134,57 @@ public class CommandHelper {
 			DatabaseHelper.close(c);
 		}
 		return commandUpdated;
+	}
+	
+	public static Map<String, String> getSwitchOff(int deviceId, int variableId) {
+		Map<String, String> map = new HashMap<String, String>();
+		Connection c = null;
+		
+		try {
+			c = DatabaseHelper.getConnection();
+            Statement s = c.createStatement();
+            String sql = "{call get_switch_OFF_command (" + deviceId + "," + variableId + ")}";
+            ResultSet rs = s.executeQuery(sql);
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int columnNumber = rsmd.getColumnCount();
+            while (rs.next()) {
+            	for (int i=1 ; i <= columnNumber; i++) {
+            		map.put(rsmd.getColumnLabel(i), rs.getString(i));
+            	}
+            }
+            
+		} catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+		} finally {
+			DatabaseHelper.close(c);
+		}
+		return map;
+	}
+	
+	public static Map<String, String> getSwitchOn(int deviceId, int variableId) {
+		Map<String, String> map = new HashMap<String, String>();
+		Connection c = null;
+		
+		try {
+			c = DatabaseHelper.getConnection();
+            Statement s = c.createStatement();
+            String sql = "{call get_switch_ON_command (" + deviceId + "," + variableId + ")}";
+            ResultSet rs = s.executeQuery(sql);
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int columnNumber = rsmd.getColumnCount();
+            while (rs.next()) {
+            	for (int i=1 ; i <= columnNumber; i++) {
+            		map.put(rsmd.getColumnLabel(i), rs.getString(i));
+            	}
+            }
+            
+		} catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+		} finally {
+			DatabaseHelper.close(c);
+		}
+		return map;
 	}
 }
