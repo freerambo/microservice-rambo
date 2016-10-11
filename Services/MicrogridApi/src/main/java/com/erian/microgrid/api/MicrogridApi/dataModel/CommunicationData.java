@@ -10,6 +10,10 @@ public class CommunicationData {
 	public int deviceId;
 	public int commandId;
 	public String commandName;
+	public int commandTypeId;
+	public String commandTypeName;
+	public int protocolId;
+	public String protocolName;
 	
 	public CommunicationData() {
 		

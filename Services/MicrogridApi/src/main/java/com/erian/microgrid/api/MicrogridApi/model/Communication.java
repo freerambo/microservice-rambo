@@ -19,6 +19,10 @@ public class Communication {
 	public int deviceId;
 	public int commandId;
 	public String commandName;
+	public int commandTypeId;
+	public String commandTypeName;
+	public int protocolId;
+	public String protocolName;
 	
 	public Date valueTimestamp;  // TODO find why Date fields are excluded from Json response and how to include them. Then can change String to DateTime
 	public float value;
@@ -30,7 +34,7 @@ public class Communication {
 	}
 
 	public Communication(List<String> variableIds, List<String> variableNames, String commandFormatString,
-			String iPAdress, String portNumber, int deviceId, int commandId) {
+			String iPAdress, String portNumber, int deviceId, int commandId, int commandTypeId, int protocolId) {
 		super();
 		this.variableIds = variableIds;
 		this.variableNames = variableNames;
@@ -39,6 +43,8 @@ public class Communication {
 		this.portNumber = portNumber;
 		this.deviceId = deviceId;
 		this.commandId = commandId;
+		this.commandTypeId = commandTypeId;
+		this.protocolId = protocolId;
 	}
 
 	
