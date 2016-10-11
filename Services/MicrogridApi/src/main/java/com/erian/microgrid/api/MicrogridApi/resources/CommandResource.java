@@ -31,6 +31,20 @@ public class CommandResource {
 		
 	}
 	
+	@GET
+	@Path("/{commandId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Command getAllCommand(@PathParam("commandId") int commandId) {
+		try {
+			return CommandHelper.getCommand(commandId);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+		
+	}
+	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
