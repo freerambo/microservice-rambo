@@ -158,7 +158,7 @@
         	$http.get(actionUrl)
              .success(function (data) {
             	 
-             	 console.log("Console devices " + data.id);
+//             	 console.log("Console devices " + data.id);
                  $scope.device = data;	                        
                  
              });
@@ -166,22 +166,37 @@
         	$http.get(actionUrl+"/variables")
             .success(function (data) {
            	 
-            	 console.log("Console variable " + data.id);
+//            	 console.log("Console variable " + data.id);
                  $scope.variables = data;	                        
                 
             });
-/*        	$http.get(actionUrl+"/commands")
+        	
+        	$http.get(actionUrl+"/commands")
             .success(function (data) {
            	 
-            	 console.log("Console commands " + data.id);
+//            	 console.log("Console commands " + data.id);
                  $scope.commands = data;	                        
                 
-            });*/
+            });
         	
         	$http.get(staticUrl+"/units")
             .success(function (data) {
            	 
                  $scope.units = data;	                        
+                
+            });
+        	
+        	$http.get(staticUrl+"/commandProtocols")
+            .success(function (data) {
+           	 
+                 $scope.protocols = data;	                        
+                
+            });
+        	
+        	$http.get(staticUrl+"/commandTypes")
+            .success(function (data) {
+           	 
+                 $scope.types = data;	                        
                 
             });
         	
@@ -207,6 +222,16 @@
         	 $http.post(actionUrl + "/variables", $scope.newVariable).success(function (data) {
         		 // push the new variables to the list
                  $scope.variables.push(data);
+                
+             });
+        	 
+        };
+        
+        $scope.saveCommand = function (id) {
+        	$scope.newCommand.deviceID = id;
+        	 $http.post(actionUrl + "/commands", $scope.newCommand).success(function (data) {
+        		 // push the new command to the list
+                 $scope.commands.push(data);
                 
              });
         	 
@@ -238,6 +263,33 @@
         	 
         };
         
+        $scope.goUpdateCommand = function (id) {
+        	 $http.get(actionUrl + "/commands/"+id).success(function (data) {
+        		
+        		 $scope.updateCommand = data;
+        		 $('#commandModal1').toggle();
+        		 
+             });
+        	 
+        };
+        
+        $scope.updatedCommand = function (deviceId,id) {
+        	$scope.updateCommand.deviceID = deviceId;
+        	$scope.updateCommand.ID = id;
+//        	alert("update command " + id);
+        	 $http.put(actionUrl + "/commands/"+id, $scope.updateCommand).success(function (data) {
+                 $('#commandModal1').toggle();
+//                 alert("update command " + data.commandTypeName);
+                 load();
+             });
+        	 
+        };
+        
+        $scope.cancelCommand = function (id) {
+       	 $('#commandModal1').toggle();	
+       	
+        };
+        
         
     });
 
@@ -259,7 +311,6 @@
 	        }); 
         	$http.get(actionUrl)
              .success(function (data) {
-             	 console.log("Console devices " + data.id);
                  $scope.newDevice = data;	
              });
       	

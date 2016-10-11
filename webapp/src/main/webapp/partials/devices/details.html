@@ -176,7 +176,7 @@
                  <tbody>
                  
                      <tr ng-repeat="command in commands">
-                         <td align="center"> <span class="glyphicon glyphicon-edit" aria-hidden="true" ng-click="goUpdateVariable(variable.ID)" data-toggle="modal" data-target="#myModal2"></span><!-- | <span class="glyphicon glyphicon-trash" aria-hidden="true" ng-click="del(device.ID)"></span> --></td>
+                         <td align="center"> <span class="glyphicon glyphicon-edit" aria-hidden="true" ng-click="goUpdateCommand(command.ID)" data-toggle="modal" data-target="#commandModal2"></span><!-- | <span class="glyphicon glyphicon-trash" aria-hidden="true" ng-click="del(device.ID)"></span> --></td>
                             <td>{{command.name}}</td>
                            <td>{{command.protocolName}}</td>
                            <td>{{command.commandTypeName}}</td>
@@ -333,7 +333,7 @@
 	      
 	        <div class="modal-header">
 	          <button type="button" class="close" ng-click="cancelVariable()">&times;</button>
-	         <div class="form-group row">  <h4 class="modal-title">Update Variable {{updateVariable.ID}} For device {{device.ID}}</h4>
+	         <div class="form-group row">  <h4 class="modal-title">Update Variable <!-- {{updateVariable.ID}} For device {{device.ID}} --></h4>
 	        </div>
 	        </div>
 	        <div class="modal-body">
@@ -381,3 +381,69 @@
     </div>
   </div>
      
+     
+     
+     
+          <!-- Update Command Modal -->
+  <div class="modal" id="commandModal1">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+      <form role="form" novalidate>
+     
+	      
+	        <div class="modal-header">
+	          <button type="button" class="close" ng-click="cancelCommand()">&times;</button>
+	         <div class="form-group row">  <h4 class="modal-title">Update Command <!-- {{updateVariable.ID}} For device {{device.ID}} --></h4>
+	        </div>
+	        </div>
+	        <div class="modal-body">
+	                            
+   <div class="form-group row">
+      <label for="name" class="col-sm-2 col-form-label">Name</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="name" ng-model="updateCommand.name" ng-required="true" placeholder="please input the Name">
+      </div>
+    </div>    
+       
+      <div class="form-group row">
+      <label for="protocolID" class="col-sm-2 col-form-label">Protocol</label>
+      <div class="col-sm-10">
+    	
+      		<select ng-model="updateCommand.protocolID"  
+			        ng-options="item.id as item.name for item in protocols"  >
+			    <option value="">Select an Protocol</option>
+			</select>
+		      
+      </div>
+    </div> 
+       <div class="form-group row">
+      <label for="protocolID" class="col-sm-2 col-form-label">Type</label>
+      <div class="col-sm-10">
+    	
+      		<select ng-model="updateCommand.commandTypeID"  
+			        ng-options="item.id as item.name for item in types"  >
+			    <option value="">Select a Type</option>
+			</select>
+		      
+      </div>
+    </div> 
+	<div class="form-group row">
+      <label for="formatString" class="col-sm-2 col-form-label">Format</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" ng-model="updateCommand.formatString" ng-required="true" placeholder="please input the description">
+      </div>
+    </div>    
+                            
+	                            
+  </div>
+	        <div class="modal-footer">
+	          <button class="btn btn-primary" ng-click="updatedCommand(device.ID,updateCommand.ID)">Save</button>
+	          <button type="button" class="btn btn-default" ng-click="cancelCommand()">Close</button>
+	        </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>

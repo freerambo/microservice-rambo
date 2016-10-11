@@ -46,6 +46,25 @@ public class CommandHelper {
 		return list;
 	}
 
+	public static Command getCommand(int id) {
+		CommandData res = null;
+		Connection c = null;
+		try {
+			c = DatabaseHelper.getConnection();
+			Statement s = c.createStatement();
+			String sql = "{call get_command (" + id + ")}";
+			ResultSet rs = s.executeQuery(sql);
+			rs.next();
+            res = processCommandRow(rs);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		} finally {
+			DatabaseHelper.close(c);
+		}
+		return Mapper.MapCommand(res);
+	}
+	
 	protected static CommandData processCommandRow(ResultSet rs) throws SQLException {
 		CommandData commandData = new CommandData();
 		commandData.setID(rs.getInt("id"));
