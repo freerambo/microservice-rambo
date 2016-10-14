@@ -192,6 +192,10 @@ public final class Mapper {
 		res.portNumber = data.portNumber;
 		res.deviceId = data.deviceId;
 		res.commandId = data.commandId;
+		res.commandTypeId = data.commandTypeId;
+		res.commandTypeName = data.commandTypeName;
+		res.protocolId = data.protocolId;
+		res.protocolName = data.protocolName;
 		
 		res.variableIds = Arrays.asList(data.variableIds.split("\\s*,\\s*")); 
 		res.variableNames = Arrays.asList(data.variableNames.split("\\s*,\\s*")); 

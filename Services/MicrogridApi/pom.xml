@@ -10,7 +10,7 @@
     <name>MicrogridApi</name>
 
     <build>
-        <finalName>MicrogridApi</finalName>
+        <finalName>${war.finalName}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -93,7 +93,9 @@
     <properties>
         <jersey.version>2.16</jersey.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <war.finalName>${project.name}</war.finalName>
     </properties>
+    
     
     
 </project>
