@@ -435,7 +435,54 @@
        
     });   
        
+    as.controller("sldCtrl", function($scope, $location, $http) {
+    	
+    	$http({
+			method : "GET",
+			 url: "http://localhost:8999/MicrogridApi/"
+		}).then(function mySucces(response) {
+			console.log(response);
+			$scope.devices = response.data;
+			angular.forEach($scope.devices, function (value, key) {
+				//console.log( document.querySelector( "#dv_"+(key+1) ))
+				var element = angular.element( document.querySelector( "#dv_"+(key+1) ) );
+				element.append('<a ng-click="monitor('+value.deviceID+')" href="">'+value.deviceName+'</a><br><br>');     
+				angular.forEach(value.varList, function (value2, key2) {
+					//console.log(value2);
+					if (value2.isLink == 1) {
+						element.append('<a href="'+value2.url_ON+'" >'+value2.variableName +'</a><br>');
+					} else if (value2.isSwitcher == 1) {
+						//element.append(angular.element( document.querySelector( "#onoffbutton" ) ));
+						element.append('ON off switch');
+					}  else  {
+						element.append(value2.variableName+':'+value2.value);
+						element.append('<br>');
+						console.log(angular.element( document.querySelector( "#onoffbutton" ) ));
+						element.append(angular.element( document.querySelector( "#onoffbutton" ) ));
+					}
+					
+				});
+				
+				
+	            
+	        }); 
+
+		}, function myError(response) {
+			console.log("error");
+			console.log(response.data);
+			//$scope.entities = response.statusText;
+		});
+        
+             
+        $scope.monitor= function(deviceId) {
+        	$location.path('/monitor/'+deviceId); 
+        	
+        }
+        
+    });
    
 
 }());
+
+
 
