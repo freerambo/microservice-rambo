@@ -16,7 +16,7 @@ footer{
 }
 
 .onoffswitch {
-    position: relative; width: 90px;
+    position: relative; width: 60px;
     -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
 }
 .onoffswitch-checkbox {
@@ -24,33 +24,33 @@ footer{
 }
 .onoffswitch-label {
     display: block; overflow: hidden; cursor: pointer;
-    border: 2px solid #999999; border-radius: 20px;
+    border: 2px solid #999999; border-radius: 10px;
 }
 .onoffswitch-inner {
     display: block; width: 200%; margin-left: -100%;
     transition: margin 0.3s ease-in 0s;
 }
 .onoffswitch-inner:before, .onoffswitch-inner:after {
-    display: block; float: left; width: 50%; height: 30px; padding: 0; line-height: 30px;
-    font-size: 18px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    display: block; float: left; width: 50%; height: 20px; padding: 0; line-height: 20px;
+    font-size: 10px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
     box-sizing: border-box;
 }
 .onoffswitch-inner:before {
     content: "ON";
-    padding-left: 13px;
+    padding-left: 10px;
     background-color: #45C234; color: #FFFFFF;
 }
 .onoffswitch-inner:after {
     content: "OFF";
-    padding-right: 13px;
+    padding-right: 10px;
     background-color: #EEEEEE; color: #999999;
     text-align: right;
 }
 .onoffswitch-switch {
-    display: block; width: 32px; margin: -1px;
+    display: block; width: 25px; margin: -2px;
     background: #FFFFFF;
     position: absolute; top: 0; bottom: 0;
-    right: 56px;
+    right: 40px;
     border: 2px solid #999999; border-radius: 20px;
     transition: all 0.3s ease-in 0s; 
 }
@@ -58,7 +58,7 @@ footer{
     margin-left: 0;
 }
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
-    right: 0px; 
+    right: 1px; 
 }
 
 .bottom{
@@ -71,23 +71,18 @@ footer{
 	
 #grid-lab {
  position: absolute;
-	background-image: url(../img/sm4b.png);
+	background-image: url(../img/SLD_MicrogridLayout.png);
 	background-repeat: no-repeat;
 	background-size: cover;
-	height: 680px;
-	width: 1200px;
+	height: 700px;
+	width: 1300px;
 	position: absolute;
 	left: 90px;
-	top: 200px;
+	top: 150px;
 	right:50px;
 }	
 
-#dv_1 {
-	position: absolute;
-	margin-left: 160px;
-	top: 740px;
-	width: 100px;
-}
+
 
 .greenbox {
 	background: rgb(105, 240, 174);
@@ -121,38 +116,45 @@ background: rgb(105, 240, 174);
     transform: scale(1.5);
 }
 
+#dv_1 {
+	position: absolute;
+	margin-left: 100px;
+	top: 670px;
+	width: 130px;
+}
+
 #dv_2 {
 	position: absolute;
-	margin-left: 510px;
-	top: 740px;
-	width: 150px;
+	margin-left: 410px;
+	top: 670px;
+	width: 130px;
 }
 	
 #dv_3 {
 	position: absolute;
-	margin-left: 800px;
-	top: 740px;
-	width: 140px;
+	margin-left: 690px;
+	top: 670px;
+	width: 130px;
 }	
 
 #dv_4 {
 	position: absolute;
-	margin-left: 1100px;
-	top: 740px;
+	margin-left: 1030px;
+	top: 670px;
 	width: 130px;
 }
 
 #dv_5 {
 	position: absolute;
-	margin-left: 1055px;
-	top: 240px;
+	margin-left: 1080px;
+	top: 190px;
 	width: 150px;
 }
 
 #dv_6 {
 	position: absolute;
-	margin-left: 930px;
-	top: 350px;
+	margin-left: 880px;
+	top: 190px;
  	
 }
 

@@ -443,6 +443,7 @@
 		}).then(function mySucces(response) {
 			console.log(response);
 			$scope.devices = response.data;
+			
 			angular.forEach($scope.devices, function (value, key) {
 				//console.log( document.querySelector( "#dv_"+(key+1) ))
 				var element = angular.element( document.querySelector( "#dv_"+(key+1) ) );
@@ -452,13 +453,15 @@
 					if (value2.isLink == 1) {
 						element.append('<a href="'+value2.url_ON+'" >'+value2.variableName +'</a><br>');
 					} else if (value2.isSwitcher == 1) {
-						//element.append(angular.element( document.querySelector( "#onoffbutton" ) ));
-						element.append('ON off switch');
+						
+						onofftag = angular.element( document.querySelector( "#onoffbutton" ) );
+						//onofftag.append(value2.variableName +' : ');
+						onofftag.append('<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" onchange="change()"><label class="onoffswitch-label" for="myonoffswitch"> <span class="onoffswitch-inner"></span> <span class="onoffswitch-switch"></span></label>');
+						element.append(onofftag);
 					}  else  {
 						element.append(value2.variableName+':'+value2.value);
 						element.append('<br>');
-						console.log(angular.element( document.querySelector( "#onoffbutton" ) ));
-						element.append(angular.element( document.querySelector( "#onoffbutton" ) ));
+						
 					}
 					
 				});
@@ -479,10 +482,18 @@
         	
         }
         
+        $scope.change = function() {
+        	alert("event");
+        }
+        
+        
+        
     });
    
 
 }());
+
+
 
 
 
