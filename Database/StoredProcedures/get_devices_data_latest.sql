@@ -19,7 +19,7 @@ FROM
 						END,                        
   '"}')) list
 FROM
-  smes_microgrid_dev.device_data_view
+  smes_microgrid.device_data_view
 GROUP BY
    deviceId, deviceName
    ) as LV;

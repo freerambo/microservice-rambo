@@ -15,7 +15,7 @@ VIEW `status_on_off_commands` AS
         MAX(`onoff`.`switchOffCommand`) AS `switchOffCommand`,
         MAX(`onoff`.`switchOffCommandProtocolId`) AS `switchOffCommandProtocolId`
     FROM
-        (`smes_microgrid_dev`.`variable` `v`
+        (`smes_microgrid`.`variable` `v`
         JOIN (SELECT 
             `c_on`.`id` AS `switchOnCommandId`,
                 `c_on`.`name` AS `switchOnCommandName`,
@@ -27,8 +27,8 @@ VIEW `status_on_off_commands` AS
                 NULL AS `switchOffCommandProtocolId`,
                 `cdv`.`variable_id` AS `variable_id`
         FROM
-            (`smes_microgrid_dev`.`command` `c_on`
-        LEFT JOIN `smes_microgrid_dev`.`command_device_variable` `cdv` ON ((`cdv`.`command_id` = `c_on`.`id`)))
+            (`smes_microgrid`.`command` `c_on`
+        LEFT JOIN `smes_microgrid`.`command_device_variable` `cdv` ON ((`cdv`.`command_id` = `c_on`.`id`)))
         WHERE
             ((`c_on`.`id` = `cdv`.`command_id`)
                 AND (`c_on`.`command_type_id` = 11)) UNION ALL SELECT 
@@ -42,8 +42,8 @@ VIEW `status_on_off_commands` AS
                 `c_off`.`command_protocol_id` AS `switchOffCommandProtocolId`,
                 `cdv`.`variable_id` AS `variableId`
         FROM
-            (`smes_microgrid_dev`.`command` `c_off`
-        LEFT JOIN `smes_microgrid_dev`.`command_device_variable` `cdv` ON ((`cdv`.`command_id` = `c_off`.`id`)))
+            (`smes_microgrid`.`command` `c_off`
+        LEFT JOIN `smes_microgrid`.`command_device_variable` `cdv` ON ((`cdv`.`command_id` = `c_off`.`id`)))
         WHERE
             ((`c_off`.`id` = `cdv`.`command_id`)
                 AND (`c_off`.`command_type_id` = 12))) `onoff` ON ((`v`.`id` = `onoff`.`variable_id`)))
