@@ -11,7 +11,7 @@ FROM
   GROUP_CONCAT(CONCAT('{"VariableId":"', VariableId, '", "VariableName":"', VariableName, '", "LatestValue":"', IFNULL(latestValue, ''),'", "ValueTimestamp":"', IFNULL(valueTimestamp, ''),
   '", "URL_ON":"', URL_On,
   '", "URL_OFF":"', URL_Off,
-  '", "IsSwitcher":"', CASE WHEN switchOnCommandId IS NOT NULL  
+  '", "IsSwitcher":"', CASE WHEN switchOnCommandId IS NOT NULL  AND switchOffCommandId IS NOT NULL 
 								THEN 1 ELSE 0 
 						END,
   '", "IsLink":"', CASE WHEN URL_On ='' AND   URL_OFF = ''

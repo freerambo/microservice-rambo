@@ -1,6 +1,6 @@
 CREATE 
     ALGORITHM = UNDEFINED 
-    DEFINER = `root`@`localhost` 
+    DEFINER = `mysqluser`@`%` 
     SQL SECURITY DEFINER
 VIEW `status_on_off_commands` AS
     SELECT 
@@ -16,7 +16,7 @@ VIEW `status_on_off_commands` AS
         MAX(`onoff`.`switchOffCommandProtocolId`) AS `switchOffCommandProtocolId`
     FROM
         (`smes_microgrid`.`variable` `v`
-        LEFT JOIN (SELECT 
+        JOIN (SELECT 
             `c_on`.`id` AS `switchOnCommandId`,
                 `c_on`.`name` AS `switchOnCommandName`,
                 `c_on`.`format_string` AS `switchOnCommand`,
@@ -47,3 +47,4 @@ VIEW `status_on_off_commands` AS
         WHERE
             ((`c_off`.`id` = `cdv`.`command_id`)
                 AND (`c_off`.`command_type_id` = 12))) `onoff` ON ((`v`.`id` = `onoff`.`variable_id`)))
+    GROUP BY `v`.`id`

@@ -80,6 +80,10 @@ public class CommunicationHelper {
 		commData.portNumber = rs.getString("portNumber");;
 		commData.deviceId = rs.getInt("deviceId");;
 		commData.commandId = rs.getInt("commandId");;
+		commData.commandTypeId = rs.getInt("commandTypeId");
+		commData.commandTypeName = rs.getString("commandTypeName");
+		commData.protocolId = rs.getInt("protocolId");
+		commData.protocolName = rs.getString("protocolName");
 
 		return commData;
 	}
