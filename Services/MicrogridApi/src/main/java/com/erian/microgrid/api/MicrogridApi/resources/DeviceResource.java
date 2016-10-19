@@ -13,15 +13,17 @@ import javax.ws.rs.core.MediaType;
 
 import com.erian.microgrid.api.MicrogridApi.model.Command;
 import com.erian.microgrid.api.MicrogridApi.model.Device;
+import com.erian.microgrid.api.MicrogridApi.model.DeviceDetails;
 import com.erian.microgrid.api.MicrogridApi.model.Variable;
 import com.erian.microgrid.api.MicrogridApi.service.CommandHelper;
 import com.erian.microgrid.api.MicrogridApi.service.DeviceHelper;
 import com.erian.microgrid.api.MicrogridApi.service.VariableHelper;
 
-@Path("/devices")
+@Path("/")
 
 public class DeviceResource {	
 	@GET
+	@Path("/devices")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Device> getDeviceDetails(){
 		try {
@@ -34,7 +36,7 @@ public class DeviceResource {
 	}
 
 	@GET
-	@Path("/{deviceId}")
+	@Path("/devices/{deviceId}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Device getDevice(@PathParam("deviceId") int deviceId){
 		try {
@@ -47,6 +49,7 @@ public class DeviceResource {
 	}
 	
 	@POST
+	@Path("/devices")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	 // POST action + "devices/" is a recommended URI to "create new device" resource
@@ -62,6 +65,7 @@ public class DeviceResource {
 	}	
 	
 	@PUT
+	@Path("/devices")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	 // POST action + "devices/" is a recommended URI to "create new device" resource
@@ -94,5 +98,18 @@ public class DeviceResource {
 		return newDevice1;
 	}
 	*/
+	
+	@GET
+	@Path("/")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<DeviceDetails> getAllDevicesDetails(){
+		try {
+			return DeviceHelper.getAllDevicesDetails();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }
 

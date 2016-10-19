@@ -32,7 +32,7 @@ public class CommandHelperParameterizedTest {
 		List<CommandData> list = new ArrayList<>();
 		List<CommandData> list2 = new ArrayList<>();
 
-		CommandData cmdData1 = new CommandData(1, "CMD1", "", "VOL {0}, CUR {1}, VOL1{2}", 1);
+		/*CommandData cmdData1 = new CommandData(1, "CMD1", "", "VOL {0}, CUR {1}, VOL1{2}", 1);
 		CommandData cmdData2 = new CommandData(2, "CMD1", "", "VOL {0}, CUR {1}, VOL1{2}", 1);
 		CommandData cmdData3 = new CommandData(3, "CMD1", "", "VOL {0}, CUR {1}, VOL1{2}", 1);
 		CommandData cmdData4 = new CommandData(4, "CMD1-UPD1", "", "VOL2 {0}, CUR {1}, VOL1{2}", 1);
@@ -46,7 +46,7 @@ public class CommandHelperParameterizedTest {
 	    list.add(cmdData4);
 	    list.add(cmdData5);
 	    list.add(cmdData6);
-	    list.add(cmdData7);
+	    list.add(cmdData7);*/
 	   
 	    ArrayList  array = new ArrayList();
 	    array.add(0, 1);
