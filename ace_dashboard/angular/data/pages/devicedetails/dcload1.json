@@ -1,0 +1,22 @@
+{
+	"code": 200,
+	"data": {
+		"deviceId": "dcload1",
+		"deviceModel": "Chroma DC Load 63200",
+		"deviceType": "dcload",
+		"gridType": "DC",
+		"ip": "192.168.127.121",
+		"port": 4001,
+		"protocol": "tcp/ip",
+		"updatedTimestamp": 1486368841000,
+		"variables": {
+			"mode": 1,
+			"current": 10.48,
+			"power": 4008,
+			"resistance": 408,
+			"voltage": 382.03,
+			"deviceStatus": 1
+		}
+	},
+	"message": "OK"
+}
