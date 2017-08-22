@@ -1,4 +1,4 @@
-package org.erian.examples.bootapi.repository;
+package org.erian.examples.bootapi.service;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -12,35 +12,32 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.erian.examples.bootapi.BootApiApplication;
 import org.erian.examples.bootapi.domain.*;
-import org.erian.examples.bootapi.repository.*;
-
-
+import org.erian.examples.bootapi.service.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = BootApiApplication.class)
 @DirtiesContext
-public class ProjectDaoTest {
+public class ProjectServiceTest {
 
 	@Autowired
-	private ProjectDao testDao;
-
-	@Test
+	private ProjectService service;
+//	@Test
 	public void find() {
-		List<Project> objs = testDao.findAll();
+		List<Project> objs = service.findAll();
 		assertThat(objs).hasSize(1);
 	}
 	
-//	@Test
+	@Test
 	public void save() {
 		Project obj = new Project();
-		obj.projectName = "testProject";
+		obj.projectName = "testProject1";
 		obj.description = "this is a test project";
 		obj.logo = "here is the logo path";
 		obj.createdBy = "testUser";
 		obj.createdOn = new Date();
 		obj.userId = 1000;
-		testDao.save(obj);
-		assertThat(obj.ProjectID).isNotNull();
+		service.saveProject(obj);
+		assertThat(obj.projectID).isNotNull();
 	}
 
 	

@@ -18,7 +18,7 @@ public class Project implements Serializable {
 	@Id
 	@Column(name="ProjectID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public Integer ProjectID;
+	public Integer projectID;
 	
 	@Column(name="ProjectName")
 	public String projectName;
