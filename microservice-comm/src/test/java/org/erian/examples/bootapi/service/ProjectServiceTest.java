@@ -21,13 +21,13 @@ public class ProjectServiceTest {
 
 	@Autowired
 	private ProjectService service;
-//	@Test
+	@Test
 	public void find() {
 		List<Project> objs = service.findAll();
-		assertThat(objs).hasSize(1);
+		assertThat(objs).hasSize(4);
 	}
 	
-	@Test
+//	@Test
 	public void save() {
 		Project obj = new Project();
 		obj.projectName = "testProject1";

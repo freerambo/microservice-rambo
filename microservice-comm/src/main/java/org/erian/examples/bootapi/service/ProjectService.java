@@ -19,6 +19,9 @@ public class ProjectService {
 
 	@Autowired
 	private ProjectDao projectDao;
+	
+	@Autowired
+	private ProjectCommunicationDao projectCommDao;
 
 	@Transactional(readOnly = true)
 	public List<Project> findAll() {
