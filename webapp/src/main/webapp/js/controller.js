@@ -490,7 +490,7 @@
     	
     	$http({
 			method : "GET",
-			 url: "http://localhost:8999/MicrogridApi/"
+			 url: url
 		}).then(function mySucces(response) {
 			console.log(response);
 			$scope.devices = response.data;
@@ -529,6 +529,7 @@
         
              
         $scope.monitor= function(deviceId) {
+        	console.log("teting monitor ： " + deviceId);
         	$location.path('/monitor/'+deviceId); 
         	
         }

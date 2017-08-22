@@ -4,9 +4,9 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.erian.examples</groupId>
-	<artifactId>spring-boot</artifactId>
+	<artifactId>weather-api</artifactId>
 	<version>1.0</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>Spring :: Examples :: SpringBoot WebService</name>
 
 	<parent>
@@ -15,7 +15,6 @@
 		<version>1.2.7.RELEASE</version>
 	</parent>
 
-
 	<properties>		
  		<commons-lang3.version>3.4</commons-lang3.version>
 		<guava.version>18.0</guava.version>
@@ -23,9 +22,7 @@
 		<commons-codec.version>1.10</commons-codec.version>
 		<assertj.version>2.2.0</assertj.version>
 		<h2.version>1.3.176</h2.version>
-
 		<java.version>1.7</java.version>
-		
 		<spring.version>4.1.8.RELEASE</spring.version>
 		<guava.version>18.0</guava.version>
 		<commons-lang3.version>3.4</commons-lang3.version>
@@ -40,6 +37,8 @@
 		<assertj.version>2.2.0</assertj.version>
 		<mockito.version>1.10.19</mockito.version>
 		<powermock.version>1.6.3</powermock.version>
+		<javasimon.version>3.5.2</javasimon.version>
+		<springfox.version>2.5.0</springfox.version>
 
 		<!-- Plugin的属性 -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -63,14 +62,17 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
-
-
-	
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
 
 		<!-- database -->
+
+<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
 		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
+		    <groupId>mysql</groupId>
+		    <artifactId>mysql-connector-java</artifactId>
 		</dependency>
 
 		<dependency>
@@ -112,6 +114,18 @@
 			<artifactId>jolokia-core</artifactId>
 		</dependency>
 
+		<!-- javasimon -->
+		<dependency>
+			<groupId>org.javasimon</groupId>
+			<artifactId>javasimon-spring</artifactId>
+			<version>${javasimon.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.javasimon</groupId>
+			<artifactId>javasimon-console-embed</artifactId>
+			<version>${javasimon.version}</version>
+		</dependency>
+
 		<!-- test -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -125,6 +139,26 @@
 			<version>${assertj.version}</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+		  <groupId>junit</groupId>
+		  <artifactId>junit</artifactId>
+		  <version>${junit.version}</version>
+		  <scope>test</scope>
+		</dependency>
+
+		
+		<!-- SpringFox Swagger UI -->
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>${springfox.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>${springfox.version}</version>
+		</dependency>
 
 
 	</dependencies>
@@ -135,17 +169,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<plugin>
-				<groupId>org.flywaydb</groupId>
-				<artifactId>flyway-maven-plugin</artifactId>
-				<version>3.1</version>
-				<configuration>
-					<driver>org.h2.Driver</driver>
-					<url>jdbc:h2:file:~/.h2/bootapi;AUTO_SERVER=TRUE;DB_CLOSE_DELAY=-1;</url>
-					<user>sa</user>
-					<password></password>
-				</configuration>
-			</plugin>
+			
 		</plugins>
 	</build>
 </project>

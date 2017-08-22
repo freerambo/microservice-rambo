@@ -7,7 +7,7 @@
     <artifactId>MicrogridApi</artifactId>
     <packaging>war</packaging>
     <version>0.0.1-SNAPSHOT</version>
-    <name>MicrogridApi</name>
+    <name>MicrogridApiDev</name>
 
     <build>
         <finalName>${war.finalName}</finalName>
