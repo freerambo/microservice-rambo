@@ -30,7 +30,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(value = { ServiceException.class })
 	public final ResponseEntity<ErrorResult> handleServiceException(ServiceException ex, HttpServletRequest request) {
-		// 注入servletRequest，用于出错时打印请求URL与来源地址
+		// inject servletRequest, will be used for print the URL and request source when exception
 		logError(ex, request);
 
 		HttpHeaders headers = new HttpHeaders();
@@ -51,7 +51,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 
 	/**
-	 * 重载ResponseEntityExceptionHandler的方法，加入日志
+	 * override ResponseEntityExceptionHandler, add a logger
 	 */
 	@Override
 	protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,

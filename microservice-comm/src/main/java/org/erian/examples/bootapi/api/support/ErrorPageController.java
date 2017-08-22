@@ -19,7 +19,7 @@ import org.erian.modules.constants.MediaTypes;
 import org.erian.modules.mapper.JsonMapper;
 
 /**
- * 重载替换Spring Boot默认的BasicErrorController, 增加日志并让错误返回方式统一.
+ * rewrite default BasicErrorController in Spring Boot, Add error log and unified response. 
  * 
  * @author rambo
  */

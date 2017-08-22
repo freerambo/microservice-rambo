@@ -26,7 +26,7 @@ public class DaoTest {
 	@Autowired
 	private DemoDao testDao;
 
-//	@Test
+	@Test
 	public void find() {
 		List<Demo> demos = testDao.findAll();
 		
@@ -36,7 +36,7 @@ public class DaoTest {
 		
 	}
 	
-	@Test
+//	@Test
 	public void save() {
 		Demo demo = new Demo();
 		demo.name = "hello";

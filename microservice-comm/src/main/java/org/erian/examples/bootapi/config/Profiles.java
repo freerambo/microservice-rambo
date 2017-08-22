@@ -1,7 +1,7 @@
 package org.erian.examples.bootapi.config;
 
 /**
- * 定义项目中使用的Profiles
+ * Profiles in Project
  * 
  * @author rambo
  */
