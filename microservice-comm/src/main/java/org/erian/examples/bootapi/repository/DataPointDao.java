@@ -16,6 +16,7 @@ import org.erian.examples.bootapi.domain.*;
  * Create:  7 Jul 2017 12:53:28 pm
  */
 
-public interface DemoDao extends BaseDao<Demo, Long> {
+public interface DataPointDao extends BaseDao<DataPoint, Integer> {
 
+	
 }

@@ -13,99 +13,34 @@ import javax.persistence.*;
 @Entity
 @NamedQuery(name="Protocol.findAll", query="SELECT p FROM Protocol p")
 public class Protocol implements Serializable {
-	private static final long serialVersionUID = 1L;
+	public static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ProtocolID")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int protocolID;
+	public Integer protocolID;
 
 	@Column(name="CreatedBy")
-	private String createdBy;
+	public String createdBy;
 
 	@Column(name="CreatedOn")
-	private Date createdOn;
+	public Date createdOn;
 
 	@Column(name="Description")
-	private String description;
+	public String description;
 
 	@Column(name="Details")
-	private String details;
+	public String details;
 
 	@Column(name="Name")
-	private String name;
+	public String name;
 
 	@Column(name="UpdatedBy")
-	private String updatedBy;
+	public String updatedBy;
 
 	@Column(name="UpdatedOn")
-	private Date updatedOn;
+	public Date updatedOn;
 
 	public Protocol() {
 	}
-
-	public int getProtocolID() {
-		return this.protocolID;
-	}
-
-	public void setProtocolID(int protocolID) {
-		this.protocolID = protocolID;
-	}
-
-	public String getCreatedBy() {
-		return this.createdBy;
-	}
-
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
-
-	public Date getCreatedOn() {
-		return this.createdOn;
-	}
-
-	public void setCreatedOn(Date createdOn) {
-		this.createdOn = createdOn;
-	}
-
-	public String getDescription() {
-		return this.description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getDetails() {
-		return this.details;
-	}
-
-	public void setDetails(String details) {
-		this.details = details;
-	}
-
-	public String getName() {
-		return this.name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getUpdatedBy() {
-		return this.updatedBy;
-	}
-
-	public void setUpdatedBy(String updatedBy) {
-		this.updatedBy = updatedBy;
-	}
-
-	public Date getUpdatedOn() {
-		return this.updatedOn;
-	}
-
-	public void setUpdatedOn(Date updatedOn) {
-		this.updatedOn = updatedOn;
-	}
-
 }
