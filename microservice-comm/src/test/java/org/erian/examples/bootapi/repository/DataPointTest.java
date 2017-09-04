@@ -22,36 +22,38 @@ import static org.assertj.core.api.Assertions.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = BootApiApplication.class)
 @DirtiesContext
-public class ProjectCommunicationTest {
+public class DataPointTest {
 
 	@Autowired
-	private ProjectCommunicationDao testDao;
+	private  DataPointDao testDao;
 
-	@Test
+//	@Test
 	public void find() {
-		List<ProjectCommunication> demos = testDao.findAll();
+		List<DataPoint> demos = testDao.findAll();
 		assertThat(demos).hasSize(1);
 	}
 	
-//	@Test
-	public void findByProject() {
-		List<ProjectCommunication> demos = testDao.findByProjectID(1001);
-		assertThat(demos).hasSize(1);
-	}
 	
-//	@Test
+	@Test
 	public void save() {
-		ProjectCommunication demo = new ProjectCommunication();
-		demo.projectID = 1002;
-		demo.communicationID = 1006;
-//		demo.project.projectid = 1002;
-//		demo.communication.communicationID = 1006;
-		demo.address = "localhost:80";
-		demo.intervalID = 1000;
+		DataPoint demo = new DataPoint();
+		demo.name ="volt";
+		demo.type = "int32";
+		
+		demo.address = 100;
+		demo.length = 2;
+		demo.description = "a demo datapoint";
+		demo.interval = "SEC05";
 		demo.createdOn = new Date();
 		demo.createdBy = "testUser";
+		demo.deviceId = 1001;
+		demo.readable = 1;
+		demo.writable = 0;
+		demo.inputExpression = null;
+		demo.outPutExpression = "floatToInt";
+		demo.unit = "V";
 		testDao.save(demo);
-		assertThat(demo.projCommID).isNotNull();
+		assertThat(demo.id).isNotNull();
 	}
 
 	

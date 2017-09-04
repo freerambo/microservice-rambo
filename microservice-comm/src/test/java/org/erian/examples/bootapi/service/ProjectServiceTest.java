@@ -30,14 +30,14 @@ public class ProjectServiceTest {
 //	@Test
 	public void save() {
 		Project obj = new Project();
-		obj.projectName = "testProject1";
+		obj.name = "testProject1";
 		obj.description = "this is a test project";
 		obj.logo = "here is the logo path";
 		obj.createdBy = "testUser";
 		obj.createdOn = new Date();
 		obj.userId = 1000;
 		service.saveProject(obj);
-		assertThat(obj.projectID).isNotNull();
+		assertThat(obj.id).isNotNull();
 	}
 
 	

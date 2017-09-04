@@ -24,23 +24,23 @@ public class ProjectTest {
 	@Autowired
 	private ProjectDao testDao;
 
-	@Test
+//	@Test
 	public void find() {
 		List<Project> objs = testDao.findAll();
 		assertThat(objs).hasSize(1);
 	}
 	
-//	@Test
+	@Test
 	public void save() {
 		Project obj = new Project();
-		obj.projectName = "testProject";
+		obj.name = "testProject";
 		obj.description = "this is a test project";
 		obj.logo = "here is the logo path";
 		obj.createdBy = "testUser";
 		obj.createdOn = new Date();
 		obj.userId = 1000;
 		testDao.save(obj);
-		assertThat(obj.projectID).isNotNull();
+		assertThat(obj.id).isNotNull();
 	}
 
 	
