@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.persistence.*;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 
 /**
  * The persistent class for the Project database table.
@@ -13,17 +15,12 @@ import javax.persistence.*;
 @Entity
 @Table(name = "Project")
 @NamedQuery(name="Project.findAll", query="SELECT p FROM Project p")
-public class Project implements Serializable {
+public class Project extends IdEntity implements Serializable {
 	public static final long serialVersionUID = 1L;
 
-	@Id
-	@Column(name="projectid")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-//	public Integer projectid;
-	public Integer projectID;
 	
-	@Column(name="ProjectName")
-	public String projectName;
+	@Column(name="Name")
+	public String name;
 	
 	@Column(name="Description")
 	public String description;
@@ -47,5 +44,10 @@ public class Project implements Serializable {
 	public int userId;
 	
 	public Project() {
+	}
+	
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
 	}
 }

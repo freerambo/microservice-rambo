@@ -12,16 +12,13 @@ import javax.persistence.*;
  */
 @Entity
 @NamedQuery(name="DataPointValue.findAll", query="SELECT d FROM DataPointValue d")
-public class DataPointValue implements Serializable {
+public class DataPointValue extends IdEntity implements Serializable {
 	public static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="DataPointValueID")
-	public Integer dataPointValueID;
+
 
 	@Column(name="DataPointID")
-	public Integer dataPointID;
+	public Integer dataPointId;
 
 	@Column(name="Timestamp")
 	public Date timestamp;
