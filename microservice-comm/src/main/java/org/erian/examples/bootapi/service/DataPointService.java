@@ -99,6 +99,7 @@ public class DataPointService {
 		
 			case "ModbusTCP": 
 				ModbusTCP tcp = tcpDao.findByDeviceId(d.id);
+				
 				ModbusTcpRequest tcpReq = new ModbusTcpRequest(d, dp, tcp);
 				return tcpReq.toString();
 	//			break;
@@ -111,6 +112,8 @@ public class DataPointService {
 				EthernetIP ip = ipDao.findByDeviceId(d.id);
 				EthernetIpRequest ipReq = new EthernetIpRequest(d, dp, ip);
 	
+				// communication 
+				
 				return ipReq.toString();
 	//			break;	
 			default:
