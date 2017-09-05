@@ -30,7 +30,6 @@ public class ProjectService {
 		return projectDao.findOne(id);
 	}
 
-
 	@Transactional
 	public Project saveProject(Project project) {
 
@@ -40,10 +39,10 @@ public class ProjectService {
 	@Transactional
 	public Project modifyProject(Project project) {
 
-		Project orginalProject = projectDao.findOne(project.projectID);
+		Project orginalProject = projectDao.findOne(project.id);
 
 		if (orginalProject == null) {
-			logger.error(project.projectID + "  is not exist");
+			logger.error(project.id + "  is not exist");
 			throw new ServiceException("The Project is not exist", ErrorCode.BAD_REQUEST);
 		}
 		return projectDao.save(project);

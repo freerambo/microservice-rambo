@@ -37,14 +37,19 @@ public class DataPoint extends IdEntity implements Serializable {
 	@Column(name="OutPutExpression")
 	public String outPutExpression;
 	
-	@Column(name="DeviceID")
-	public Integer deviceId;
+/*	@Column(name="DeviceID")
+	public Integer deviceId;*/
 	
-	@Column(name="Readable")
+/*	@Column(name="Readable")
 	public Integer readable;
 	
 	@Column(name="Writable")
-	public Integer writable;
+	public Integer writable;*/
+	
+	@Column(name="ReadOnly")
+	public boolean readOnly;
+	@Column(name="WriteOnly")
+	public boolean writeOnly;
 	
 	@Column(name="Unit")
 	public String unit;
@@ -61,6 +66,12 @@ public class DataPoint extends IdEntity implements Serializable {
 	@Column(name="UpdatedOn")
 	public Date updatedOn;
 
+	
+	@ManyToOne
+	@JoinColumn(name = "deviceId")
+	public Device device;
+	
+	
 	public DataPoint() {
 	}
 }

@@ -40,10 +40,10 @@ public class DeviceService {
 	@Transactional
 	public Device modifyDevice(Device device) {
 
-		Device orginalDevice = deviceDao.findOne(device.deviceID);
+		Device orginalDevice = deviceDao.findOne(device.id);
 
 		if (orginalDevice == null) {
-			logger.error(device.deviceID + "  is not exist");
+			logger.error(device.id + "  is not exist");
 			throw new ServiceException("The Device is not exist", ErrorCode.BAD_REQUEST);
 		}
 		return deviceDao.save(device);

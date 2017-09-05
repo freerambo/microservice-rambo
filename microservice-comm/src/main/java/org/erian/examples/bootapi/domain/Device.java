@@ -24,6 +24,9 @@ public class Device extends IdEntity implements Serializable {
 	@Column(name="Path")
 	public String path;
 	
+	@Column(name="Address")
+	public Integer address;
+	
 	@Column(name="interval")
 	public String interval;
 	
@@ -43,5 +46,9 @@ public class Device extends IdEntity implements Serializable {
 	public Date updatedOn;
 
 	public Device() {
+	}
+	
+	public Device(Integer id) {
+		this.id = id;
 	}
 }

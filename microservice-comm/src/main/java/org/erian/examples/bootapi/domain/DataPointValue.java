@@ -24,7 +24,7 @@ public class DataPointValue extends IdEntity implements Serializable {
 	public Date timestamp;
 
 	@Column(name="Value")
-	public double value;
+	public String value;
 
 	public DataPointValue() {
 	}

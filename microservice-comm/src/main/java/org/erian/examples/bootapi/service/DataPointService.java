@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.erian.examples.bootapi.domain.*;
+import org.erian.examples.bootapi.dto.*;
 import org.erian.examples.bootapi.repository.*;
 import org.erian.examples.bootapi.service.exception.ErrorCode;
 import org.erian.examples.bootapi.service.exception.ServiceException;
@@ -18,46 +19,105 @@ public class DataPointService {
 	private static Logger logger = LoggerFactory.getLogger(DataPointService.class);
 
 	@Autowired
-	private DeviceDao deviceDao;
+	private DataPointDao dataPointDao;
+	
+	@Autowired
+	private ModbusTcpDao tcpDao;
+	
+	@Autowired
+	private ModbusRtuDao rtuDao;
+	
+	@Autowired
+	private EthernetIpDao ipDao;
 	
 	@Transactional(readOnly = true)
-	public List<Device> findAll() {
-		return deviceDao.findAll();
+	public List<DataPoint> findAll() {
+		return dataPointDao.findAll();
 	}
 
 	@Transactional(readOnly = true)
-	public Device findOne(Integer id) {
-		return deviceDao.findOne(id);
+	public DataPoint findOne(Integer id) {
+		return dataPointDao.findOne(id);
 	}
 
 
 	@Transactional
-	public Device saveDevice(Device device) {
+	public DataPoint saveDataPoint(DataPoint dataPoint) {
 
-		return deviceDao.save(device);
+		return dataPointDao.save(dataPoint);
 	}
 
 	@Transactional
-	public Device modifyDevice(Device device) {
+	public DataPoint modifyDataPoint(DataPoint dataPoint) {
 
-		Device orginalDevice = deviceDao.findOne(device.deviceID);
+		DataPoint orginalDataPoint = dataPointDao.findOne(dataPoint.id);
 
-		if (orginalDevice == null) {
-			logger.error(device.deviceID + "  is not exist");
-			throw new ServiceException("The Device is not exist", ErrorCode.BAD_REQUEST);
+		if (orginalDataPoint == null) {
+			logger.error(dataPoint.id + "  is not exist");
+			throw new ServiceException("The DataPoint is not exist", ErrorCode.BAD_REQUEST);
 		}
-		return deviceDao.save(device);
+		return dataPointDao.save(dataPoint);
 	}
 
 	@Transactional
-	public void deleteDevice(Integer id) {
-		Device device = deviceDao.findOne(id);
+	public void deleteDataPoint(Integer id) {
+		DataPoint dataPoint = dataPointDao.findOne(id);
 
-		if (device == null) {
-			logger.error( id + " Device which is not exist");
-			throw new ServiceException("The Device is not exist", ErrorCode.BAD_REQUEST);
+		if (dataPoint == null) {
+			logger.error( id + " DataPoint which is not exist");
+			throw new ServiceException("The DataPoint is not exist", ErrorCode.BAD_REQUEST);
 		}
 
-		deviceDao.delete(id);
+		dataPointDao.delete(id);
 	}
+	/**
+	 *  data processing for reading data from a datapiont ID
+	 *  
+	 * @function:
+	 * @param id
+	 * @return
+	 * @author: Rambo Zhu     4 Sep 2017 9:48:45 pm
+	 */
+	public String readDataPoint(Integer id){
+		String value = null;
+		
+		DataPoint dp = this.findOne(id);
+		
+		if(dp != null && dp.device != null){
+			value = this.readDataPoint(dp);
+		}else{
+			logger.warn("The datapoint or Device is not exists with id -- " + id);
+		}
+		return value;
+	}
+	
+	public String readDataPoint(DataPoint dp){
+		String value = null;
+		Device d = dp.device;
+		
+		switch(d.protocol){
+		
+			case "ModbusTCP": 
+				ModbusTCP tcp = tcpDao.findByDeviceId(d.id);
+				ModbusTcpRequest tcpReq = new ModbusTcpRequest(d, dp, tcp);
+				return tcpReq.toString();
+	//			break;
+			case "ModbusRTU":
+				ModbusRTU rtu = rtuDao.findByDeviceId(d.id);
+				ModbusRtuRequest rtuReq = new ModbusRtuRequest(d, dp, rtu);
+				return rtuReq.toString();
+	//			break;
+			case "EthernetIP": 
+				EthernetIP ip = ipDao.findByDeviceId(d.id);
+				EthernetIpRequest ipReq = new EthernetIpRequest(d, dp, ip);
+	
+				return ipReq.toString();
+	//			break;	
+			default:
+				logger.error("unknown protocol " + d.protocol);
+				break;
+		}
+		return value;
+	}
+	
 }
