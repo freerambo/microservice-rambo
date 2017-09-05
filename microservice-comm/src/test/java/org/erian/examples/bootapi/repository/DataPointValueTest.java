@@ -22,45 +22,25 @@ import static org.assertj.core.api.Assertions.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = BootApiApplication.class)
 @DirtiesContext
-public class DataPointTest {
+public class DataPointValueTest {
 
 	@Autowired
-	private  DataPointDao testDao;
+	private  DataPointValueDao testDao;
 
-	@Test
-	public void find() {
-		DataPoint demo = testDao.findOne(1001);
-		System.out.println(demo);
-		assertThat(demo.id).isEqualTo(1001);
-	}
-	
 //	@Test
-	public void findAll() {
-		List<DataPoint> demos = testDao.findAll();
+	public void find() {
+		List<DataPointValue> demos = testDao.findAll();
 		assertThat(demos).hasSize(1);
 	}
-//	@Test
+	
+	@Test
 	public void save() {
-		DataPoint demo = new DataPoint();
-		demo.name ="volt";
-		demo.type = "int32";
-		
-		demo.address = 100;
-		demo.length = 2;
-		demo.description = "a demo datapoint";
-		demo.interval = "SEC05";
-		demo.createdOn = new Date();
-		demo.createdBy = "testUser";
-		demo.device = new Device(1003);
-		demo.readOnly = false;
-		demo.writeOnly = false;
-		demo.inputExpression = null;
-		demo.outPutExpression = "floatToInt";
-		demo.unit = "V";
+		DataPointValue demo = new DataPointValue();
+		demo.dataPointId = 1001;
+		demo.value = "230.23";
+		demo.timestamp = new Date();
 		testDao.save(demo);
 		assertThat(demo.id).isNotNull();
 	}
-
-	
 	
 }
