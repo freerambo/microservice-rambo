@@ -44,12 +44,13 @@ public class DataPointController {
 		return dataPoint;
 	}
 
-	/*@RequestMapping(value = "/api/dp/read/{tagId}", method=RequestMethod.GET)
+	@RequestMapping(value = "/api/dp/read/{dpId}", method=RequestMethod.GET)
 	@Monitored
-	public Integer readTagById(@PathVariable("tagId") Long tagId) {
-		return dpService.readTagValue(tagId);
+	public String readTagById(@PathVariable("dpId") Integer tagId) {
 		
-	}*/
+		return dpService.readDataPoint(tagId);
+		
+	}
 	
 //	Content-Type: application/json;charset=UTF-8
 	@RequestMapping(value = "/api/dataPoints", method = RequestMethod.POST, consumes = MediaTypes.JSON_UTF_8)
