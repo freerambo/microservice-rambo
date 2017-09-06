@@ -52,7 +52,7 @@ public class SwaggerConfig {
 	                .title("SMES WP2 Configuration API")
 	                .description("Spring-Boot Based Restful API reference for developers")
 	                .termsOfServiceUrl("http://erian.ntu.edu.sg/Pages/Home.aspx")
-	                .contact(new Contact("Rambo Zhu", "www.freerambo.com", "asybzhu@gmail.com"))
+	                .contact(new Contact("Rambo Zhu", "http://erian.ntu.edu.sg", "asybzhu@gmail.com"))
 	                .license("Apache License Version 2.0")
 	                .licenseUrl("https://github.com/springfox/springfox/blob/master/LICENSE")
 	                .version("2.0")
