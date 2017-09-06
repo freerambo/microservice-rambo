@@ -26,6 +26,9 @@ public class ModbusRTU extends IdEntity implements Serializable {
 	@Column(name="Parity")
 	public String parity;
 	
+	@Column(name="encoding")
+	public String encoding;
+	
 	@Column(name="Description")
 	public String description;
 	

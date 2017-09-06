@@ -22,6 +22,7 @@ public class ModbusRtuRequest {
 	public Integer databit;
 	public Integer stopbit;
 	public String parity;
+	public String encoding;
 	public Integer unitId;
 	public Integer ref;
 	public Integer length;
@@ -40,6 +41,7 @@ public class ModbusRtuRequest {
 		this.stopbit = rtu.stopbit;
 		this.databit = rtu.databit;
 		this.parity = rtu.parity;
+		this.encoding = rtu.encoding;
 		this.fCode = this.fCode(dp);
 
 	}
