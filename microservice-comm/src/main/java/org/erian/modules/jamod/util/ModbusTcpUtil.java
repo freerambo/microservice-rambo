@@ -211,7 +211,7 @@ public class ModbusTcpUtil {
 	 * @return
 	 * @author: Rambo Zhu     20 Jun 2017 4:14:44 pm
 	 */
-	public static int readData(String ip, int port, int slaveId, int ref,int count, String fCode) {
+	public static Integer readData(String ip, int port, int slaveId, int ref,int count, String fCode) {
 		int data = 0;
 		switch (fCode) {
         case "F01":
@@ -287,9 +287,9 @@ public class ModbusTcpUtil {
 			req.setUnitID(slaveId);
 			trans.setRequest(req);
 
-			System.out.println("ModbusSlave: FC" + req.getFunctionCode()
+			/*System.out.println("ModbusSlave: FC" + req.getFunctionCode()
 					+ " ref=" + req.getReference() + " value="
-					+ register.getValue());
+					+ register.getValue());*/
 			trans.execute();
 
 			connection.close();
