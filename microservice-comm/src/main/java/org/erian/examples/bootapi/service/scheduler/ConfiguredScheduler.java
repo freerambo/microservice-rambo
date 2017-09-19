@@ -61,6 +61,7 @@ public class ConfiguredScheduler implements Job {
     private Map jobTrigger = new HashedMap();
         
     private final static String PROJECTID = "1001";
+    //private final static String PROJECTID = "1111";
     private final static String SEC05 = "SEC05";
     private final static String MIN01 = "MIN01";
     private final static String CRONSEC05 = "0/5 * * * * ?";
@@ -209,8 +210,13 @@ public class ConfiguredScheduler implements Job {
 		            Project.class
 		        );
 			System.out.println(respProject);
+			if(!respProject.hasBody()) {
+				System.out.println("The Project[" + projectId + "] is not exist");
+				throw new ServiceException("The Project[" + projectId + "] is not exist", ErrorCode.BAD_REQUEST);
+			}
 		} catch (RestClientException e) {
-			throw new ServiceException("The Project[" + projectId + "] is not exist", ErrorCode.BAD_REQUEST);
+			System.out.println("The Project[" + projectId + "] has error");
+			throw new ServiceException("The Project[" + projectId + "] has error", ErrorCode.BAD_REQUEST);
 		}
 		
 		List<DataPoint> dpForProject = new ArrayList<DataPoint>();
