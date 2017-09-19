@@ -64,13 +64,13 @@ public class ConfiguredScheduler implements Job {
     private final static String SEC05 = "SEC05";
     private final static String MIN01 = "MIN01";
     private final static String CRONSEC05 = "0/5 * * * * ?";
-    private final static String CRONMIN01 = "0 * * * * ?";
+    private final static String CRONMIN01 = "0 0/1 * * * ?";
     
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		JobDataMap dataMap = context.getJobDetail().getJobDataMap();
 		List<DataPoint> dps = (List<DataPoint>) dataMap.get("DataPoint");
-        
+
     	Iterator<DataPoint> dpsIterator = dps.iterator();
     	while (dpsIterator.hasNext()) {
     		DataPoint dp = dpsIterator.next();
@@ -121,10 +121,10 @@ public class ConfiguredScheduler implements Job {
 		while (dpsIterator.hasNext()) {
 			DataPoint dp = dpsIterator.next();
 			switch(dp.interval) {
-				case "SEC05":
+				case SEC05:
 					dataPointSec05.add(dp);
 					break;
-				case "MIN05":
+				case MIN01:
 					dataPointMin01.add(dp);
 					break;
 			}
