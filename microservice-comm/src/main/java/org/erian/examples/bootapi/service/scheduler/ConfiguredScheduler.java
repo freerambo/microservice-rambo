@@ -63,8 +63,8 @@ public class ConfiguredScheduler implements Job {
     private final static String PROJECTID = "1001";
     private final static String SEC05 = "SEC05";
     private final static String MIN01 = "MIN01";
-    private final static int INTSEC05 = 5;
-    private final static int INTMIN01 = 60;
+    private final static String CRONSEC05 = "0/5 * * * * ?";
+    private final static String CRONMIN01 = "0 * * * * ?";
     
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
@@ -144,9 +144,9 @@ public class ConfiguredScheduler implements Job {
 			Trigger triggerSec05 = TriggerBuilder
 	    			.newTrigger()
 	    			.withIdentity(SEC05, "group1")
-	    			.withSchedule(simpleSchedule()
-	    					.withIntervalInSeconds(INTSEC05)
-	    					.repeatForever())        
+	    			.withSchedule(
+	    					CronScheduleBuilder.cronSchedule(CRONSEC05))
+	    			        
 	    			.build();
 		
 			jobTrigger.put(SEC05, new Object[] {schedulerServiceSec05, triggerSec05});
@@ -166,9 +166,8 @@ public class ConfiguredScheduler implements Job {
 			Trigger triggerMin01 = TriggerBuilder
 	    			.newTrigger()
 	    			.withIdentity(MIN01, "group1")
-	    			.withSchedule(simpleSchedule()
-	    					.withIntervalInSeconds(INTMIN01)
-	    					.repeatForever())  
+	    			.withSchedule(
+	    					CronScheduleBuilder.cronSchedule(CRONMIN01))
 	    			.build();
 			
 			jobTrigger.put(MIN01, new Object[] {schedulerServiceMin01, triggerMin01});
@@ -199,7 +198,6 @@ public class ConfiguredScheduler implements Job {
 	        );
 	    DataPoint[] dataPoints = response.getBody();
 	    return Arrays.asList(dataPoints);
-
 	}
 	
 	/* Get DataPoints for only one project */
@@ -214,14 +212,10 @@ public class ConfiguredScheduler implements Job {
 		} catch (RestClientException e) {
 			throw new ServiceException("The Project[" + projectId + "] is not exist", ErrorCode.BAD_REQUEST);
 		}
-		ResponseEntity<DataPoint[]> response = restTemplate.getForEntity(
-	            dpsUrl, 
-	            DataPoint[].class
-	        );
 		
 		List<DataPoint> dpForProject = new ArrayList<DataPoint>();
-	    DataPoint[] allDataPoints = response.getBody();
-	    List<DataPoint> dps = Arrays.asList(allDataPoints);
+	    
+	    List<DataPoint> dps = fetchDataPointsFromAPI();
 	    Iterator<DataPoint> dpsIterator = dps.iterator();
     	while (dpsIterator.hasNext()) {
     		DataPoint dp = dpsIterator.next();
