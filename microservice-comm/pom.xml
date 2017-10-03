@@ -43,7 +43,8 @@
 
 		<springfox.version>2.5.0</springfox.version>
 
-		<!-- Plugin的属性 -->
+		<start-class>org.erian.examples.bootapi.BootApiApplication</start-class>
+		<!-- Plugin properties -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.7</java.version>
 		<maven.compiler.source>${java.version}</maven.compiler.source>
@@ -69,7 +70,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
-
 
 		<!-- database -->
 <!-- 		<dependency>
