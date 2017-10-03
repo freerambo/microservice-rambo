@@ -69,6 +69,7 @@ public class ProtocolTest {
 		obj.stopbit = 1;
 		obj.parity = "even";
 		obj.createdBy = "testUser";
+		obj.encoding = "rtu";
 		obj.createdOn = new Date();
 		rtuDao.save(obj);
 		assertThat(obj.id).isNotNull();
