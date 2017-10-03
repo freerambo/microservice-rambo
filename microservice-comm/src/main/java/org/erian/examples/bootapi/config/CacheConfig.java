@@ -6,7 +6,6 @@ import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.guava.GuavaCache;
-import org.springframework.cache.guava.GuavaCacheManager;
 import org.springframework.cache.support.SimpleCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +26,9 @@ public class CacheConfig extends CachingConfigurerSupport {
              .build());
 	 GuavaCache SEC02 = new GuavaCache("SEC02", CacheBuilder.newBuilder().maximumSize(1000)
              .expireAfterAccess(2, TimeUnit.SECONDS)
+             .build());
+	 GuavaCache SEC05 = new GuavaCache("SEC05", CacheBuilder.newBuilder().maximumSize(1000)
+             .expireAfterAccess(5, TimeUnit.SECONDS)
              .build());
 	 GuavaCache MIN01 = new GuavaCache("MIN01", CacheBuilder.newBuilder().maximumSize(1000)
 	             .expireAfterAccess(1, TimeUnit.MINUTES)

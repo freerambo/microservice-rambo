@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.erian.examples.bootapi.domain.*;
@@ -47,6 +48,8 @@ public class DataPointService {
 	@Autowired
 	private CacheManager cacheManager;
 	
+	
+	@Cacheable("SEC02")
 	@Transactional(readOnly = true)
 	public List<DataPoint> findAll() {
 		return dataPointDao.findAll();
