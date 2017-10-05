@@ -17,9 +17,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  *
  * @author Rambo Zhu<asybzhu@gmail.com>
  */
-@Configuration
-@EnableSwagger2
-@ComponentScan("org.erian.examples.bootapi.api")
+//@Configuration
+//@EnableSwagger2
+//@ComponentScan("org.erian.examples.bootapi.api")
 // Loads the spring beans required by the framework
 //@Profile(value = {"dev", "staging"})
 public class SwaggerConfig {

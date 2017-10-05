@@ -43,6 +43,11 @@
 
 		<springfox.version>2.5.0</springfox.version>
 
+
+	 	<shiro.version>1.3.2</shiro.version>
+	 	<ehcache.version>2.10.3</ehcache.version>
+   
+   
 		<start-class>org.erian.examples.bootapi.BootApiApplication</start-class>
 		<!-- Plugin properties -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -94,6 +99,26 @@
 			<artifactId>jamod</artifactId>
 			<version>1.2</version>
 		</dependency>
+		
+		
+		<!-- shiro security -->
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-web</artifactId>
+			<version>${shiro.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-spring</artifactId>
+			<version>${shiro.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-ehcache</artifactId>
+			<version>${shiro.version}</version>
+		</dependency>
+		
+		
 		
 		<!-- utils -->
 		<dependency>
