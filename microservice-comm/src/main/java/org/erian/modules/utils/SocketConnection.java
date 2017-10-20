@@ -2,7 +2,10 @@ package org.erian.modules.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
@@ -15,6 +18,11 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * A common method for read/write through socket connection
@@ -26,101 +34,137 @@ import java.util.Date;
  */
 @Component
 public class SocketConnection {
-
 	@Value("${app.socket.timeout:2000}")
-	static int timeout; 
+	int timeout; 
+	@Value("${app.socket.on:true}")
+	boolean on;
+	
+	@Autowired
+	private CacheManager cacheManager;
+	
+	ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(5);
+
 	private static final Logger logger = LoggerFactory.getLogger(SocketConnection.class);
 
-	public static String[] requestData(String ip, int port, String command) {
-		String results = callDevice(ip, port, command);
+	public String[] requestData(String ip, int port, String command) {
+		String results = null;
+		try {
+			results = this.callDevice(ip, port, command);
+		} catch (InterruptedException | ExecutionException e) {
+			// TODO Auto-generated catch block
+			logger.error(e.getMessage());
+		}
 		if (!StringUtils.isEmpty(results)) {
 			return results.split(";");
 		}
 		return null;
 	}
 
-	@Cacheable(value="deviceValues", key="#ip+#port+#command")
-	public static String callDevice(String ip, int port, String command) {
-		StopWatch watch = new StopWatch();
-		Socket deviceSocket = null;
-		DataOutputStream dataOutputStream = null;
-		BufferedReader bufferedReader = null;
-		String data = "";
-		byte[] byteCommand = command.getBytes();
+	@Cacheable(value="SEC02", key="callDevice"+"#ip"+":"+"#port"+"#command")
+	public String callDevice(final String ip,final int port, final String command) throws InterruptedException, ExecutionException {
+		final Socket deviceSocket = this.getSocket(ip, port);
 
-		try {
-			watch.start();
-			deviceSocket = new Socket(ip, port);
-			deviceSocket.setSoTimeout(timeout);
-			dataOutputStream = new DataOutputStream(deviceSocket.getOutputStream());
-			bufferedReader = new BufferedReader(
-					new InputStreamReader(deviceSocket.getInputStream(), StandardCharsets.UTF_8));
-			dataOutputStream.write(byteCommand);
-			data = bufferedReader.readLine();
-			watch.stop();
-			logger.info("\nCommand -> " + command + "\tResponsed data ： " + data + "\tExec time(ms) : "
-					+ watch.getLastTaskTimeMillis());
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		} finally {
-			try {
-				if(dataOutputStream != null ){
-					dataOutputStream.flush();
-					dataOutputStream.close();
+        Future<String> result = executor.submit(new Callable<String>(){
+			@Override
+			public String call() throws Exception {
+				DataOutputStream dataOutputStream = null;
+				BufferedReader bufferedReader = null;
+				String data = "";
+				byte[] byteCommand = command.getBytes();
+				final StopWatch watch = new StopWatch();
+				try {
+					watch.start();
+					dataOutputStream = new DataOutputStream(deviceSocket.getOutputStream());
+					bufferedReader = new BufferedReader(
+							new InputStreamReader(deviceSocket.getInputStream(), StandardCharsets.UTF_8));
+					dataOutputStream.write(byteCommand);
+					data = bufferedReader.readLine();
+					watch.stop();
+					logger.info("\nCommand -> " + command + "\tResponsed data ： " + data + "\tExec time(ms) : "
+							+ watch.getLastTaskTimeMillis());
+				} catch (IOException e) {
+					logger.error(e.getMessage());
+				} catch (Exception e) {
+					logger.error(e.getMessage());
+				} finally {
+					try {
+						if(dataOutputStream != null ){
+							dataOutputStream.flush();
+							dataOutputStream.close();
+						}
+						if (bufferedReader != null) {
+							bufferedReader.close();
+						}
+					} catch (IOException e) {
+						logger.error(e.getMessage());
+					}
 				}
-			
-				if (bufferedReader != null) {
-					bufferedReader.close();
-				}
-				if (deviceSocket != null) {
-					deviceSocket.close();
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
+				return data;
 			}
-
-		}
-		return data;
+		});
+           
+		return result.get();
+		
 	}
 	
-	@Cacheable(value="deviceValues", key="#ip+#port+#command")
-	public static void setDevice(String ip, int port, String command) {
-		// String command = (String)commands.get("command");
-		StopWatch watch = new StopWatch();
-		Socket deviceSocket = null;
-		DataOutputStream dataOutputStream = null;
-
-		String data = "";
-		byte[] byteCommand = command.getBytes();
-
-		try {
-			watch.start();
-			deviceSocket = new Socket(ip, port);
-			deviceSocket.setSoTimeout(timeout);
-			dataOutputStream = new DataOutputStream(deviceSocket.getOutputStream());
-			dataOutputStream.write(byteCommand);
-			// Thread.sleep(20);
-			logger.info("\nCommand -> " + command + "\tExec time(ms) : " + watch.getLastTaskTimeMillis());
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		} finally {
+//	@Cacheable(value="SEC02", key="getSocket-"+"#ip"+":"+"#port")
+	public synchronized Socket getSocket(String ip, int port) {
+		Cache socketCache = this.cacheManager.getCache("SOCKET");
+		Socket deviceSocket = (Socket)socketCache.get(ip+":"+port);
+		if(null != deviceSocket && !deviceSocket.isClosed()){
+			return deviceSocket;
+		}else {
 			try {
-				if(dataOutputStream != null ){
-					dataOutputStream.flush();
-					dataOutputStream.close();
-				}
-				if (deviceSocket != null) {
-					deviceSocket.close();
-				}
+				deviceSocket = new Socket(ip, port);
+				deviceSocket.setTcpNoDelay(on);
+				deviceSocket.setKeepAlive(on);
+				deviceSocket.setSoTimeout(timeout);
+				socketCache.put(ip+":"+port, deviceSocket);
 			} catch (IOException e) {
-				e.printStackTrace();
+				// TODO Auto-generated catch block
+				logger.error("Error in creating the socket with " + ip+":"+port);
+				return null;
 			}
-
 		}
+		
+		return deviceSocket;
 	}
+	@Cacheable(value="SEC02", key="setDevice"+"#ip"+":"+"#port"+"#command")
+	public void setDevice(final String ip,final int port, final String command) {
 
+		final Socket deviceSocket = this.getSocket(ip, port);
+		
+		Future<String> result = executor.submit(new Callable<String>(){
+			@Override
+			public String call() throws Exception {
+
+				StopWatch watch = new StopWatch();
+				DataOutputStream dataOutputStream = null;
+				byte[] byteCommand = command.getBytes();
+				try {
+					watch.start();
+					dataOutputStream = new DataOutputStream(deviceSocket.getOutputStream());
+					dataOutputStream.write(byteCommand);
+					logger.info("\nCommand -> " + command + "\tExec time(ms) : " + watch.getLastTaskTimeMillis());
+				} catch (IOException e) {
+					System.out.println(e.getMessage());
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				} finally {
+					try {
+						if (dataOutputStream != null) {
+							dataOutputStream.flush();
+							dataOutputStream.close();
+						}
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				} 
+				return null;
+			}
+		});
+		
+		
+		
+	}
 }

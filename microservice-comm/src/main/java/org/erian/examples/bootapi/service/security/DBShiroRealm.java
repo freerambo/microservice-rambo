@@ -8,6 +8,7 @@ package org.erian.examples.bootapi.service.security;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
@@ -17,12 +18,15 @@ import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.util.ByteSource;
 import org.erian.examples.bootapi.domain.User;
 import org.erian.examples.bootapi.repository.UserDao;
+import org.erian.modules.utils.Encodes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,12 +48,8 @@ public class DBShiroRealm extends AuthorizingRealm{
 
     private static final Logger logger = LoggerFactory.getLogger(DBShiroRealm.class);
 
-//    @Autowired
     private UserService userService; 
-//    @Autowired
-//    private UserDao userDao; 
         
-//	public CacheManager cacheManager;
 
     /**
      * 权限认证，为当前登录的Subject授予角色和权限 
@@ -62,6 +62,7 @@ public class DBShiroRealm extends AuthorizingRealm{
         logger.info("##################执行Shiro权限认证##################");
         //获取当前登录输入的用户名，等价于(String) principalCollection.fromRealm(getName()).iterator().next();
         String loginName = (String)super.getAvailablePrincipal(principalCollection); 
+        
         //到数据库查是否有此对象
         User user=userService.findByUsername(loginName);// 实际项目中，这里可以根据实际情况做缓存，如果不做，Shiro自己也是有时间间隔机制，2分钟内不会重复执行该方法
         if(user!=null){
@@ -70,7 +71,7 @@ public class DBShiroRealm extends AuthorizingRealm{
             //用户的角色集合
             info.addRoles(user.getRoleList());
             //用户的角色对应的所有权限，如果只使用角色定义访问权限，下面的四行可以不要
-                info.addStringPermissions(user.getPermList());
+            info.addStringPermissions(user.getPermList());
                 
             // 或者按下面这样添加
             //添加一个角色,不是配置意义上的添加,而是证明该用户拥有admin角色    
@@ -99,22 +100,26 @@ public class DBShiroRealm extends AuthorizingRealm{
         //查出是否有此用户
         User user=userService.findByUsername(token.getUsername());
         if(user!=null){
+        	byte[] salt = Encodes.decodeHex(user.getSalt());
             // 若存在，将此用户存放到登录认证info中，无需自己做密码对比，Shiro会为我们进行密码对比校验
-            return new SimpleAuthenticationInfo(user.getUsername(), user.getPassword(), getName());
+            return new SimpleAuthenticationInfo(user.getUsername(), user.getPassword(),ByteSource.Util.bytes(salt), getName());
         }
         return null;
     }
 
+	/**
+	 * 设定Password校验的Hash算法与迭代次数.
+	 */
+	@PostConstruct
+	public void initCredentialsMatcher() {
+		HashedCredentialsMatcher matcher = new HashedCredentialsMatcher(UserService.HASH_ALGORITHM);
+		matcher.setHashIterations(UserService.HASH_INTERATIONS);
+
+		setCredentialsMatcher(matcher);
+	}
+    
     @Autowired
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
-
-/*    @Autowired
-	public void setUserDao(UserDao userDao) {
-		this.userDao = userDao;
-	}    */
-    
-	
-    
 }

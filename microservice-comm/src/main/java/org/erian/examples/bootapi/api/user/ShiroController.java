@@ -63,6 +63,7 @@ public class ShiroController {
         return "user after login";
     }
     
+//    @RequiresRoles("admin")
     @RequestMapping(value="/admin",method=RequestMethod.GET)
     public String admin(){
         return "admin after login";
@@ -78,7 +79,7 @@ public class ShiroController {
         }
 
         String username = user.getUsername();
-        UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
+        UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPlainPassword());
         //获取当前的Subject  
         Subject currentUser = SecurityUtils.getSubject();  
         try {  
@@ -132,7 +133,7 @@ public class ShiroController {
 //    @RequiresRoles("")
     @RequestMapping("/user")
     public String getUserList(Map<String, Object> model){
-        return "user" + getCurrentUsername();
+        return "user -> " + getCurrentUsername();
     }
 
    

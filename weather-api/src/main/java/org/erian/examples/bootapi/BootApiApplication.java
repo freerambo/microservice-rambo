@@ -18,6 +18,7 @@ public class BootApiApplication {
 	 * 3. 根据classpath中的三方包Class及集中的application.properties条件配置三方包，如线程池 <br/>
 	 * 4. 也支持用@Configuration标注的类配置三方包.
 	 */
+	
 	public static void main(String[] args) throws Exception {
 		SpringApplication.run(BootApiApplication.class, args);
 	}

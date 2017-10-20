@@ -18,6 +18,7 @@ import org.apache.shiro.authc.credential.SimpleCredentialsMatcher;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
+import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.filter.authc.AnonymousFilter;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
@@ -28,7 +29,9 @@ import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.erian.examples.bootapi.service.security.DBShiroRealm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
@@ -49,7 +52,7 @@ public class ShiroConfig {
 
 	
 	static final String HASH_ALGORITHM = "SHA-1";
-	static final Integer HASH_INTERATIONS = 1000;
+	static final Integer HASH_INTERATIONS = 1024;
 	
     private static final Logger logger = LoggerFactory.getLogger(ShiroConfig.class);
     
@@ -61,20 +64,20 @@ public class ShiroConfig {
     }
     
     
-    @Bean(name = "credentialsMatcher")
+/*    @Bean(name = "credentialsMatcher")
     public HashedCredentialsMatcher credentialsMatcher() {
         final HashedCredentialsMatcher credentialsMatcher = new HashedCredentialsMatcher();
         credentialsMatcher.setHashAlgorithmName(HASH_ALGORITHM);
         credentialsMatcher.setHashIterations(HASH_INTERATIONS);
         return credentialsMatcher;
-    }
+    }*/
     
     @Bean(name = "realm")
 	@DependsOn(value={"lifecycleBeanPostProcessor"})
 	public DBShiroRealm realm() {
 		DBShiroRealm realm = new DBShiroRealm();
 		realm.setCacheManager(getEhCacheManager());
-		realm.setCredentialsMatcher(credentialsMatcher());
+//		realm.setCredentialsMatcher(credentialsMatcher());
 		return realm;
 	}
 	

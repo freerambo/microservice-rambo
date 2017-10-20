@@ -54,6 +54,9 @@ public class DataPoint extends IdEntity implements Serializable {
 	@Column(name="Unit")
 	public String unit;
 	
+	@Column(name="SetValue")
+	public String setValue;
+	
 	@Column(name="CreatedOn")
 	public Date createdOn;
 

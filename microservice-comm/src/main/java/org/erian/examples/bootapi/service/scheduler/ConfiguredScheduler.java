@@ -48,7 +48,7 @@ import org.springframework.web.client.RestTemplate;
  * Create:  18 Sep 2017 11:30:28 pm
  */
 
-@Component
+//@Component
 public class ConfiguredScheduler implements Job {
 	//private static String apiUrl = "http://localhost:8080/api/dp/read/";
     //private static final String postUrl = "http://localhost:8080/api/dpv";

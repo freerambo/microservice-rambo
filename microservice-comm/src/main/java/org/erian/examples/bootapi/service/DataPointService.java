@@ -1,6 +1,7 @@
 package org.erian.examples.bootapi.service;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,7 @@ import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.apache.commons.lang3.StringUtils;
 import org.erian.examples.bootapi.domain.*;
 import org.erian.examples.bootapi.dto.*;
 import org.erian.examples.bootapi.repository.*;
@@ -48,6 +50,8 @@ public class DataPointService {
 	@Autowired
 	private CacheManager cacheManager;
 	
+	@Autowired
+	SocketConnection socketConn;
 	
 	@Cacheable("SEC02")
 	@Transactional(readOnly = true)
@@ -55,6 +59,7 @@ public class DataPointService {
 		return dataPointDao.findAll();
 	}
 
+	@Cacheable(value = "SEC05", key="DataPoint_"+"#id")
 	@Transactional(readOnly = true)
 	public DataPoint findOne(Integer id) {
 		return dataPointDao.findOne(id);
@@ -118,11 +123,25 @@ public class DataPointService {
 		return value;
 	}
 
+	
+	public void writeDataPoint(Integer id, String val) {
+		// find the cache first 
+
+		DataPoint dp = this.findOne(id);
+		
+		dp.setValue = val;
+		
+		
+		val = this.readDataPoint(dp);
+		
+		
+			// add into cache
+	}
 	public String readDataPoint(DataPoint dp) {
 		String value = null;
 		Device d = dp.device;
 		switch (d.protocol) {
-
+		
 		case MODBUS_TCP:
 			value = this.modbusTCP(dp);
 			break;
@@ -139,6 +158,7 @@ public class DataPointService {
 		return value;
 	}
 
+	
 	String modbusTCP(DataPoint dp) {
 
 		Device d = dp.device;
@@ -190,7 +210,18 @@ public class DataPointService {
 		
 		if (ip != null) {
 			EthernetIpRequest ipReq = new EthernetIpRequest(d, dp, ip);
-			result = SocketConnection.callDevice(ipReq.ip, ipReq.port, ipReq.datapointPath);
+			
+			// set the prepared command for set value
+			if(StringUtils.isNotBlank(dp.setValue))
+				ipReq.datapointPath = String.format(ipReq.datapointPath, dp.setValue);
+			
+			try {
+				result = socketConn.callDevice(ipReq.ip, ipReq.port, ipReq.datapointPath);
+			} catch (InterruptedException | ExecutionException e) {
+				// TODO Auto-generated catch block
+//				e.printStackTrace();
+				logger.error(e.getMessage());
+			}
 		} else {
 			logger.error("Ethernet IP protocol is not exists for device " + d.id);
 		}

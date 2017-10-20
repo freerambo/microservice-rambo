@@ -36,7 +36,10 @@ public class CacheConfig extends CachingConfigurerSupport {
 	 GuavaCache MIN05 = new GuavaCache("MIN05", CacheBuilder.newBuilder().maximumSize(1000)
              .expireAfterAccess(5, TimeUnit.MINUTES)
              .build());
-	 simpleCacheManager.setCaches(Arrays.asList(SEC01,SEC02, MIN01, MIN05));
+	 GuavaCache SOCKET = new GuavaCache("SOCKET", CacheBuilder.newBuilder().maximumSize(1000)
+             .expireAfterAccess(1, TimeUnit.HOURS)
+             .build());
+	 simpleCacheManager.setCaches(Arrays.asList(SEC01,SEC02, MIN01, MIN05,SOCKET));
 	 return simpleCacheManager;
 	}
 	

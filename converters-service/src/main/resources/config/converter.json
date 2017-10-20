@@ -1,0 +1,26 @@
+{
+  "battery1" : {
+    "uri": "ws://192.168.127.12:8888/battery/con",
+    "deviceId" : "battery1"
+  },
+  "battery2" : {
+    "uri" : "ws://192.168.127.13:8888/battery/con",
+    "deviceId" : "battery2"
+  } ,
+  "bic1" : {
+    "uri" : "ws://192.168.127.12:8888/bic/con",
+    "deviceId" : "bic1"
+  },
+  "bic2" : {
+    "uri" : "ws://192.168.127.13:8888/bic/con",
+    "deviceId" : "bic2"
+  },
+  "pv1" : {
+    "uri" : "ws://192.168.127.12:8888/pv/con",
+    "deviceId" : "pv1"
+  },
+  "pv2" : {
+    "uri" : "ws://192.168.127.13:8888/pv/con",
+    "deviceId" : "pv2"
+  }
+}
