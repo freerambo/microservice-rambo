@@ -33,7 +33,7 @@ public class ConverterService {
 
     Set<WebSocketSession> sessions = Collections.synchronizedSet(new HashSet<>());
 
-    private static final String FILENAME = "src/main/resources/config/converter.json";
+    private static final String FILENAME = "C:/Users/icterian/git/AllConvertersMicroservice/src/main/resources/config/converter.json";
     
     private static  Logger logger = LoggerFactory.getLogger(ConverterService.class);
 
