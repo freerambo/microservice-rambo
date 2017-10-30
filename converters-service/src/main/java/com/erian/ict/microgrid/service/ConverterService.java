@@ -42,7 +42,8 @@ public class ConverterService {
     static Set<WebSocketSession> sessions = Collections.synchronizedSet(new HashSet<>());
 
     private static final String FILENAME = "C:/Users/icterian/git/AllConvertersMicroservice/src/main/resources/config/converter.json";
-    
+//    private static final String FILENAME = "C:/Users/zhuyb/git/SMES_WP2_Microgrid/converters-service/src/main/resources/config/converter.json";
+
     private static  Logger logger = LoggerFactory.getLogger(ConverterService.class);
 
     public static WebsocketClient wsBatteryOne;
