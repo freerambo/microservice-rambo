@@ -1,4 +1,4 @@
-package com.erian.ict.microgrid.domain;
+package com.erian.ict.microgrid.domain.model;
 
 import org.springframework.scheduling.annotation.Scheduled;
 

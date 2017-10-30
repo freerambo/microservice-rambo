@@ -17,11 +17,11 @@ import org.erian.examples.bootapi.dto.*;
 import org.erian.examples.bootapi.repository.*;
 import org.erian.examples.bootapi.service.exception.ErrorCode;
 import org.erian.examples.bootapi.service.exception.ServiceException;
+import org.erian.examples.bootapi.service.socket.SocketConnection;
 import org.erian.modules.jamod.model.ReadParams;
 import org.erian.modules.jamod.model.SerialParams;
 import org.erian.modules.jamod.util.ModbusSerialUtil;
 import org.erian.modules.jamod.util.ModbusTcpUtil;
-import org.erian.modules.utils.SocketConnection;
 
 @Service
 public class DataPointService {
