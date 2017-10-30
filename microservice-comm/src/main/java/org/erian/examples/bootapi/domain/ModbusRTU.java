@@ -5,44 +5,35 @@ import java.util.Date;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
+//@Table(name="modbus_rtu")
 public class ModbusRTU extends IdEntity implements Serializable {
 	public static final long serialVersionUID = 1L;
 	
-	@Column(name="deviceid")
 	public Integer deviceId;
 	
-	@Column(name="address")
 	public String address;
 	
-	@Column(name="baudrate")
 	public Integer baudrate;
 	
-	@Column(name="databit")
 	public Integer databit;
-	@Column(name="stopbit")
 	public Integer stopbit;
 	
-	@Column(name="Parity")
 	public String parity;
 	
-	@Column(name="encoding")
 	public String encoding;
 	
-	@Column(name="Description")
 	public String description;
 	
-	
-	@Column(name="CreatedOn")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+08:00")
 	public Date createdOn;
 	
-	@Column(name="createdBy")
 	public String createdBy;
 	
-	@Column(name="UpdatedBy")
 	public String updatedBy;
-
-	@Column(name="UpdatedOn")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+08:00")
 	public Date updatedOn;
 
 	public ModbusRTU() {

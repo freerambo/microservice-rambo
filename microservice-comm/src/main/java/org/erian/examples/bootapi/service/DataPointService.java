@@ -170,7 +170,7 @@ public class DataPointService {
 			Integer i = ModbusTcpUtil.readData(tcpReq.ip, tcpReq.port, tcpReq.unitId, tcpReq.ref, tcpReq.length,
 					tcpReq.fCode);
 			if (i != null)
-				return this.processValue(i, dp.outPutExpression).toString();
+				return this.processValue(i, dp.outputExpression).toString();
 		} else {
 			logger.error("Modbus TCP protocol is not exists for device " + d.id);
 		}
@@ -194,7 +194,7 @@ public class DataPointService {
 			//read the data through modbus rtu
 			Integer i = ModbusSerialUtil.readData(sParams, request, rtuReq.fCode);
 			if (i != null)
-				result = this.processValue(i, dp.outPutExpression).toString();
+				result = this.processValue(i, dp.outputExpression).toString();
 		} else {
 			logger.error("Modbus RTU protocol is not exists for device " + d.id);
 		}

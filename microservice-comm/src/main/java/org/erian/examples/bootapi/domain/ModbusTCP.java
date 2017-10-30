@@ -5,32 +5,27 @@ import java.util.Date;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
+//@Table(name="modbus_tcp")
 public class ModbusTCP extends IdEntity implements Serializable {
 	public static final long serialVersionUID = 1L;
 	
-	@Column(name="deviceid")
 	public Integer deviceId;
 	
-	@Column(name="ip")
 	public String ip;
 	
-	@Column(name="port")
 	public Integer port;
 	
-	@Column(name="Description")
 	public String description;
-	
-	@Column(name="CreatedOn")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+08:00")
 	public Date createdOn;
-	
-	@Column(name="createdBy")
+
 	public String createdBy;
 	
-	@Column(name="UpdatedBy")
 	public String updatedBy;
-
-	@Column(name="UpdatedOn")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+08:00")
 	public Date updatedOn;
 
 	public ModbusTCP() {

@@ -5,25 +5,24 @@ import java.util.Date;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 
 /**
  * The persistent class for the DataPointValue database table.
  * 
  */
 @Entity
+@Table(name="DataPointValue")
 @NamedQuery(name="DataPointValue.findAll", query="SELECT d FROM DataPointValue d")
 public class DataPointValue extends IdEntity implements Serializable {
 	public static final long serialVersionUID = 1L;
 
 
-
-	@Column(name="DataPointID")
 	public Integer dataPointId;
-
-	@Column(name="Timestamp")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+08:00")
 	public Date timestamp;
 
-	@Column(name="Value")
 	public String value;
 
 	public DataPointValue() {

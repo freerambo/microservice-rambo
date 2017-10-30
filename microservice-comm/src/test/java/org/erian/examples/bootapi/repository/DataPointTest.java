@@ -59,7 +59,7 @@ public class DataPointTest {
 			demo.readOnly = true;
 			demo.writeOnly = false;
 			demo.inputExpression = null;
-			demo.outPutExpression = null;
+			demo.outputExpression = null;
 			demo.unit = null;
 			ls.add(demo);
 		}

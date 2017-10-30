@@ -7,40 +7,34 @@ import javax.persistence.*;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 
 /**
  * The persistent class for the Project database table.
  * 
  */
 @Entity
-@Table(name = "Project")
 @NamedQuery(name="Project.findAll", query="SELECT p FROM Project p")
 public class Project extends IdEntity implements Serializable {
 	public static final long serialVersionUID = 1L;
 
 	
-	@Column(name="Name")
 	public String name;
 	
-	@Column(name="Description")
 	public String description;
 	
-	@Column(name="CreatedBy")
 	public String createdBy;
-
-	@Column(name="CreatedOn")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+08:00")
 	public Date createdOn;
 
-	@Column(name="logo")
 	public String logo;
 
-	@Column(name="UpdatedBy")
 	public String updatedBy;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+08:00")
 
-	@Column(name="UpdatedOn")
 	public Date updatedOn;
 
-	@Column(name="UserID")
 	public int userId;
 	
 	public Project() {
