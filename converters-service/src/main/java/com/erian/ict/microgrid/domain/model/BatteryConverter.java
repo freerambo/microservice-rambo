@@ -1,4 +1,4 @@
-package com.erian.ict.microgrid.domain;
+package com.erian.ict.microgrid.domain.model;
 
 import java.util.Date;
 
@@ -161,7 +161,15 @@ public class BatteryConverter {
         this.mode = mode;
     }
 
-    public long getFaultMessage() {
+    public int getBatSoc() {
+		return batSoc;
+	}
+
+	public void setBatSoc(int batSoc) {
+		this.batSoc = batSoc;
+	}
+
+	public long getFaultMessage() {
         return faultMessage;
     }
 

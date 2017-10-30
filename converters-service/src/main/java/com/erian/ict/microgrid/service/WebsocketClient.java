@@ -79,14 +79,18 @@ public class WebsocketClient {
         if (this.userSession != null && userSession.isOpen()) {
             return true;
         }
-        try {
-			this.userSession.close();
-		} catch (IOException e) {
-			logger.error(e.getMessage());
-		}
-        connect();
+        this.userSession = null;
         return false;
     }
+    
+    public void isConnected(boolean reconnect) {
+    	if(!isConnected()){
+    		connect();
+    		logger.warn(this.deviceId + " WS connection is closed but we tried to reconnect!! ");
+    	}
+    		
+    }
+    
     
     public synchronized void connect() {
          try {

@@ -1,6 +1,7 @@
 package com.erian.ict.microgrid.service;
 
 import com.erian.ict.microgrid.domain.*;
+import com.erian.ict.microgrid.mapper.ConverterMapper;
 import com.google.common.collect.Maps;
 
 import org.apache.commons.io.FileUtils;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
+import javax.annotation.PostConstruct;
 import javax.websocket.CloseReason;
 
 import java.io.File;
@@ -23,6 +25,12 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
+import com.erian.ict.microgrid.domain.*;
+import com.erian.ict.microgrid.domain.model.*;
 
 /**
  * Created by nhdevika on 2/14/2017.
@@ -53,15 +61,9 @@ public class ConverterService {
 
     public static JSONObject configJson;
 
-/*    @Autowired
-    private BatteryConverterRepository batteryConverterRepository;
-
     @Autowired
-    private PVConverterRepository pvConverterRepository;
-
-    @Autowired
-    private BICConverterRepository bicConverterRepository;*/
-
+    DataPointValueDao dao;
+    
     public ConverterService() {
 		configJson = loadDeviceConfiguration();
 		wsBatteryOne = this.getWebSocketClient("battery1");
@@ -148,7 +150,6 @@ public class ConverterService {
                 bicTwoJson.put("deviceId",wsBICTwo.deviceId);
                 array.add(bicTwoJson);
                 wsBICTwo.message = null;
-
             }
 
             if (wsPVOne.message != null) {
@@ -158,15 +159,12 @@ public class ConverterService {
                 wsPVOne.message = null;
 
             }
-
             if (wsPVTwo.message != null) {
                 JSONObject pcTwoJson = (JSONObject)parser.parse(wsPVTwo.message);
                 pcTwoJson.put("deviceId",wsPVTwo.deviceId);
                 array.add(pcTwoJson);
                 wsPVTwo.message = null;
-
             }
-
             if (array.size() == 0) {
                 jsonAll.put("message", "ERROR");
                 jsonAll.put("alert","Connected to WS but no data");
@@ -181,26 +179,27 @@ public class ConverterService {
         }
     }
 
-    /*@Scheduled(fixedRate = 60000)
-    public void storeBatteryConverterDataIntoDB() {
-        JSONParser parser = new JSONParser();
+    
+	static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(10);
 
-        try {
-            if (wsBatteryOne.message != null) {
-                JSONObject batteryOneJson = (JSONObject)parser.parse(wsBatteryOne.message);
-                BatteryConverter batteryConverter = ConverterMapper.mapBatteryConverterData(batteryOneJson,wsBatteryOne.deviceId);
-                batteryConverterRepository.save(batteryConverter);
-            }
-            if (wsBatteryTwo.message != null) {
-                JSONObject batteryTwoJson = (JSONObject)parser.parse(wsBatteryTwo.message);
-                BatteryConverter batteryConverter = ConverterMapper.mapBatteryConverterData(batteryTwoJson,wsBatteryTwo.deviceId);
-                batteryConverterRepository.save(batteryConverter);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+	
+	
+//    @Scheduled(fixedRate = 60000)
+	@PostConstruct
+    public void storeConvertersData() {
+		try {
+			TimeUnit.SECONDS.sleep(10000);
+	    	for (String key : wsClients.keySet()){
+	    		final WebsocketClient ws = wsClients.get(key);
+	    		if(ws.isConnected())
+	    			scheduler.scheduleAtFixedRate(new DataPaser(ws), 10000, 60000, TimeUnit.MILLISECONDS);
+	    	}
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
-
+    /*
     @Scheduled(fixedRate = 60000)
     public void storePVConverterDataIntoDB() {
         JSONParser parser = new JSONParser();
@@ -650,9 +649,10 @@ public class ConverterService {
     @Scheduled(initialDelay=8000, fixedRate = 3000)
     public void checkClients(){
     	for (String key : wsClients.keySet()){
-    		if(!wsClients.get(key).isConnected()){
+/*    		if(!wsClients.get(key).isConnected()){
     			logger.warn(key + " is closed but we tried to reconnect!! ");
-    		}
+    		}*/
+    		wsClients.get(key).isConnected(true);
     	}
     }
     

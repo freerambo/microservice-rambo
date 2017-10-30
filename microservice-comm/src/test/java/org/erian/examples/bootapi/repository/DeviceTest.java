@@ -33,17 +33,18 @@ public class DeviceTest {
 	@Test
 	public void save() {
 		Device obj = new Device();
-		obj.name = "testDevice123";
-		obj.description = "this is a test project";
-		obj.protocol = "ModbusTCP";
-//		obj.path = "192.21.127.110:8080";
-		obj.address = 100;
-		obj.createdBy = "testUser";
+		obj.name = "bic2";
+		obj.description = "this is a bic2";
+		obj.protocol = "CANBUS";
+		obj.path = "ws://192.168.127.13:8888/bic/con";
+		obj.address = null;
+		obj.createdBy = "yuanbo";
 		obj.createdOn = new Date();
-		obj.type = "PowerMeter";
+		obj.type = "Converter";
 		obj.projectId = 1001;
-		obj.interval = "SEC05";
+		obj.interval = "SEC01";
 		testDao.save(obj);
+		System.out.println(obj.id);
 		assertThat(obj.id).isNotNull();
 	}
 

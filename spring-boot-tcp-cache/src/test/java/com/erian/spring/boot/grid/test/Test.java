@@ -1,10 +1,11 @@
 package com.erian.spring.boot.grid.test;
 
+import com.erian.spring.boot.grid.service.SocketConnection;
 
 public class Test {
 	
 	
- public static void main1(String[] args) throws InterruptedException{
+ public static void main(String[] args) throws InterruptedException{
 	 
 	
 	 

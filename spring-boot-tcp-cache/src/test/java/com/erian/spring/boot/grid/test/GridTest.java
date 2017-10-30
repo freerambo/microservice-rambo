@@ -19,9 +19,12 @@ public class GridTest {
 		String command ="meas:volt:ac?;:meas:curr:ac?;:meas:pow:ac?;:meas:freq?;:outp?\n";
 				
 //	 	String setCommand = "sour:freq 58;:volt:ac 121;:volt:lim:ac 180;:POW:prot 8200;:curr 29;\n";
-
+//		command = "meas:pow:ac:tot?\n";
 //		SocketConnection.setDevice("192.168.127.110", 2101, setCommand);
-		String result = SocketConnection.callDevice("192.168.127.110", 2101, command);
+		command ="volt:ac 100;:volt:ac? ";
+//		String result = SocketConnection.callDevice("192.168.127.78", 4001, command);
+		String result = SocketConnection.callDevice("192.168.127.78", 4001, "010302000002C5B3");
+
 		System.out.println("output： " + result); 
 	}
 

@@ -1,4 +1,4 @@
-package org.erian.modules.utils;
+package org.erian.examples.bootapi.service.socket;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +34,7 @@ import java.util.concurrent.ThreadPoolExecutor;
  */
 @Component
 public class SocketConnection {
+	
 	@Value("${app.socket.timeout:2000}")
 	int timeout; 
 	@Value("${app.socket.on:true}")
