@@ -11,19 +11,16 @@ import javax.persistence.*;
  * 
  */
 @Entity
+@Table(name="DataPointValue")
 @NamedQuery(name="DataPointValue.findAll", query="SELECT d FROM DataPointValue d")
 public class DataPointValue extends IdEntity implements Serializable {
 	public static final long serialVersionUID = 1L;
 
 
-
-	@Column(name="DataPointID")
 	public Integer dataPointId;
 
-	@Column(name="Timestamp")
 	public Date timestamp;
 
-	@Column(name="Value")
 	public String value;
 
 	public DataPointValue() {

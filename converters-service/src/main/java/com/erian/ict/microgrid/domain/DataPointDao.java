@@ -8,6 +8,9 @@ package com.erian.ict.microgrid.domain;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
 /**
  * function description：
  *
@@ -18,5 +21,7 @@ import java.util.List;
 
 public interface DataPointDao extends BaseDao<DataPoint, Integer> {
 
-	List<DataPoint> getByDeviceId(Integer deviceId);
+	
+	@Query(value = "SELECT d FROM DataPoint AS d WHERE d.deviceId = :deviceId")
+	List<DataPoint> getByDeviceId(@Param("deviceId")Integer deviceId);
 }

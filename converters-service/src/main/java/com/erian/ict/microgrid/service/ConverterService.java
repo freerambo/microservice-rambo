@@ -39,7 +39,7 @@ import com.erian.ict.microgrid.domain.model.*;
 @Component
 public class ConverterService {
 
-    Set<WebSocketSession> sessions = Collections.synchronizedSet(new HashSet<>());
+    static Set<WebSocketSession> sessions = Collections.synchronizedSet(new HashSet<>());
 
     private static final String FILENAME = "C:/Users/icterian/git/AllConvertersMicroservice/src/main/resources/config/converter.json";
     
@@ -62,7 +62,7 @@ public class ConverterService {
     public static JSONObject configJson;
 
     @Autowired
-    DataPointValueDao dao;
+    ConverterMapper mapper;
     
     public ConverterService() {
 		configJson = loadDeviceConfiguration();
@@ -72,6 +72,7 @@ public class ConverterService {
 		wsBICTwo = this.getWebSocketClient("bic2");
 		wsPVOne =this.getWebSocketClient("pv1");
 		wsPVTwo = this.getWebSocketClient("pv2");
+		storeConvertersData();
     }
 
     public WebsocketClient getWebSocketClient(String deviceId){
@@ -127,120 +128,63 @@ public class ConverterService {
                 JSONObject batteryOneJson = (JSONObject)parser.parse(wsBatteryOne.message);
                 batteryOneJson.put("deviceId",wsBatteryOne.deviceId);
                 array.add(batteryOneJson);
-                wsBatteryOne.message = null;
             }
 
             if (wsBatteryTwo.message != null) {
                 JSONObject batteryTwoJson = (JSONObject)parser.parse(wsBatteryTwo.message);
                 batteryTwoJson.put("deviceId",wsBatteryTwo.deviceId);
                 array.add(batteryTwoJson);
-                wsBatteryTwo.message = null;
             }
 
             if (wsBICOne.message != null) {
                 JSONObject bicOneJson = (JSONObject)parser.parse(wsBICOne.message);
                 bicOneJson.put("deviceId", wsBICOne.deviceId);
                 array.add(bicOneJson);
-                wsBICOne.message = null;
-
             }
 
             if (wsBICTwo.message != null) {
                 JSONObject bicTwoJson = (JSONObject)parser.parse(wsBICTwo.message);
                 bicTwoJson.put("deviceId",wsBICTwo.deviceId);
                 array.add(bicTwoJson);
-                wsBICTwo.message = null;
             }
 
             if (wsPVOne.message != null) {
                 JSONObject pcOneJson = (JSONObject)parser.parse(wsPVOne.message);
                 pcOneJson.put("deviceId",wsPVOne.deviceId);
                 array.add(pcOneJson);
-                wsPVOne.message = null;
 
             }
             if (wsPVTwo.message != null) {
                 JSONObject pcTwoJson = (JSONObject)parser.parse(wsPVTwo.message);
                 pcTwoJson.put("deviceId",wsPVTwo.deviceId);
                 array.add(pcTwoJson);
-                wsPVTwo.message = null;
             }
+            
             if (array.size() == 0) {
                 jsonAll.put("message", "ERROR");
                 jsonAll.put("alert","Connected to WS but no data");
             } else {
                 jsonAll.put("converters",array);
             }
-
             sendToAll(jsonAll);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
-	static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(10);
+//	static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(10);
 	
-//    @Scheduled(fixedRate = 60000)
-	@PostConstruct
+	@Scheduled(initialDelay=6000, fixedRate = 60000)
     public void storeConvertersData() {
-		try {
-			TimeUnit.SECONDS.sleep(10000);
 	    	for (String key : wsClients.keySet()){
 	    		final WebsocketClient ws = wsClients.get(key);
-	    		if(ws.isConnected())
-	    			scheduler.scheduleAtFixedRate(new DataPaser(ws), 10000, 60000, TimeUnit.MILLISECONDS);
+	    		if(ws.isConnected()){
+	    			logger.info("storeConvertersData for " + ws.deviceId);
+//	    			scheduler.scheduleAtFixedRate(new DataPaser(ws), 10000, 60000, TimeUnit.MILLISECONDS);
+	    			new DataPaser(ws,mapper).start();
+	    		}
 	    	}
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-//			e.printStackTrace();
-			logger.error("Error in storeConvertersData - " + e.getLocalizedMessage());
-		}
     }
-    /*
-    @Scheduled(fixedRate = 60000)
-    public void storePVConverterDataIntoDB() {
-        JSONParser parser = new JSONParser();
-
-        try {
-
-            if(wsPVOne.message != null) {
-                JSONObject pvOneJson = (JSONObject)parser.parse(wsPVOne.message);
-                PVConverter pvConverter = ConverterMapper.mapPVConverterData(pvOneJson,wsPVOne.deviceId);
-                pvConverterRepository.save(pvConverter);
-            }
-            if (wsPVTwo.message != null) {
-                JSONObject pvTwoJson = (JSONObject)parser.parse(wsPVTwo.message);
-                PVConverter pvConverter = ConverterMapper.mapPVConverterData(pvTwoJson,wsPVTwo.deviceId);
-                pvConverterRepository.save(pvConverter);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Scheduled(fixedRate = 60000)
-    public void storeBICConverterDataIntoDB() {
-        JSONParser parser = new JSONParser();
-
-        try {
-
-            if(wsBICOne.message != null) {
-                JSONObject bicOneJson = (JSONObject)parser.parse(wsBICOne.message);
-                BICConverter bicConverter = ConverterMapper.mapBICConverterData(bicOneJson,wsBICOne.deviceId);
-                bicConverterRepository.save(bicConverter);
-            }
-            if(wsBICTwo.message != null) {
-                JSONObject bicTwoJson = (JSONObject)parser.parse(wsBICTwo.message);
-                BICConverter bicConverter = ConverterMapper.mapBICConverterData(bicTwoJson,wsBICTwo.deviceId);
-                bicConverterRepository.save(bicConverter);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-*/
 
     public JSONObject getConverterData(String deviceId) {
         JSONParser parser = new JSONParser();
@@ -643,7 +587,7 @@ public class ConverterService {
         return jsonObject;
     }
     
-    @Scheduled(initialDelay=8000, fixedRate = 3000)
+    @Scheduled(initialDelay=3000, fixedRate = 4000)
     public void checkClients(){
     	for (String key : wsClients.keySet()){
 /*    		if(!wsClients.get(key).isConnected()){

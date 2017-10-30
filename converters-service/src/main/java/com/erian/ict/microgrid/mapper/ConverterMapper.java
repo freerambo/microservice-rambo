@@ -140,7 +140,7 @@ public class ConverterMapper {
     			Integer i = map.get(key);
     			if(obj != null && i != null){
     				DataPointValue val = new DataPointValue();
-        	    	val.value = (String)obj;
+        	    	val.value = String.valueOf(obj);
         	    	val.dataPointId = i;
         	    	val.timestamp = d;
         	    	ls.add(val);

@@ -28,38 +28,37 @@ import com.erian.ict.microgrid.mapper.ConverterMapper;
  * @version v 1.0 
  * Create:  25 Oct 2017 7:52:52 pm
  */
-public class DataPaser implements Runnable {
+public class DataPaser extends Thread {
     private static  Logger logger = LoggerFactory.getLogger(DataPaser.class);
 
 	final WebsocketClient ws;
 	final JSONParser parser = new JSONParser();
-	@Autowired
-	ConverterMapper mapper;
 	
-	public DataPaser(final WebsocketClient ws) {
+	final ConverterMapper mapper;
+	
+	public DataPaser(final WebsocketClient ws,final ConverterMapper mapper) {
 		this.ws = ws;
+		this.mapper = mapper;
 	}
 
 	@Override
 	public void run(){
 		if(ws.isConnected()){
-			
 			logger.info("load data for  - " + ws.deviceId);
-
 			int count = 3;
 			try {
-				while(count > 0){
+				while(count-- > 0){
 					if(ws.message != null){
 						final JSONObject json = (JSONObject)parser.parse(ws.message);
+						logger.info(ws.message);
 						// parse the data
-						mapper.storeConvData(json, ws.deviceId);
-						
+						if(mapper != null)
+							mapper.storeConvData(json, ws.deviceId);
+						break;
 					}else{
 							TimeUnit.MILLISECONDS.sleep(600);
-							count--;
 					}
 				}
-			
 			} catch (InterruptedException | ParseException e) {
 				e.printStackTrace();
 			}
