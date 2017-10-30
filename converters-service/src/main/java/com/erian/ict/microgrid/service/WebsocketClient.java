@@ -10,9 +10,6 @@ import javax.websocket.*;
 import java.io.IOException;
 import java.net.URI;
 
-/**
- * Created by nhdevika on 2/14/2017.
- */
 @ClientEndpoint
 public class WebsocketClient {
     Session userSession = null;
@@ -95,8 +92,7 @@ public class WebsocketClient {
     public synchronized void connect() {
          try {
         	 if(endpointURI != null){
-                 logger.error("Create websocket connection to " + endpointURI + " for device " + deviceId);
-
+                 logger.info("Create websocket connection to " + endpointURI + " for device " + deviceId);
         		 WebSocketContainer container = ContainerProvider.getWebSocketContainer();
                  container.connectToServer(this, new URI(endpointURI));
         	 }

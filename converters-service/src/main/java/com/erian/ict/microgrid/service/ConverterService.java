@@ -175,14 +175,10 @@ public class ConverterService {
             sendToAll(jsonAll);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            e.printStackTrace();
         }
     }
 
-    
 	static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(10);
-
-	
 	
 //    @Scheduled(fixedRate = 60000)
 	@PostConstruct
@@ -196,7 +192,8 @@ public class ConverterService {
 	    	}
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+//			e.printStackTrace();
+			logger.error("Error in storeConvertersData - " + e.getLocalizedMessage());
 		}
     }
     /*
@@ -652,6 +649,7 @@ public class ConverterService {
 /*    		if(!wsClients.get(key).isConnected()){
     			logger.warn(key + " is closed but we tried to reconnect!! ");
     		}*/
+    		logger.info("Check the connectivity of " + key);
     		wsClients.get(key).isConnected(true);
     	}
     }
