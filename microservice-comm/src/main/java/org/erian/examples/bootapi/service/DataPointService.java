@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
+import org.springframework.cache.Cache.ValueWrapper;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,7 @@ public class DataPointService {
 
 	private static Logger logger = LoggerFactory.getLogger(DataPointService.class);
 
-	public static final String INT_TO_FLOAT = "intToFloat";
+	public static final String INT_TO_FLOAT = "intToFloat";                                                                                           
 	public static final String CENTI = "0.01";
 
 	public static final String MODBUS_TCP = "ModbusTCP";
@@ -105,10 +106,11 @@ public class DataPointService {
 	 */
 	public String readDataPoint(Integer id) {
 		Cache cache = cacheManager.getCache("SEC02");
-		// find the cache first 
-		Object obj = cache.get(id);
+		// find the cache first we must use get with valuewrapper
+		ValueWrapper obj = cache.get(id);
 		if(obj != null)
-			return obj.toString();
+			return (String) obj.get();
+		
 		String value = null;
 
 		DataPoint dp = this.findOne(id);
@@ -229,11 +231,14 @@ public class DataPointService {
 		return result;
 	}
 	
-	Double processValue(Integer i, String outPutExpression) {
+	Double processValue(Integer i, String outputExpression) {
 
 		Double d = null;
-		switch (outPutExpression) {
+//		System.err.println("-"+outputExpression +"-");
+		outputExpression = (null != outputExpression)? outputExpression.trim():"unknown";
+		switch (outputExpression) {
 		case INT_TO_FLOAT:
+//		case "intToFloat":
 			Float f = Float.intBitsToFloat(i);
 			d = f.doubleValue();
 			break;
@@ -241,7 +246,7 @@ public class DataPointService {
 			d = i * 0.01;
 			break;
 		default:
-			logger.error("unknown outputExpression " + outPutExpression);
+			logger.error("unknown outputExpression " + outputExpression);
 			d = i.doubleValue();
 			break;
 		}

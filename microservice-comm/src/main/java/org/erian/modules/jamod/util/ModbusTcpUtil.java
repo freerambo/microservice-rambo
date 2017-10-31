@@ -184,12 +184,12 @@ public class ModbusTcpUtil {
 			ReadMultipleRegistersResponse res = (ReadMultipleRegistersResponse) trans.getResponse();
 			
 			data = res.getRegisterValue(0);
+			if(count == 2)
+				data = (data<<16) + res.getRegisterValue(1);
 
-			System.out.println(" - "+ res.getHexMessage() + " -- " + data + " -- " + res.getRegisterValue(1));
-			
-		    Float value = Float.intBitsToFloat((data<<16)+res.getRegisterValue(1));
-
-		    System.out.println(value);
+//			System.out.println(" - "+ res.getHexMessage() + " -- " + data + " -- " + res.getRegisterValue(1));
+//		    Float value = Float.intBitsToFloat((data<<16)+res.getRegisterValue(1));
+//		    System.out.println(value);
 		    
 			con.close();
 		} catch (Exception e) {
