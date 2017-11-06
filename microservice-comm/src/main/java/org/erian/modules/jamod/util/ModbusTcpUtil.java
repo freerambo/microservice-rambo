@@ -35,8 +35,8 @@ public class ModbusTcpUtil {
 	 * @throws ModbusSlaveException
 	 * @throws ModbusException
 	 */
-	public static int readDiscretesInput(String ip, int port, int slaveId, int ref, int count) {
-		int data = 0;
+	public static Integer readDiscretesInput(String ip, Integer port, Integer slaveId, Integer ref, Integer count) {
+		Integer data = 0;
 
 		try {
 			InetAddress addr = InetAddress.getByName(ip);
@@ -86,8 +86,8 @@ public class ModbusTcpUtil {
 	 * @return
 	 * @author: Rambo Zhu    20 Jun 2017 3:50:06 pm
 	 */
-	public static int readInputRegister(String ip, int port, int slaveId, int ref, int count) {
-		int data = 0;
+	public static Integer readInputRegister(String ip, Integer port, Integer slaveId, Integer ref, Integer count) {
+		Integer data = 0;
 
 		try {
 			TCPMasterConnection con = ModbusConnection.openTcpConnection(ip, port);
@@ -125,8 +125,8 @@ public class ModbusTcpUtil {
 	 * @return
 	 * @author: Rambo Zhu     20 Jun 2017 3:27:01 pm
 	 */
-	public static int readCoil(String ip, int port, int slaveId, int ref, int count) {
-		int data = 0;
+	public static Integer readCoil(String ip, Integer port, Integer slaveId, Integer ref, Integer count) {
+		Integer data = 0;
 		try {
 			
 			TCPMasterConnection con = ModbusConnection.openTcpConnection(ip, port);
@@ -167,8 +167,8 @@ public class ModbusTcpUtil {
 	 * @return
 	 * @author: Rambo Zhu     20 Jun 2017 3:50:26 pm
 	 */
-	public static int readRegister(String ip, int port, int slaveId, int ref, int count) {
-		int data = 0;
+	public static Integer readRegister(String ip, Integer port, Integer slaveId, Integer ref, Integer count) {
+		Integer data = null;
 		try {
 			TCPMasterConnection con = ModbusConnection.openTcpConnection(ip, port);
 			con.connect();
@@ -211,8 +211,8 @@ public class ModbusTcpUtil {
 	 * @return
 	 * @author: Rambo Zhu     20 Jun 2017 4:14:44 pm
 	 */
-	public static Integer readData(String ip, int port, int slaveId, int ref,int count, String fCode) {
-		int data = 0;
+	public static Integer readData(String ip, Integer port, Integer slaveId, Integer ref,Integer count, String fCode) {
+		Integer data = 0;
 		switch (fCode) {
         case "F01":
         	data = ModbusTcpUtil.readDiscretesInput(ip, port, slaveId, ref, count);
@@ -244,8 +244,8 @@ public class ModbusTcpUtil {
  * @param fCode
  * @author: Rambo Zhu     20 Jun 2017 4:21:00 pm
  */
-	public static void writeData(String ip, int port,int slaveId,
-			int ref, int value, String fCode) {
+	public static void writeData(String ip, Integer port,Integer slaveId,
+			Integer ref, Integer value, String fCode) {
 		switch (fCode) {
 	        case "F05":
 	        	ModbusTcpUtil.writeDigitalOutput(ip, port, slaveId, ref, value);
@@ -269,8 +269,8 @@ public class ModbusTcpUtil {
 	 * @param ref
 	 * @param value
 	 */
-	public static void writeRegister(String ip, int port, int slaveId,
-			int ref, int value) {
+	public static void writeRegister(String ip, Integer port, Integer slaveId,
+			Integer ref, Integer value) {
 
 		try {
 			TCPMasterConnection connection = ModbusConnection.openTcpConnection(ip, port);
@@ -308,8 +308,8 @@ public class ModbusTcpUtil {
 	 * @param ref
 	 * @param value
 	 */
-	public static void writeDigitalOutput(String ip, int port, int slaveId,
-			int ref, int value) {
+	public static void writeDigitalOutput(String ip, Integer port, Integer slaveId,
+			Integer ref, Integer value) {
 
 		try {
 			TCPMasterConnection connection = ModbusConnection.openTcpConnection(ip, port);
