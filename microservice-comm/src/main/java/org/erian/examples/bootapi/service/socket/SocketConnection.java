@@ -141,9 +141,9 @@ public class SocketConnection {
 
 		final Socket deviceSocket = this.getSocket(ip, port);
 		
-		Future<String> result = executor.submit(new Callable<String>(){
-			@Override
-			public String call() throws Exception {
+		  executor.execute(new Runnable(){
+				@Override
+				public void run() {
 
 				StopWatch watch = new StopWatch();
 				DataOutputStream dataOutputStream = null;
@@ -154,9 +154,9 @@ public class SocketConnection {
 					dataOutputStream.write(byteCommand);
 					logger.info("\nCommand -> " + command + "\tExec time(ms) : " + watch.getLastTaskTimeMillis());
 				} catch (IOException e) {
-					System.out.println(e.getMessage());
+					logger.error("IOException " + e.getMessage());
 				} catch (Exception e) {
-					System.out.println(e.getMessage());
+					logger.error("Exception " + e.getMessage());
 				} finally {
 					try {
 						if (dataOutputStream != null) {
@@ -167,7 +167,6 @@ public class SocketConnection {
 						e.printStackTrace();
 					}
 				} 
-				return "done";
 			}
 		});
 		

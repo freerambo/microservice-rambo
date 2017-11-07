@@ -130,7 +130,7 @@ public class DataPointService {
 		// find the cache first 
 
 		DataPoint dp = this.findOne(id);
-		
+//		logger.warn(val + " The datapoint " + dp);
 		dp.setValue = val;
 		
 		return this.ethernetIP(dp);
