@@ -129,7 +129,6 @@ public class SocketConnection {
 				deviceSocket.setSoTimeout(timeout);
 				socketCache.put(ip+":"+port, deviceSocket);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				logger.error("Error in creating the socket with " + ip+":"+port);
 				return null;
 			}
@@ -168,7 +167,7 @@ public class SocketConnection {
 						e.printStackTrace();
 					}
 				} 
-				return null;
+				return "done";
 			}
 		});
 		

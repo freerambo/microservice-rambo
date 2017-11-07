@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,6 +51,13 @@ public class DataPointController {
 		
 		return dpService.readDataPoint(tagId);
 		
+	}
+	
+	@RequestMapping(value = "/api/dp/set/{dpId}", method=RequestMethod.POST)
+	@Monitored
+	public String setTagById(@NotNull @PathVariable("dpId") Integer tagId, @NotNull @Param("command") String val) {
+		
+		return dpService.writeIpDataPoint(tagId, val);
 	}
 	
 //	Content-Type: application/json;charset=UTF-8

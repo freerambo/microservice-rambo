@@ -126,19 +126,18 @@ public class DataPointService {
 	}
 
 	
-	public void writeDataPoint(Integer id, String val) {
+	public String writeIpDataPoint(Integer id, String val) {
 		// find the cache first 
 
 		DataPoint dp = this.findOne(id);
 		
 		dp.setValue = val;
 		
-		
-		val = this.readDataPoint(dp);
-		
+		return this.ethernetIP(dp);
 		
 			// add into cache
 	}
+	
 	public String readDataPoint(DataPoint dp) {
 		String value = null;
 		Device d = dp.device;
@@ -164,15 +163,22 @@ public class DataPointService {
 	String modbusTCP(DataPoint dp) {
 
 		Device d = dp.device;
-
+		
 		ModbusTCP tcp = tcpDao.findByDeviceId(d.id);
 
 		if (tcp != null) {
 			ModbusTcpRequest tcpReq = new ModbusTcpRequest(d, dp, tcp);
-			Integer i = ModbusTcpUtil.readData(tcpReq.ip, tcpReq.port, tcpReq.unitId, tcpReq.ref, tcpReq.length,
-					tcpReq.fCode);
-			if (i != null)
-				return this.processValue(i, dp.outputExpression).toString();
+			if(dp.readOnly){
+				Integer i = ModbusTcpUtil.readData(tcpReq.ip, tcpReq.port, tcpReq.unitId, tcpReq.ref, tcpReq.length,
+						tcpReq.fCode);
+				if (i != null)
+					return this.processValue(i, dp.outputExpression).toString();
+			}
+			if(dp.writeOnly){
+				ModbusTcpUtil.writeData(tcpReq.ip, tcpReq.port, tcpReq.unitId, tcpReq.ref, Integer.valueOf(dp.setValue),
+						tcpReq.fCode);
+			}
+			
 		} else {
 			logger.error("Modbus TCP protocol is not exists for device " + d.id);
 		}
@@ -190,13 +196,20 @@ public class DataPointService {
 		
 		if (rtu != null) {
 			ModbusRtuRequest rtuReq = new ModbusRtuRequest(d, dp, rtu);
-			SerialParams sParams = new SerialParams(rtuReq.address, rtuReq.baudrate, rtuReq.databit, rtuReq.stopbit, rtuReq.parity, rtu.encoding);
-
-			ReadParams request = new ReadParams(rtuReq.unitId, rtuReq.ref, rtuReq.length);
-			//read the data through modbus rtu
-			Integer i = ModbusSerialUtil.readData(sParams, request, rtuReq.fCode);
-			if (i != null)
-				result = this.processValue(i, dp.outputExpression).toString();
+			
+			if(dp.readOnly){
+				SerialParams sParams = new SerialParams(rtuReq.address, rtuReq.baudrate, rtuReq.databit, rtuReq.stopbit, rtuReq.parity, rtu.encoding);
+	
+				ReadParams request = new ReadParams(rtuReq.unitId, rtuReq.ref, rtuReq.length);
+				//read the data through modbus rtu
+				Integer i = ModbusSerialUtil.readData(sParams, request, rtuReq.fCode);
+				if (i != null)
+					result = this.processValue(i, dp.outputExpression).toString();
+			}
+			if(dp.writeOnly){
+				// write data here
+			}
+			
 		} else {
 			logger.error("Modbus RTU protocol is not exists for device " + d.id);
 		}
@@ -220,13 +233,15 @@ public class DataPointService {
 			EthernetIpRequest ipReq = new EthernetIpRequest(d, dp, ip);
 			
 			// set the prepared command for set value
-			if(StringUtils.isNotBlank(dp.setValue))
-				ipReq.datapointPath = String.format(ipReq.datapointPath, dp.setValue);
+			if(StringUtils.isNotBlank(dp.setValue)){
+//				ipReq.datapointPath = String.format(ipReq.datapointPath, dp.setValue);
+				ipReq.datapointPath = dp.setValue;
+				socketConn.setDevice(ipReq.ip, ipReq.port, ipReq.datapointPath);
+				return "done";
+			}
 			try {
 				result = socketConn.callDevice(ipReq.ip, ipReq.port, ipReq.datapointPath);
 			} catch (InterruptedException | ExecutionException e) {
-				// TODO Auto-generated catch block
-//				e.printStackTrace();
 				logger.error(e.getMessage());
 			}
 		} else {
@@ -239,11 +254,9 @@ public class DataPointService {
 	Double processValue(Integer i, String outputExpression) {
 
 		Double d = null;
-//		System.err.println("-"+outputExpression +"-");
 		outputExpression = (null != outputExpression)? outputExpression.trim():"unknown";
 		switch (outputExpression) {
 		case INT_TO_FLOAT:
-//		case "intToFloat":
 			Float f = Float.intBitsToFloat(i);
 			d = f.doubleValue();
 			break;
