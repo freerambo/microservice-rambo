@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.Cache;
+import org.springframework.cache.Cache.ValueWrapper;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
@@ -61,7 +62,7 @@ public class SocketConnection {
 		return null;
 	}
 
-	@Cacheable(value="SEC02", key="callDevice"+"#ip"+":"+"#port"+"#command")
+//	@Cacheable(value="SEC02", key="callDevice"+"#ip"+":"+"#port"+"#command")
 	public String callDevice(final String ip,final int port, final String command) throws InterruptedException, ExecutionException {
 		final Socket deviceSocket = this.getSocket(ip, port);
 
@@ -111,11 +112,17 @@ public class SocketConnection {
 //	@Cacheable(value="SEC02", key="getSocket-"+"#ip"+":"+"#port")
 	public synchronized Socket getSocket(String ip, int port) {
 		Cache socketCache = this.cacheManager.getCache("SOCKET");
-		Socket deviceSocket = (Socket)socketCache.get(ip+":"+port);
+		ValueWrapper wrapper  = (ValueWrapper)socketCache.get(ip+":"+port);
+//		if(null != deviceSocket && deviceSocket.isConnected()){
+		Socket deviceSocket =  null;
+		if(null != wrapper){
+			deviceSocket = (Socket)wrapper.get();
+		}
 		if(null != deviceSocket && !deviceSocket.isClosed()){
 			return deviceSocket;
 		}else {
 			try {
+				socketCache.evict(ip+":"+port);
 				deviceSocket = new Socket(ip, port);
 				deviceSocket.setTcpNoDelay(on);
 				deviceSocket.setKeepAlive(on);
@@ -130,7 +137,7 @@ public class SocketConnection {
 		
 		return deviceSocket;
 	}
-	@Cacheable(value="SEC02", key="setDevice"+"#ip"+":"+"#port"+"#command")
+//	@Cacheable(value="SEC02", key="setDevice"+"#ip"+":"+"#port"+"#command")
 	public void setDevice(final String ip,final int port, final String command) {
 
 		final Socket deviceSocket = this.getSocket(ip, port);

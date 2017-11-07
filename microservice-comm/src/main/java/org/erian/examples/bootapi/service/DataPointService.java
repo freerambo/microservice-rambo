@@ -60,7 +60,7 @@ public class DataPointService {
 		return dataPointDao.findAll();
 	}
 
-	@Cacheable(value = "SEC05", key="DataPoint_"+"#id")
+	@Cacheable(value = "SEC05", key="#id")
 	@Transactional(readOnly = true)
 	public DataPoint findOne(Integer id) {
 		return dataPointDao.findOne(id);
@@ -208,15 +208,20 @@ public class DataPointService {
 	String ethernetIP(DataPoint dp) {
 		String result = null;
 		Device d = dp.device;
-		EthernetIP ip = ipDao.findByDeviceId(d.id);
-		
-		if (ip != null) {
+//		EthernetIP ip = ipDao.findByDeviceId(d.id);
+		String path = d.path;
+		String[] ips = path.split(":");
+		if (ips != null && ips.length >= 2) {
+			
+			EthernetIP ip = new EthernetIP();
+			ip.port = Integer.valueOf(ips[1]);
+			ip.ip = ips[0];
+			
 			EthernetIpRequest ipReq = new EthernetIpRequest(d, dp, ip);
 			
 			// set the prepared command for set value
 			if(StringUtils.isNotBlank(dp.setValue))
 				ipReq.datapointPath = String.format(ipReq.datapointPath, dp.setValue);
-			
 			try {
 				result = socketConn.callDevice(ipReq.ip, ipReq.port, ipReq.datapointPath);
 			} catch (InterruptedException | ExecutionException e) {
