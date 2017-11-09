@@ -20,6 +20,9 @@ public class ProjectService {
 	@Autowired
 	private ProjectDao projectDao;
 	
+	@Autowired
+	private DeviceService deviceService;
+	
 	@Transactional(readOnly = true)
 	public List<Project> findAll() {
 		return projectDao.findAll();
@@ -58,5 +61,8 @@ public class ProjectService {
 		}
 
 		projectDao.delete(id);
+		
+		deviceService.deleteByProject(id);
+		
 	}
 }

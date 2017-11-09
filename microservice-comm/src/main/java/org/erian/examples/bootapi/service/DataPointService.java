@@ -23,6 +23,7 @@ import org.erian.modules.jamod.model.ReadParams;
 import org.erian.modules.jamod.model.SerialParams;
 import org.erian.modules.jamod.util.ModbusSerialUtil;
 import org.erian.modules.jamod.util.ModbusTcpUtil;
+import org.erian.modules.utils.Collections3;
 
 @Service
 public class DataPointService {
@@ -54,10 +55,16 @@ public class DataPointService {
 	@Autowired
 	SocketConnection socketConn;
 	
-	@Cacheable("SEC02")
+	@Cacheable("SEC05")
 	@Transactional(readOnly = true)
 	public List<DataPoint> findAll() {
 		return dataPointDao.findAll();
+	}
+	
+	@Cacheable("SEC05")
+	@Transactional(readOnly = true)
+	public List<DataPoint> findByDevice(Integer deviceId) {
+		return dataPointDao.getByDeviceId(deviceId);
 	}
 
 	@Cacheable(value = "SEC05", key="#id")
@@ -92,9 +99,17 @@ public class DataPointService {
 			logger.error(id + " DataPoint which is not exist");
 			throw new ServiceException("The DataPoint is not exist", ErrorCode.BAD_REQUEST);
 		}
-
 		dataPointDao.delete(id);
 	}
+	
+	@Transactional
+	public void deleteByDevice(Integer deviceId) {
+		List<DataPoint> dps = this.findByDevice(deviceId);
+		if (Collections3.isNotEmpty(dps)) {
+			dataPointDao.delete(dps);
+		}
+	}
+	
 
 	/**
 	 * data processing for reading data from a datapiont ID
@@ -114,52 +129,50 @@ public class DataPointService {
 		String value = null;
 
 		DataPoint dp = this.findOne(id);
-
-		if (dp != null && dp.device != null) {
+		// device must be active so can we read 
+		if (dp != null && dp.device != null && "active".equalsIgnoreCase(dp.device.status)) {
 			value = this.readDataPoint(dp);
 			// add into cache
 			if(value != null) cache.put(id, value);
 		} else {
-			logger.warn("The datapoint or Device is not exists with id -- " + id);
+			logger.warn("The datapoint or Device is not exists or active with id -- " + id);
 		}
 		return value;
 	}
 
 	
 	public String writeIpDataPoint(Integer id, String val) {
-		// find the cache first 
 
 		DataPoint dp = this.findOne(id);
 //		logger.warn(val + " The datapoint " + dp);
-		dp.setValue = val;
-		
-		return this.ethernetIP(dp);
-		
-			// add into cache
+		if(dp != null &&  "active".equalsIgnoreCase(dp.device.status)){
+			dp.setValue = val;
+			return this.ethernetIP(dp);
+		}
+		logger.warn("The datapoint or Device is not exists or active with id -- " + id);
+		return "failure";
 	}
 	
 	public String readDataPoint(DataPoint dp) {
 		String value = null;
 		Device d = dp.device;
 		switch (d.protocol) {
-		
-		case MODBUS_TCP:
-			value = this.modbusTCP(dp);
-			break;
-		case MODBUS_RTU:
-			value = this.modbusRTU(dp);
-		 break;
-		case ETHERNET_IP:
-			value = this.ethernetIP(dp);
-			break;
-		default:
-			logger.error("unknown protocol " + d.protocol);
-			break;
+			case MODBUS_TCP:
+				value = this.modbusTCP(dp);
+				break;
+			case MODBUS_RTU:
+				value = this.modbusRTU(dp);
+				break;
+			case ETHERNET_IP:
+				value = this.ethernetIP(dp);
+				break;
+			default:
+				logger.error("unknown protocol " + d.protocol);
+				break;
 		}
 		return value;
 	}
 
-	
 	String modbusTCP(DataPoint dp) {
 
 		Device d = dp.device;

@@ -36,6 +36,13 @@ public class DeviceController {
 		List<Device> devices = deviceService.findAll();
 		return devices;
 	}
+	
+	@RequestMapping(value = "/api/{projectId}/devices",method=RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
+	@Monitored
+	public List<Device> listDevicesByProject(@NotNull @PathVariable("projectId") Integer projectId) {
+		List<Device> devices = deviceService.findByProject(projectId);
+		return devices;
+	}
 
 	@RequestMapping(value = "/api/devices/{id}", method=RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
 	@Monitored
@@ -54,12 +61,18 @@ public class DeviceController {
 		return device;
 	}
 	
-//	@RequestMapping(value = "/api/devices/{id}", method = RequestMethod.DELETE)
-//	@Monitored
+	@RequestMapping(value = "/api/devices/{id}", method = RequestMethod.DELETE)
+	@Monitored
 	public void deleteDevice(@NotNull @PathVariable("id") Integer id) {
 		deviceService.deleteDevice(id);
 	}
 
+	@RequestMapping(value = "/api/{projectId}/devices",method=RequestMethod.DELETE, produces = MediaTypes.JSON_UTF_8)
+	@Monitored
+	public void deleteDevicesByProject(@NotNull @PathVariable("projectId") Integer projectId) {
+		deviceService.deleteByProject(projectId);
+	}
+	
 //	@RequestMapping(value = "/api/devices", method = RequestMethod.PUT, consumes = MediaTypes.JSON_UTF_8)
 //	@Monitored
 	public void modifyDevice(@RequestBody Device device,

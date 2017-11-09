@@ -11,6 +11,7 @@ import org.erian.examples.bootapi.domain.*;
 import org.erian.examples.bootapi.repository.*;
 import org.erian.examples.bootapi.service.exception.ErrorCode;
 import org.erian.examples.bootapi.service.exception.ServiceException;
+import org.erian.modules.utils.Collections3;
 
 @Service
 public class DeviceService {
@@ -19,10 +20,26 @@ public class DeviceService {
 
 	@Autowired
 	private DeviceDao deviceDao;
+	@Autowired
+	private DataPointService dpService;
+	
+	@Autowired
+	private ModbusTcpDao tcpDao;
+
+	@Autowired
+	private ModbusRtuDao rtuDao;
+
+	@Autowired
+	private EthernetIpDao ipDao;
 	
 	@Transactional(readOnly = true)
 	public List<Device> findAll() {
 		return deviceDao.findAll();
+	}
+	
+	@Transactional(readOnly = true)
+	public List<Device> findByProject(Integer projectId) {
+		return deviceDao.getByProjectId(projectId);
 	}
 
 	@Transactional(readOnly = true)
@@ -59,5 +76,36 @@ public class DeviceService {
 		}
 
 		deviceDao.delete(id);
+		//delete all datapoints
+		dpService.deleteByDevice(id); 
+		// delete protocols ... 
+		this.deleteProtocolByDevice(device);
+	}
+	
+	@Transactional
+	private void deleteProtocolByDevice(Device device){
+		switch (device.protocol) {
+			case DataPointService.MODBUS_TCP:
+				tcpDao.deleteByDeviceId(device.id);
+				break;
+			case DataPointService.MODBUS_RTU:
+				rtuDao.deleteByDeviceId(device.id);
+			 break;
+			case DataPointService.ETHERNET_IP:
+				ipDao.deleteByDeviceId(device.id);
+				break;
+			default:
+				logger.error("unknown protocol " + device.protocol);
+				break;
+		}
+	}
+	
+	@Transactional
+	public void deleteByProject(Integer projectId) {
+		List<Device> devices = this.findByProject(projectId);
+		if (Collections3.isNotEmpty(devices)) {
+			for(Device device: devices)
+				this.deleteDevice(device.id);
+		}
 	}
 }

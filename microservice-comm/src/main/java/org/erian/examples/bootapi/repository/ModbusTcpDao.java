@@ -20,4 +20,7 @@ public interface ModbusTcpDao extends BaseDao<ModbusTCP, Integer> {
 
 	ModbusTCP findByDeviceId(Integer deviceId);
 	
+	
+	void deleteByDeviceId(Integer deviceId);
+	
 }

@@ -36,6 +36,13 @@ public class DataPointController {
 		List<DataPoint> dataPoints = dpService.findAll();
 		return dataPoints;
 	}
+	
+	@RequestMapping(value = "/api/{deviceId}/dataPoints",method=RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
+	@Monitored
+	public List<DataPoint> listDataPointsByDevice(@NotNull @PathVariable("deviceId") Integer deviceId) {
+		List<DataPoint> dataPoints = dpService.findByDevice(deviceId);
+		return dataPoints;
+	}
 
 	@RequestMapping(value = "/api/dataPoints/{id}", method=RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
 	@Monitored
@@ -70,10 +77,17 @@ public class DataPointController {
 		return dataPoint;
 	}
 	
-//	@RequestMapping(value = "/api/dataPoints/{id}", method = RequestMethod.DELETE)
-//	@Monitored
+	@RequestMapping(value = "/api/dataPoints/{id}", method = RequestMethod.DELETE)
+	@Monitored
 	public void deleteDataPoint(@NotNull @PathVariable("id") Integer id) {
 		dpService.deleteDataPoint(id);
+	}
+	
+	
+	@RequestMapping(value = "/api/{deviceId}/dataPoints", method = RequestMethod.DELETE)
+	@Monitored
+	public void deleteDataPointsByDevice(@NotNull @PathVariable("deviceId") Integer deviceId) {
+		dpService.deleteByDevice(deviceId);
 	}
 
 //	@RequestMapping(value = "/api/dataPoints", method = RequestMethod.PUT, consumes = MediaTypes.JSON_UTF_8)

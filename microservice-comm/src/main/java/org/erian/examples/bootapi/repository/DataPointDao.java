@@ -6,7 +6,11 @@
  */
 package org.erian.examples.bootapi.repository;
 
+import java.util.List;
+
 import org.erian.examples.bootapi.domain.*;
+import org.springframework.data.repository.query.Param;
+
 
 /**
  * function description：
@@ -18,5 +22,8 @@ import org.erian.examples.bootapi.domain.*;
 
 public interface DataPointDao extends BaseDao<DataPoint, Integer> {
 
+	List<DataPoint> getByDeviceId(Integer deviceId);
 	
+	void deleteByDeviceId(Integer deviceId);
+
 }

@@ -6,6 +6,8 @@
  */
 package org.erian.examples.bootapi.repository;
 
+import java.util.List;
+
 import org.erian.examples.bootapi.domain.*;
 
 /**
@@ -17,6 +19,9 @@ import org.erian.examples.bootapi.domain.*;
  */
 
 public interface DeviceDao extends BaseDao<Device, Integer> {
-
 	
+	void deleteByProjectId(Integer projectId);
+	
+	List<Device> getByProjectId(Integer projectId);
+
 }

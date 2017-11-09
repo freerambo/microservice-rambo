@@ -19,4 +19,5 @@ import org.erian.examples.bootapi.domain.*;
 public interface ModbusRtuDao extends BaseDao<ModbusRTU, Integer> {
 
 	ModbusRTU findByDeviceId(Integer deviceId);
+	void deleteByDeviceId(Integer deviceId);
 }

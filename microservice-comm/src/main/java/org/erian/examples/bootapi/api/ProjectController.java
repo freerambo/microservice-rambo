@@ -54,8 +54,8 @@ public class ProjectController {
 		return project;
 	}
 	
-//	@RequestMapping(value = "/api/projects/{id}", method = RequestMethod.DELETE)
-//	@Monitored
+	@RequestMapping(value = "/api/projects/{id}", method = RequestMethod.DELETE)
+	@Monitored
 	public void deleteProject(@NotNull @PathVariable("id") Integer id) {
 		projectService.deleteProject(id);
 	}

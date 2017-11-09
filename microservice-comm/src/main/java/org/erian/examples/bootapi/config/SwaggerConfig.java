@@ -19,7 +19,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @Configuration
 @EnableSwagger2
-//@ComponentScan("org.erian.examples.bootapi.api")
+@ComponentScan("org.erian.examples.bootapi.api")
 // Loads the spring beans required by the framework
 //@Profile(value = {"dev", "staging"})
 public class SwaggerConfig {
@@ -43,7 +43,8 @@ public class SwaggerConfig {
 	                regex("/api/ips.*"),
 	                regex("/api/tcps.*"),
 	                regex("/api/rtus.*"),
-	                regex("/api/dpv.*")
+	                regex("/api/dpv.*"),
+	                regex("/api.*")
 	        );
 	    }
 

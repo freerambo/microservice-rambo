@@ -19,4 +19,6 @@ import org.erian.examples.bootapi.domain.*;
 public interface EthernetIpDao extends BaseDao<EthernetIP, Integer> {
 
 	EthernetIP findByDeviceId(Integer deviceId);
+	
+	void deleteByDeviceId(Integer deviceId);
 }
