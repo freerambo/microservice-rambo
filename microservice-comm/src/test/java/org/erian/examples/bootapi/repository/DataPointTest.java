@@ -35,12 +35,20 @@ public class DataPointTest {
 		assertThat(demo.id).isEqualTo(1001);
 	}
 	
+	@Test
+	public void findByDevice() {
+		List<DataPoint> demo = testDao.getByDeviceId(1010);
+		System.out.println(demo);
+		assertThat(demo.size()).isEqualTo(3);
+	}
+	
+	
 //	@Test
 	public void findAll() {
 		List<DataPoint> demos = testDao.findAll();
 		assertThat(demos).hasSize(1);
 	}
-	@Test
+//	@Test
 	public void save() {
 		
 		List<DataPoint> ls = Lists.newArrayList();

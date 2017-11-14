@@ -94,6 +94,9 @@ public class DeviceService {
 			case DataPointService.ETHERNET_IP:
 				ipDao.deleteByDeviceId(device.id);
 				break;
+			case "CANBUS":
+				// do nothing
+				break;
 			default:
 				logger.error("unknown protocol " + device.protocol);
 				break;

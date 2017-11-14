@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * Create:  18 Sep 2017 13:23:28 pm
  */
 
-@Component
+//@Component
 public class ScadaScheduler {
 
 }

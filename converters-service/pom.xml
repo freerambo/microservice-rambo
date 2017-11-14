@@ -6,7 +6,7 @@
 	<groupId>com.erian.ict.mircogrid</groupId>
 	<artifactId>conv-service</artifactId>
 	<version>1.0</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>AllConvertersMicroservice</name>
 	<description>Converters Services</description>

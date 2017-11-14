@@ -2,6 +2,7 @@ package org.erian.examples.bootapi.config;
 
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
+
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
@@ -16,6 +17,7 @@ import com.google.common.cache.CacheBuilder;
 @EnableCaching
 public class CacheConfig extends CachingConfigurerSupport {
 
+	
 	@Override
 	@Bean
 	public CacheManager cacheManager() {

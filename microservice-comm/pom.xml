@@ -6,6 +6,7 @@
 	<groupId>com.erian.examples</groupId>
 	<artifactId>micoservice-comm</artifactId>
 	<version>1.0</version>
+	<packaging>jar</packaging>
 	<name>Spring :: Examples :: SpringBoot MicroService :: Comm</name>
 
 	<parent>
@@ -94,6 +95,12 @@
 		    <version>6.1.0.jre8</version>
 		</dependency>
 		
+		
+		 <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        
 		<!-- jamod -->
 		
 		<!-- https://mvnrepository.com/artifact/net.wimpi/jamod -->
@@ -202,14 +209,23 @@
 			<artifactId>springfox-swagger-ui</artifactId>
 			<version>${springfox.version}</version>
 		</dependency>
-
+		
 		<!-- Quartz framework -->
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
 			<artifactId>quartz</artifactId>
 			<version>2.2.1</version>
 		</dependency>
-		
+<!-- 		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz-jobs</artifactId>
+			<version>2.2.1</version>
+		</dependency> 
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+		</dependency>
+	-->	
 	</dependencies>
 
 	<build>
@@ -217,9 +233,15 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<dependencies>
+			        <dependency>
+			            <groupId>org.springframework</groupId>
+			            <artifactId>springloaded</artifactId>
+			            <version>1.2.6.RELEASE</version>
+			        </dependency>
+			    </dependencies>
 			</plugin>
 			
 		</plugins>
 	</build>
-	<packaging>war</packaging>
 </project>

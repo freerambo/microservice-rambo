@@ -126,7 +126,7 @@ public class DataPointService {
 		if(obj != null)
 			return (String) obj.get();
 		
-		String value = null;
+		String value = "failure";
 
 		DataPoint dp = this.findOne(id);
 		// device must be active so can we read 
@@ -165,6 +165,9 @@ public class DataPointService {
 				break;
 			case ETHERNET_IP:
 				value = this.ethernetIP(dp);
+				break;
+			case "CANBUS":
+				value = "CANBUS";
 				break;
 			default:
 				logger.error("unknown protocol " + d.protocol);

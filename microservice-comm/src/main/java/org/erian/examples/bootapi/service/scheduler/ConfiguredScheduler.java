@@ -147,7 +147,6 @@ public class ConfiguredScheduler implements Job {
 	    			.withIdentity(SEC05, "group1")
 	    			.withSchedule(
 	    					CronScheduleBuilder.cronSchedule(CRONSEC05))
-	    			        
 	    			.build();
 		
 			jobTrigger.put(SEC05, new Object[] {schedulerServiceSec05, triggerSec05});
