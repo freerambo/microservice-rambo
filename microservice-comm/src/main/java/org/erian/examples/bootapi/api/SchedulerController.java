@@ -29,6 +29,7 @@ import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -58,7 +59,7 @@ public class SchedulerController {
 		freqMap.put("MIN05", 30000L);
 	}		
 			
-	@RequestMapping("/get")
+	@RequestMapping(name="/get",method=RequestMethod.GET)
     public String getVal(@RequestParam(value="key", defaultValue="DEFAULT") String key) throws SchedulerException {
 		Map<String, String> mapOfKeyValue = new HashMap<String, String>();
 		mapOfKeyValue.put(key, key);
@@ -84,7 +85,7 @@ public class SchedulerController {
 		return s.toString();
     }
 	
-	@RequestMapping("/start")
+	@RequestMapping(name="/start",method=RequestMethod.POST)
 	public String schedule(@RequestParam(value="job", defaultValue="DEFAULT") String job,
 			 @RequestParam(value="jgroup", defaultValue="DEFAULT") String jgroup,
 			 @RequestParam(value="trigger", defaultValue="DEFAULT") String trigger,
@@ -114,8 +115,7 @@ public class SchedulerController {
 		}
 		return scheduled;
 	}
-	
-	@RequestMapping("/stop")
+	@RequestMapping(name="/stop",method=RequestMethod.GET)
 	public String unschedule(@RequestParam(value="job", defaultValue="DEFAULT") String job,
 			 @RequestParam(value="jgroup", defaultValue="DEFAULT") String jgroup,
 			 @RequestParam(value="trigger", defaultValue="DEFAULT") String trigger,
