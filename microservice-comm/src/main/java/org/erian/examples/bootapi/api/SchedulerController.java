@@ -59,7 +59,7 @@ public class SchedulerController {
 		freqMap.put("MIN05", 30000L);
 	}		
 			
-	@RequestMapping(name="/get",method=RequestMethod.GET)
+	@RequestMapping(value="/get",method=RequestMethod.GET)
     public String getVal(@RequestParam(value="key", defaultValue="DEFAULT") String key) throws SchedulerException {
 		Map<String, String> mapOfKeyValue = new HashMap<String, String>();
 		mapOfKeyValue.put(key, key);
@@ -85,7 +85,7 @@ public class SchedulerController {
 		return s.toString();
     }
 	
-	@RequestMapping(name="/start",method=RequestMethod.POST)
+	@RequestMapping(value="/start",method=RequestMethod.POST)
 	public String schedule(@RequestParam(value="job", defaultValue="DEFAULT") String job,
 			 @RequestParam(value="jgroup", defaultValue="DEFAULT") String jgroup,
 			 @RequestParam(value="trigger", defaultValue="DEFAULT") String trigger,
@@ -115,7 +115,7 @@ public class SchedulerController {
 		}
 		return scheduled;
 	}
-	@RequestMapping(name="/stop",method=RequestMethod.GET)
+	@RequestMapping(value="/stop", method=RequestMethod.GET)
 	public String unschedule(@RequestParam(value="job", defaultValue="DEFAULT") String job,
 			 @RequestParam(value="jgroup", defaultValue="DEFAULT") String jgroup,
 			 @RequestParam(value="trigger", defaultValue="DEFAULT") String trigger,
