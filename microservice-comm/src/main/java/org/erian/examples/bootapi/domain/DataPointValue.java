@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.persistence.*;
 
+import org.erian.modules.utils.Clock;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 
@@ -21,13 +23,17 @@ public class DataPointValue extends IdEntity implements Serializable {
 
 	public Integer dataPointId;
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+08:00")
-	public Date timestamp;
+	public Date timestamp = Clock.DEFAULT.getCurrentDate();
 
 	public String value;
 
 	public DataPointValue() {
 	}
 
+	public DataPointValue(Integer dpId, String val) {
+		this.dataPointId = dpId;
+		this.value = val;
+	}
 	
 
 }

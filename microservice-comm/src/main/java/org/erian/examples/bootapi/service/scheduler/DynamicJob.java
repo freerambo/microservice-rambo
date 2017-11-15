@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.erian.examples.bootapi.service.DataPointService;
+import org.erian.examples.bootapi.service.DeviceService;
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
@@ -40,25 +41,17 @@ public class DynamicJob  implements Job {
 	private final static Logger logger = LoggerFactory.getLogger(DynamicJob.class);
 	
 	@Autowired
-	private DataPointService dpService;
+	JobProcess jp;
 	
 	@Override
 	public void execute(JobExecutionContext jobContext) throws JobExecutionException {
-		JobKey jd = jobContext.getJobDetail().getKey();
-		String group = jd.getGroup();
-		String job = jd.getName();
-		if( null != group && jobSet.contains(group)){
-			logger.info(new Date () + " | Job  Group- " + group + "; Job -" + job);
-			// process program 
-//			group job 
-			
-			
-		}else{
-			logger.error(" Invalid Job group " + group + "; Job -" + job);
-		}
-			
+		JobKey jk = jobContext.getJobDetail().getKey();
 		
-//		logger.info(dpService.findOne(1015).toString());
+//		logger.info(new Date () + " | Job  Group- " + group + "; Job -" + job);
+		
+		if(jk != null)
+			jp.process(jk);
+		
 	}
 
 }
