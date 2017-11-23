@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.persistence.*;
 
+import org.erian.modules.utils.Clock;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
@@ -28,7 +30,7 @@ public class ModbusRTU extends IdEntity implements Serializable {
 	public String description;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+08:00")
-	public Date createdOn;
+	public Date createdOn = Clock.DEFAULT.getCurrentDate();
 	
 	public String createdBy;
 	
