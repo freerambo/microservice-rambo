@@ -55,11 +55,17 @@ public class JobProcess {
 				logger.warn(" unsupported Job group " + group + "; Job -" + job);
 		}
 	}
-	@Transactional
+	
 	private void processDatapoint(Integer id){
 		String val = dpService.readDataPoint(id);
-		DataPointValue dpv = new DataPointValue(id,val);
-		dpvService.saveDataPointValue(dpv);
+		if(null != val && !val.isEmpty()){
+			DataPointValue dpv = new DataPointValue(id,val);
+//			dpvService.saveDataPointValue(dpv);
+			logger.info("processing data - " + dpv.toString());
+		}else{
+			logger.info("processing data - is null" );
+		}
+
 	} 
 	private void processDevice(Integer id){
 		List<DataPoint> dps = dpService.findByDevice(id);
