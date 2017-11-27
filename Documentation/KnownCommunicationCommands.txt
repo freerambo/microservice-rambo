@@ -1,0 +1,23 @@
+ipDcLoadOne=192.168.127.121
+b'MEAS:VOLT?;CURR?;POW?;RES?;:LOAD?;:MODE?\n'
+Chroma_63211
+
+ipDcSourceOne=192.168.127.105
+b'MEAS:VOLT?;CURR?;VOLT:PROT?;CURR:PROT?;VOLT?;CURR?;OUTP?\n',
+Magna Power
+
+ipAcLoadOne=192.168.127.107
+b'MEAS:CURR?;FREQ?;POW?;RES?;VOLT?;TIME:HOLD?;TRAN?;:MODE?;:LOAD?\n'
+Chroma63804
+
+ipAcSourceOne=192.168.127.106
+b'MEAS:VOLT?;CURR?;POW?;FREQ?;:MEAS:POW:APP?;:MEAS:CURR:AMPL:MAX?;:MEAS:POW:PFAC?;:VOLT:RANG?;:CURR?;:VOLT?;:MODE?;:OUTP?\n',
+AMETEK_bps75
+
+destinationPort=4001
+
+
+# id, code, name, description
+1, 	kWh, 		Power, 		power in kWh
+2, 	A, 		Energy, 	energy in A
+3, 	V, 		Voltage, v	olt

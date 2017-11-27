@@ -1,0 +1,49 @@
+<script type="text/ng-template" id="mywizard.html">
+ <div class="steps">
+  <ul class="steps steps-indicator steps-{{getEnabledSteps().length}}" ng-if="!hideIndicators">
+	<li ng-click="goTo(step)" ng-class="{active: step.selected, complete: step.completed && currentStepNumber() >= step.wzData.number}" ng-repeat="step in getEnabledSteps()">
+      <span class="step" ng-bind="step.wzData.number"></span><span class="title" ng-bind="step.title || step.wzTitle"></span>
+    </li>
+  </ul>
+  <hr />
+  <div class="steps step-content pos-rel" ng-transclude></div>
+ </div>
+</script>
+
+<script type="text/ng-template" id="mystep.html">
+ <section ng-show="selected" ng-class="{active: selected, done: completed}" class="step-pane" ng-transclude></section>
+</script>
+
+<div class="col-md-11 widget-box"  >
+
+	<div class="widget-body" style="height: 150px;">
+		<div class="center">
+			<wizard on-finish="finishedWizard()" template="mywizard.html" current-step="currentStepName" name="autoWizard">
+				<wz-step template="mystep.html" wz-title="Initial Check" wz-data="{'number': 1}" canenter="canEnterStep">
+					<div class="center">
+						<h4 class="blue "  ng-bind-html="message">Step1：Initial Check</h4>
+					</div>
+				</wz-step>
+				<wz-step template="mystep.html" wz-title="Auto Startup" wz-data="{'number': 2}" canenter="canEnterStep">
+					<div class="center">
+						<h4 class="blue"  ng-bind-html="message">Step2: Auto Startup</h4>
+					</div>
+				</wz-step>
+				
+				<wz-step template="mystep.html" wz-title="Dynamic Load" wz-data="{'number': 3}" canenter="canEnterStep">
+					<div class="center">
+						<h4 class="blue"   ng-bind-html="message">Step3:Dynamic Load</h4>
+
+					</div>
+				</wz-step>
+				
+				<wz-step template="mystep.html" wz-title="Auto ShutDown" wz-data="{'number': 4}" canenter="canEnterStep">
+				   <div class="center">
+						<h4 class="green"   ng-bind-html="message">Step4: Auto ShutDown</h4>
+					</div>
+				</wz-step>
+			</wizard>
+		</div>
+	   </div>
+</div>
+
