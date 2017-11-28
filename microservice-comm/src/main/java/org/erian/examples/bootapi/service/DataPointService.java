@@ -104,10 +104,12 @@ public class DataPointService {
 	
 	@Transactional
 	public void deleteByDevice(Integer deviceId) {
-		List<DataPoint> dps = this.findByDevice(deviceId);
-		if (Collections3.isNotEmpty(dps)) {
-			dataPointDao.delete(dps);
-		}
+//		List<DataPoint> dps = this.findByDevice(deviceId);
+//		
+//		if (Collections3.isNotEmpty(dps)) {
+//			logger.info(dps.toString());
+		dataPointDao.deleteByDeviceId(deviceId);
+//		}
 	}
 	
 

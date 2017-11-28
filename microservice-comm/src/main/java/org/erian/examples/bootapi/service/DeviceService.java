@@ -82,7 +82,7 @@ public class DeviceService {
 		this.deleteProtocolByDevice(device);
 	}
 	
-	@Transactional
+	
 	private void deleteProtocolByDevice(Device device){
 		switch (device.protocol) {
 			case DataPointService.MODBUS_TCP:
@@ -101,6 +101,28 @@ public class DeviceService {
 				logger.error("unknown protocol " + device.protocol);
 				break;
 		}
+	}
+	
+	public Object findProtocolByDevice(Device device){
+		Object obj = null;
+		switch (device.protocol) {
+			case DataPointService.MODBUS_TCP:
+				obj = tcpDao.findByDeviceId(device.id);
+				break;
+			case DataPointService.MODBUS_RTU:
+				obj = rtuDao.findByDeviceId(device.id);
+			 break;
+			case DataPointService.ETHERNET_IP:
+				obj = ipDao.findByDeviceId(device.id);
+				break;
+			case "CANBUS":
+				// do nothing
+				break;
+			default:
+				logger.error("unknown protocol " + device.protocol);
+				break;
+		}
+		return obj;
 	}
 	
 	@Transactional
