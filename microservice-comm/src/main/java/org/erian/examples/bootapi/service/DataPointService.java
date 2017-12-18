@@ -12,6 +12,9 @@ import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.google.common.collect.Lists;
+
 import org.apache.commons.lang3.StringUtils;
 import org.erian.examples.bootapi.domain.*;
 import org.erian.examples.bootapi.dto.*;
@@ -38,8 +41,13 @@ public class DataPointService {
 	public static final String ETHERNET_IP = "EthernetIP";
 
 	@Autowired
-	private DataPointDao dataPointDao;
+	private DeviceService deviceService;
 
+	
+	@Autowired
+	private DataPointDao dataPointDao;
+	
+	
 	@Autowired
 	private ModbusTcpDao tcpDao;
 
@@ -64,7 +72,23 @@ public class DataPointService {
 	@Cacheable("SEC05")
 	@Transactional(readOnly = true)
 	public List<DataPoint> findByDevice(Integer deviceId) {
+		
+		
 		return dataPointDao.getByDeviceId(deviceId);
+	}
+	
+	@Cacheable("MIN05")
+	@Transactional(readOnly = true)
+	public List<DataPoint> findByProject(Integer projectId) {
+		List<Device> ds = deviceService.findByProject(projectId);
+		List<DataPoint> dps = null;
+		if(Collections3.isNotEmpty(ds)){
+			dps = Lists.newArrayList();
+			for(Device d : ds){
+				dps.addAll(this.findByDevice(d.id));
+			}
+		}
+		return dps;
 	}
 
 	@Cacheable(value = "SEC05", key="#id")

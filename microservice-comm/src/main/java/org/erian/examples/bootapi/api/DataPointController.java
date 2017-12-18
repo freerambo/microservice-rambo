@@ -44,6 +44,13 @@ public class DataPointController {
 		List<DataPoint> dataPoints = dpService.findByDevice(deviceId);
 		return dataPoints;
 	}
+	
+	@RequestMapping(value = "/api/project/{projectId}/dataPoints",method=RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
+	@Monitored
+	public List<DataPoint> listDataPointsByProject(@NotNull @PathVariable("projectId") Integer projectId) {
+		List<DataPoint> dataPoints = dpService.findByProject(projectId);
+		return dataPoints;
+	}
 
 	@RequestMapping(value = "/api/dataPoints/{id}", method=RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
 	@Monitored

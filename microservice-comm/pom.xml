@@ -15,7 +15,6 @@
 		<version>1.4.4.RELEASE</version>
 	</parent>
 
-
 	<properties>		
  		<commons-lang3.version>3.4</commons-lang3.version>
 		<guava.version>18.0</guava.version>
@@ -52,7 +51,7 @@
 		<start-class>org.erian.examples.bootapi.BootApiApplication</start-class>
 		<!-- Plugin properties -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>1.7</java.version>
+		<java.version>1.8</java.version>
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 	</properties>
@@ -216,16 +215,14 @@
 			<artifactId>quartz</artifactId>
 			<version>2.2.1</version>
 		</dependency>
-<!-- 		<dependency>
-			<groupId>org.quartz-scheduler</groupId>
-			<artifactId>quartz-jobs</artifactId>
-			<version>2.2.1</version>
-		</dependency> 
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context-support</artifactId>
-		</dependency>
-	-->	
+
+        <!-- hot swapping, disable cache for template, enable live reload -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+
 	</dependencies>
 
 	<build>
@@ -233,13 +230,6 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<dependencies>
-			        <dependency>
-			            <groupId>org.springframework</groupId>
-			            <artifactId>springloaded</artifactId>
-			            <version>1.2.6.RELEASE</version>
-			        </dependency>
-			    </dependencies>
 			</plugin>
 			
 		</plugins>

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
@@ -31,7 +32,7 @@ public class DynamicSpecifications {
 						for (int i = 1; i < names.length; i++) {
 							expression = expression.get(names[i]);
 						}
-
+//						Expression e;
 						// logic operator
 						switch (filter.operator) {
 						case EQ:
@@ -41,16 +42,17 @@ public class DynamicSpecifications {
 							predicates.add(builder.like(expression, "%" + filter.value + "%"));
 							break;
 						case GT:
-							predicates.add(builder.greaterThan(expression, (Comparable) filter.value));
+							predicates.add(builder.greaterThan(expression, (Expression) filter.value));
+//							.greaterThan(expression, (Comparable) filter.value));
 							break;
 						case LT:
-							predicates.add(builder.lessThan(expression, (Comparable) filter.value));
+							predicates.add(builder.lessThan(expression, (Expression)filter.value));
 							break;
 						case GTE:
-							predicates.add(builder.greaterThanOrEqualTo(expression, (Comparable) filter.value));
+							predicates.add(builder.greaterThanOrEqualTo(expression, (Expression) filter.value));
 							break;
 						case LTE:
-							predicates.add(builder.lessThanOrEqualTo(expression, (Comparable) filter.value));
+							predicates.add(builder.lessThanOrEqualTo(expression, (Expression) filter.value));
 							break;
 						}
 					}
