@@ -1,6 +1,7 @@
 package org.erian.examples.bootapi.api;
 
 
+import org.erian.modules.utils.Collections3;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -65,13 +66,16 @@ public class RestUploadController {
         logger.debug("Multiple file upload!");
 
         // Get file name
-        String uploadedFileName = Arrays.stream(uploadfiles).map(x -> x.getOriginalFilename())
+      /*  String uploadedFileName = Arrays.stream(uploadfiles).map(x -> x.getOriginalFilename())
                 .filter(x -> !StringUtils.isEmpty(x)).collect(Collectors.joining(" , "));
-
+        
         if (StringUtils.isEmpty(uploadedFileName)) {
             return new ResponseEntity("please select a file!", HttpStatus.OK);
         }
-
+*/      
+        if (uploadfiles == null || uploadfiles.length == 0) {
+		    return new ResponseEntity("please select a file!", HttpStatus.OK);
+		}
         try {
 
             saveUploadedFiles(Arrays.asList(uploadfiles));
@@ -80,13 +84,12 @@ public class RestUploadController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity("Successfully uploaded - "
-                + uploadedFileName, HttpStatus.OK);
+        return new ResponseEntity("Successfully uploaded - ", HttpStatus.OK);
 
     }
 
-    // 3.1.3 maps html form to a Model
-    @ApiOperation(value = "maps html form to a Model")
+    // 3.1.3 maps html form to a Model  @ApiOperation - notes documentation on swagger-ui
+    @ApiOperation(value = "maps html form to a Model", notes="maps html form to a Model")
     @PostMapping("/api/upload/multi/model")
     public ResponseEntity<?> multiUploadFileModel(@ModelAttribute UploadModel model) {
         logger.debug("Multiple file upload! With UploadModel");
