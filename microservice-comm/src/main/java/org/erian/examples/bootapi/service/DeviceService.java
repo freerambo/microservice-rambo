@@ -1,16 +1,22 @@
 package org.erian.examples.bootapi.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+
 import org.erian.examples.bootapi.domain.*;
 import org.erian.examples.bootapi.repository.*;
 import org.erian.examples.bootapi.service.exception.ErrorCode;
 import org.erian.examples.bootapi.service.exception.ServiceException;
+import org.erian.modules.persistence.DynamicSpecifications;
+import org.erian.modules.persistence.SearchFilter;
 import org.erian.modules.utils.Collections3;
 
 @Service
@@ -132,5 +138,23 @@ public class DeviceService {
 			for(Device device: devices)
 				this.deleteDevice(device.id);
 		}
+	}
+
+	/**
+	 * @function: findBySpecs
+	 * @return
+	 * @author: Rambo Zhu     19 Dec 2017 3:56:39 pm
+	 */
+	public List<Device> findBySpecs(Map<String, Object> searchParams) {
+		
+		Specification<Device> spec = buildSpecification(searchParams);
+		return deviceDao.findAll(spec);
+	}
+	
+	private Specification<Device> buildSpecification(Map<String, Object> searchParams) {
+		Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
+		// filters.put("user.id", new SearchFilter("user.id", Operator.EQ, userId));
+		Specification<Device> spec = DynamicSpecifications.bySearchFilter(filters.values(), Device.class);
+		return spec;
 	}
 }

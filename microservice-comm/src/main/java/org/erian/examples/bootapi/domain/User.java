@@ -39,7 +39,7 @@ https://stackoverflow.com/questions/38818302/incorrect-syntax-near-the-keyword-t
  * Create:  5 Oct 2017 12:47:25 pm
  */
 @Entity
-@Table(name="`user`")
+@Table(name="`user`") // user is reserved key for mssql, if we use it as table name so do in thus `user` 
 public class User extends IdEntity implements Serializable {
 	public static final long serialVersionUID = 1L;
 

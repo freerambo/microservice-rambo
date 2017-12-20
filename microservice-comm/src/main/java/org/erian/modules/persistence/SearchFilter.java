@@ -10,7 +10,7 @@ import com.google.common.collect.Maps;
 public class SearchFilter {
 
 	public enum Operator {
-		EQ, LIKE, GT, LT, GTE, LTE
+		EQ, NEQ, LIKE, GT, LT, GTE, LTE
 	}
 
 	public String fieldName;
@@ -24,7 +24,7 @@ public class SearchFilter {
 	}
 
 	/**
-	 * searchParamsä¸key OPERATOR_FIELDNAME
+	 * searchParams¸key OPERATOR_FIELDNAME
 	 */
 	public static Map<String, SearchFilter> parse(Map<String, Object> searchParams) {
 		Map<String, SearchFilter> filters = Maps.newHashMap();
