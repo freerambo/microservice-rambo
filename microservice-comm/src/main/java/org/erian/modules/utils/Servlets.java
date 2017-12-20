@@ -1,7 +1,7 @@
 /*
  * Copyright: Energy Research Institute @ NTU
  * microservice-comm
- * org.erian.modules.utils -> fg.java
+ * org.erian.modules.utils -> Servlets.java
  * Created on 19 Dec 2017-3:47:51 pm
  */
 package org.erian.modules.utils;
