@@ -45,7 +45,8 @@ public class SwaggerConfig {
 	                regex("/api/rtus.*"),
 	                regex("/api/dpv.*"),
 	                regex("/schedule.*"), // scheduler 
-	                regex("/api.*")
+	                regex("/api.*"),
+	                regex("/shiro.*")
 	        );
 	    }
 

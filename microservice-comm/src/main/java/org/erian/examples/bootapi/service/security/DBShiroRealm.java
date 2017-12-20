@@ -26,6 +26,8 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.erian.examples.bootapi.domain.User;
 import org.erian.examples.bootapi.repository.UserDao;
+import org.erian.examples.bootapi.service.security.token.StatelessToken;
+import org.erian.examples.bootapi.service.security.token.TokenManager;
 import org.erian.modules.utils.Encodes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,14 +44,17 @@ import org.springframework.transaction.annotation.Transactional;
  * @version v 1.0 
  * Create:  2 Mar 2017 2:51:01 pm
  */
-@Service("realm")
-@DependsOn(value={"lifecycleBeanPostProcessor"})
 public class DBShiroRealm extends AuthorizingRealm{
 
     private static final Logger logger = LoggerFactory.getLogger(DBShiroRealm.class);
 
     private UserService userService; 
-        
+    private TokenManager tokenManager;
+    
+    @Override
+	public boolean supports(AuthenticationToken token) {
+		return token instanceof StatelessToken;
+	}
 
     /**
      * 权限认证，为当前登录的Subject授予角色和权限 
@@ -93,33 +98,33 @@ public class DBShiroRealm extends AuthorizingRealm{
     protected AuthenticationInfo doGetAuthenticationInfo(
             AuthenticationToken authenticationToken) throws AuthenticationException {
         //UsernamePasswordToken对象用来存放提交的登录信息
-        UsernamePasswordToken token=(UsernamePasswordToken) authenticationToken;
+        StatelessToken token=(StatelessToken) authenticationToken;
 
-        logger.info("验证当前Subject时获取到token为：" + ReflectionToStringBuilder.toString(token, ToStringStyle.MULTI_LINE_STYLE)); 
+        logger.info("验证当前Subject时获取到token为：" + token.getUserCode() + " - " + token.getCredentials()); 
 
         //查出是否有此用户
-        User user=userService.findByUsername(token.getUsername());
-        if(user!=null){
-        	byte[] salt = Encodes.decodeHex(user.getSalt());
-            // 若存在，将此用户存放到登录认证info中，无需自己做密码对比，Shiro会为我们进行密码对比校验
-            return new SimpleAuthenticationInfo(user.getUsername(), user.getPassword(),ByteSource.Util.bytes(salt), getName());
-        }
-        return null;
+        userService.checkUserExists(token.getUserCode());
+        
+        String credentials = (String)token.getCredentials();
+        String userCode = (String)token.getUserCode();
+		boolean checkToken = tokenManager.checkToken(token);
+        logger.info("验证当前Subject时获取到token为：" + checkToken); 
+		if (checkToken) {
+			return new SimpleAuthenticationInfo(userCode, credentials, super.getName());
+		}else{
+			throw new AuthenticationException("token认证失败");
+		}
     }
 
-	/**
-	 * 设定Password校验的Hash算法与迭代次数.
-	 */
-	@PostConstruct
-	public void initCredentialsMatcher() {
-		HashedCredentialsMatcher matcher = new HashedCredentialsMatcher(UserService.HASH_ALGORITHM);
-		matcher.setHashIterations(UserService.HASH_INTERATIONS);
-
-		setCredentialsMatcher(matcher);
-	}
-    
+	
     @Autowired
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
+    @Autowired
+	public void setTokenManager(TokenManager tokenManager) {
+		this.tokenManager = tokenManager;
+	}
+    
+    
 }
