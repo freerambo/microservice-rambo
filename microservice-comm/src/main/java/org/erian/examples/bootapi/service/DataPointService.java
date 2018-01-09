@@ -34,7 +34,8 @@ public class DataPointService {
 	private static Logger logger = LoggerFactory.getLogger(DataPointService.class);
 
 	public static final String INT_TO_FLOAT = "intToFloat";                                                                                           
-	public static final String CENTI = "0.01";
+	public static final String CENTI = "CENTI";
+	public static final String MILLI = "MILLI";
 
 	public static final String MODBUS_TCP = "ModbusTCP";
 	public static final String MODBUS_RTU = "ModbusRTU";
@@ -304,6 +305,9 @@ public class DataPointService {
 			break;
 		case CENTI:
 			d = i * 0.01;
+			break;
+		case MILLI:
+			d = i * 0.001;
 			break;
 		default:
 			logger.error("unknown outputExpression " + outputExpression);
