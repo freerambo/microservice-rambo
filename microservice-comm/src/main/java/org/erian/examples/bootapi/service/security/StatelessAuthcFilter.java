@@ -23,7 +23,7 @@ import org.springframework.util.StringUtils;
   
 /** 
  * 无状态授权过滤器  
- * @author luanhy 
+ * @author yuanbo 
  * 
  */  
 public class StatelessAuthcFilter extends AccessControlFilter {  
@@ -50,7 +50,7 @@ public class StatelessAuthcFilter extends AccessControlFilter {
         // 前段token授权信息放在请求头中传入  
         String authorization = httpRequest.getHeader("authorization");  
         if (StringUtils.isEmpty(authorization)) {  
-            onLoginFail(response, "请求头不包含认证信息authorization");  
+            onLoginFail(response, "No authorization code");  
             return false;  
         }  
         // 获取无状态Token  

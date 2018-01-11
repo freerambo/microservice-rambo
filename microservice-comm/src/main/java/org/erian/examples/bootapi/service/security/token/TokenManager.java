@@ -24,7 +24,7 @@ import org.springframework.util.StringUtils;
 
 /** 
  * 默认token管理实现类 
- * @author luanhy 
+ * @author yuanbo 
  * 
  */  
 @Service

@@ -102,7 +102,7 @@ public class ShiroController {
 
     @RequestMapping(value="/forbidden", method=RequestMethod.GET)
     public String unauthorizedRole(){
-        logger.info("------没有权限-------");
+        logger.info("------No Permission-------");
         return "403";
     }
 //    @RequiresRoles("")
@@ -116,15 +116,15 @@ public class ShiroController {
        if(token!= null){  
            tokenManager.deleteToken(token.getUserCode());  
        }  
-        //使用权限管理工具进行用户的退出，跳出登录，给出提示信息
+        //When user logout give a message
         SecurityUtils.getSubject().logout();  
-        redirectAttributes.addFlashAttribute("message", "您已安全退出");  
+        redirectAttributes.addFlashAttribute("message", "Successfully logout");  
         return "redirect:/login";
     } 
    
     @RequestMapping(value="/user/edit/{userid}", method=RequestMethod.GET)
     public String getUserList(@PathVariable int userid, @RequestHeader(value="authorization") String authorization){
-        logger.info("------进入用户信息修改-------");
+        logger.info("------inter into user modification-------");
         return "user_edit";
     }
     

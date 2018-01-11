@@ -98,7 +98,7 @@ public class ShiroConfig {
 		shiroFilter.setLoginUrl("/shiro/login");
 		shiroFilter.setSuccessUrl("/shiro/index");
 		shiroFilter.setUnauthorizedUrl("/shiro/forbidden");
-        //注意是LinkedHashMap 保证有序  
+        //Noted LinkedHashMap is ordered  
 		Map<String, String> filterChainDefinitionMapping = new LinkedHashMap<String, String>();
 
 		filterChainDefinitionMapping.put("/", "anon");
@@ -111,13 +111,10 @@ public class ShiroConfig {
 		filterChainDefinitionMapping.put("/shiro/login", "anon");
 		filterChainDefinitionMapping.put("/shiro/forbidden", "anon");
 
-		 // authc：该过滤器下的页面必须验证后才能访问，它是Shiro内置的一个拦截器org.apache.shiro.web.filter.authc.FormAuthenticationFilter
-		filterChainDefinitionMapping.put("/user/user", "statelessAuthc");// 这里为了测试，只限制/user，实际开发中请修改为具体拦截的请求规则
-        // anon：它对应的过滤器里面是空的,什么都没做
-        logger.info("##################从数据库读取权限规则，加载到shiroFilter中##################");
-        filterChainDefinitionMapping.put("/shiro/user/edit/**", "statelessAuthc,perms[user:edit]");// 这里为了测试，固定写死的值，也可以从数据库或其他配置中读取
+		filterChainDefinitionMapping.put("/user/user", "statelessAuthc");
+        filterChainDefinitionMapping.put("/shiro/user/edit/**", "statelessAuthc,perms[user:edit]");
 //        filterChainDefinitionMapping.put("/api/**", "statelessAuthc");//statelessAuthc token filter
-        filterChainDefinitionMapping.put("/**", "anon");//anon 可以理解为不拦截
+        filterChainDefinitionMapping.put("/**", "anon");//anon no any operations 
 
         
 		shiroFilter.setFilterChainDefinitionMap(filterChainDefinitionMapping);
@@ -149,7 +146,7 @@ public class ShiroConfig {
         DefaultSessionStorageEvaluator defaultSessionStorageEvaluator =(DefaultSessionStorageEvaluator)de.getSessionStorageEvaluator();  
         defaultSessionStorageEvaluator.setSessionStorageEnabled(false); 
         
-        //无状态主题工程，禁止创建session  
+        //create stateless Subject, forbidden the session  
         StatelessDefaultSubjectFactory statelessDefaultSubjectFactory = new StatelessDefaultSubjectFactory();  
         securityManager.setSubjectFactory(statelessDefaultSubjectFactory);  
         
@@ -162,7 +159,7 @@ public class ShiroConfig {
 	}
 	
 	 /** 
-     * 会话管理类 禁用session 
+     * SessionManager, forbidden session 
      * @return 
      */  
     @Bean  
@@ -177,7 +174,11 @@ public class ShiroConfig {
     /** 
      *  
      * @Function: ShiroConfig::statelessAuthcFilter 
-     * @Description:  无状态授权过滤器 注意不能声明为bean 否则shiro无法管理该filter生命周期，<br> 
+     * @Description:  
+     * Do not set the StatelessAuthcFilter with annotation @Bean, otherwise shiro will be not able 
+     * to manage the filters' life circle
+     * 
+     * 无状态授权过滤器 注意不能声明为bean 否则shiro无法管理该filter生命周期，<br> 
      *                 该过滤器会执行其他过滤器拦截过的路径 
      */  
     public StatelessAuthcFilter statelessAuthcFilter(TokenManager tokenManager){  
@@ -207,12 +208,12 @@ public class ShiroConfig {
 	}*/
 	
 	/**
-	 * 无状态主题工厂 
+	 *  Stateless SubjectFactory
 	 */
 	class StatelessDefaultSubjectFactory extends DefaultWebSubjectFactory {  
 	    @Override  
 	    public Subject createSubject(SubjectContext context) {  
-	        //不创建session    
+	        //do not create session    
 	        context.setSessionCreationEnabled(false);  
 	        return super.createSubject(context);  
 	    }  
