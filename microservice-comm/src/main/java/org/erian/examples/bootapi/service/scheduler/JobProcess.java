@@ -60,7 +60,7 @@ public class JobProcess {
 		String val = dpService.readDataPoint(id);
 		if(null != val && !val.isEmpty()){
 			DataPointValue dpv = new DataPointValue(id,val);
-//			dpvService.saveDataPointValue(dpv);
+			dpvService.saveDataPointValue(dpv);
 			logger.info("processing data - " + dpv.toString());
 		}else{
 			logger.info("processing data - is null" );
