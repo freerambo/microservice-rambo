@@ -157,7 +157,7 @@ public class DataPointService {
 
 		DataPoint dp = this.findOne(id);
 		// device must be active so can we read 
-		if (dp != null && dp.device != null && "active".equalsIgnoreCase(dp.device.status)) {
+		if (dp != null && dp.device != null && "active".equalsIgnoreCase(dp.device.status) && dp.readOnly == true) {
 			value = this.readDataPoint(dp);
 			// add into cache
 			if(value != null) cache.put(id, value);
@@ -225,9 +225,11 @@ public class DataPointService {
 					return this.processValue(i, dp.outputExpression).toString();
 			}
 			if(dp.writeOnly){
-				if(StringUtils.isNotBlank(dp.setValue))
+				if(StringUtils.isNotBlank(dp.setValue)){
 					ModbusTcpUtil.writeData(tcpReq.ip, tcpReq.port, tcpReq.unitId, tcpReq.ref, Integer.valueOf(dp.setValue),
 							tcpReq.fCode);
+				}
+					
 			}
 			
 		} else {
