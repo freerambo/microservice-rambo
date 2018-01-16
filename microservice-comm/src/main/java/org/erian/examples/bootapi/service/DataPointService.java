@@ -174,7 +174,14 @@ public class DataPointService {
 //		logger.warn(val + " The datapoint " + dp);
 		if(dp != null &&  "active".equalsIgnoreCase(dp.device.status)){
 			dp.setValue = val;
-			return this.ethernetIP(dp);
+//			dp.path
+			if(StringUtils.isNotBlank(dp.path) && null == dp.address)
+				return this.ethernetIP(dp);
+			
+			if(null != dp.address && StringUtils.isEmpty(dp.path))
+				return this.modbusTCP(dp);
+			// we do not support data write for ModbusRTU sofar
+			
 		}
 		logger.warn("The datapoint or Device is not exists or active with id -- " + id);
 		return "failure";
@@ -218,8 +225,9 @@ public class DataPointService {
 					return this.processValue(i, dp.outputExpression).toString();
 			}
 			if(dp.writeOnly){
-				ModbusTcpUtil.writeData(tcpReq.ip, tcpReq.port, tcpReq.unitId, tcpReq.ref, Integer.valueOf(dp.setValue),
-						tcpReq.fCode);
+				if(StringUtils.isNotBlank(dp.setValue))
+					ModbusTcpUtil.writeData(tcpReq.ip, tcpReq.port, tcpReq.unitId, tcpReq.ref, Integer.valueOf(dp.setValue),
+							tcpReq.fCode);
 			}
 			
 		} else {
@@ -278,7 +286,7 @@ public class DataPointService {
 			// set the prepared command for set value
 			if(StringUtils.isNotBlank(dp.setValue)){
 //				ipReq.datapointPath = String.format(ipReq.datapointPath, dp.setValue);
-				ipReq.datapointPath = dp.setValue;
+				ipReq.datapointPath = dp.setValue+"\n";
 				socketConn.setDevice(ipReq.ip, ipReq.port, ipReq.datapointPath);
 				return "done";
 			}

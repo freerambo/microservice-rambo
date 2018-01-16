@@ -72,7 +72,7 @@ public class DataPointController {
 	public String setTagById(@NotNull @PathVariable("dpId") Integer tagId, 
 			@RequestParam(value = "command", required = false, defaultValue = "LOAD ON") String command) {
 		
-		return dpService.writeIpDataPoint(tagId, command+"\n");
+		return dpService.writeIpDataPoint(tagId, command);
 	}
 	
 //	Content-Type: application/json;charset=UTF-8
