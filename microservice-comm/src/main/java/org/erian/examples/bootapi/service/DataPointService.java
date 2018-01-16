@@ -228,6 +228,7 @@ public class DataPointService {
 				if(StringUtils.isNotBlank(dp.setValue)){
 					ModbusTcpUtil.writeData(tcpReq.ip, tcpReq.port, tcpReq.unitId, tcpReq.ref, Integer.valueOf(dp.setValue),
 							tcpReq.fCode);
+					return "Write message successfully!";
 				}
 					
 			}
