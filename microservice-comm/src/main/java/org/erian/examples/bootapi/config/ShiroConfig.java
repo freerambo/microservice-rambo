@@ -15,24 +15,34 @@ import javax.servlet.Filter;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authc.credential.PasswordMatcher;
 import org.apache.shiro.authc.credential.SimpleCredentialsMatcher;
+import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
+import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
+import org.apache.shiro.mgt.DefaultSubjectDAO;
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.session.mgt.DefaultSessionManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
+import org.apache.shiro.subject.Subject;
+import org.apache.shiro.subject.SubjectContext;
 import org.apache.shiro.web.filter.authc.AnonymousFilter;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.filter.authc.LogoutFilter;
 import org.apache.shiro.web.filter.authc.UserFilter;
+import org.apache.shiro.web.filter.authz.PermissionsAuthorizationFilter;
 import org.apache.shiro.web.filter.authz.RolesAuthorizationFilter;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.mgt.DefaultWebSubjectFactory;
 import org.erian.examples.bootapi.service.security.DBShiroRealm;
+import org.erian.examples.bootapi.service.security.StatelessAuthcFilter;
+import org.erian.examples.bootapi.service.security.token.StatelessToken;
+import org.erian.examples.bootapi.service.security.token.TokenManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -58,7 +68,8 @@ public class ShiroConfig {
     
     @Bean
     public EhCacheManager getEhCacheManager() {  
-        EhCacheManager em = new EhCacheManager();  
+        EhCacheManager em = new EhCacheManager();
+//        Cache<String, StatelessToken> cache = em.getCache("tokens");
         em.setCacheManagerConfigFile("classpath:cache/ehcache-shiro.xml");  
         return em;  
     }
@@ -80,39 +91,32 @@ public class ShiroConfig {
 //		realm.setCredentialsMatcher(credentialsMatcher());
 		return realm;
 	}
-	
-	@Bean(name = "characterEncodingFilter")
-	public FilterRegistrationBean characterEncodingFilter() {
-		FilterRegistrationBean bean = new FilterRegistrationBean();
-		bean.addInitParameter("encoding", "UTF-8");
-		bean.addInitParameter("forceEncoding", "true");
-		bean.setFilter(new CharacterEncodingFilter());
-		bean.addUrlPatterns("/shiro/*");   // here we can customized our url filter 
-		return bean;
-	}
-	
 
 	@Bean(name = "shiroFilter")
-	public ShiroFilterFactoryBean shiroFilter() {
+	public ShiroFilterFactoryBean shiroFilter(TokenManager tokenManager) {
 		ShiroFilterFactoryBean shiroFilter = new ShiroFilterFactoryBean();
 		shiroFilter.setLoginUrl("/shiro/login");
 		shiroFilter.setSuccessUrl("/shiro/index");
 		shiroFilter.setUnauthorizedUrl("/shiro/forbidden");
-		Map<String, String> filterChainDefinitionMapping = new HashMap<String, String>();
+        //Noted LinkedHashMap is ordered  
+		Map<String, String> filterChainDefinitionMapping = new LinkedHashMap<String, String>();
 
 		filterChainDefinitionMapping.put("/", "anon");
-		filterChainDefinitionMapping.put("/shiro/home", "authc,roles[user]");
-		filterChainDefinitionMapping.put("/shiro/admin", "authc,roles[admin]");
-		filterChainDefinitionMapping.put("/shiro/user", "authc");
-		filterChainDefinitionMapping.put("/shiro/user/edit/**", "authc,perms[user:edit]");
-		filterChainDefinitionMapping.put("/shiro/login", "anon");
-		 // authc：该过滤器下的页面必须验证后才能访问，它是Shiro内置的一个拦截器org.apache.shiro.web.filter.authc.FormAuthenticationFilter
-		filterChainDefinitionMapping.put("/user/user", "authc");// 这里为了测试，只限制/user，实际开发中请修改为具体拦截的请求规则
-        // anon：它对应的过滤器里面是空的,什么都没做
-        logger.info("##################从数据库读取权限规则，加载到shiroFilter中##################");
-        filterChainDefinitionMapping.put("/shiro/user/edit/**", "authc,perms[user:edit]");// 这里为了测试，固定写死的值，也可以从数据库或其他配置中读取
-        filterChainDefinitionMapping.put("/**", "anon");//anon 可以理解为不拦截
+		filterChainDefinitionMapping.put("/swagger-ui.html", "anon");
 		
+		filterChainDefinitionMapping.put("/shiro/home", "statelessAuthc,roles[user]");
+		filterChainDefinitionMapping.put("/shiro/admin", "statelessAuthc,roles[admin]");
+		filterChainDefinitionMapping.put("/shiro/user", "statelessAuthc,roles[user]");
+		filterChainDefinitionMapping.put("/shiro/user/edit/**", "statelessAuthc,perms[user:edit]");
+		filterChainDefinitionMapping.put("/shiro/login", "anon");
+		filterChainDefinitionMapping.put("/shiro/forbidden", "anon");
+
+		filterChainDefinitionMapping.put("/user/user", "statelessAuthc");
+        filterChainDefinitionMapping.put("/shiro/user/edit/**", "statelessAuthc,perms[user:edit]");
+//        filterChainDefinitionMapping.put("/api/**", "statelessAuthc");//statelessAuthc token filter
+        filterChainDefinitionMapping.put("/**", "anon");//anon no any operations 
+
+        
 		shiroFilter.setFilterChainDefinitionMap(filterChainDefinitionMapping);
 		shiroFilter.setSecurityManager(securityManager());
 
@@ -122,6 +126,8 @@ public class ShiroConfig {
 		filters.put("logout", new LogoutFilter());
 		filters.put("roles", new RolesAuthorizationFilter());
 		filters.put("user", new UserFilter());
+//		filters.put("perms", new PermissionsAuthorizationFilter();
+		filters.put("statelessAuthc", statelessAuthcFilter(tokenManager));
 		shiroFilter.setFilters(filters);
 		return shiroFilter;
 	}
@@ -135,6 +141,15 @@ public class ShiroConfig {
 		 * set ehcache as cachemanager
 		 */
 		securityManager.setCacheManager(getEhCacheManager());
+		 //禁用sessionStorage  
+        DefaultSubjectDAO de = (DefaultSubjectDAO) securityManager.getSubjectDAO();  
+        DefaultSessionStorageEvaluator defaultSessionStorageEvaluator =(DefaultSessionStorageEvaluator)de.getSessionStorageEvaluator();  
+        defaultSessionStorageEvaluator.setSessionStorageEnabled(false); 
+        
+        //create stateless Subject, forbidden the session  
+        StatelessDefaultSubjectFactory statelessDefaultSubjectFactory = new StatelessDefaultSubjectFactory();  
+        securityManager.setSubjectFactory(statelessDefaultSubjectFactory);  
+        
 		return securityManager;
 	}
 	
@@ -142,7 +157,37 @@ public class ShiroConfig {
 	public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
 		return new LifecycleBeanPostProcessor();
 	}
+	
+	 /** 
+     * SessionManager, forbidden session 
+     * @return 
+     */  
+    @Bean  
+    public DefaultSessionManager defaultSessionManager(){  
+         logger.info("ShiroConfig.getDefaultSessionManager()");  
+         DefaultSessionManager manager = new DefaultSessionManager();  
+         manager.setSessionValidationSchedulerEnabled(false);  
+         return manager;  
+    }  
 
+    
+    /** 
+     *  
+     * @Function: ShiroConfig::statelessAuthcFilter 
+     * @Description:  
+     * Do not set the StatelessAuthcFilter with annotation @Bean, otherwise shiro will be not able 
+     * to manage the filters' life circle
+     * 
+     * 无状态授权过滤器 注意不能声明为bean 否则shiro无法管理该filter生命周期，<br> 
+     *                 该过滤器会执行其他过滤器拦截过的路径 
+     */  
+    public StatelessAuthcFilter statelessAuthcFilter(TokenManager tokenManager){  
+        logger.info("ShiroConfig.statelessAuthcFilter()");  
+        StatelessAuthcFilter statelessAuthcFilter = new StatelessAuthcFilter();  
+        statelessAuthcFilter.setTokenManager(tokenManager);  
+        return statelessAuthcFilter;  
+   }  
+    
 // below two methods support the shiro annotation http://stackoverflow.com/questions/7743749/shiro-authorization-permission-check-using-annotation-not-working
 /*	@Bean
 	@ConditionalOnMissingBean
@@ -162,4 +207,17 @@ public class ShiroConfig {
 	    return proxyCreator;
 	}*/
 	
+	/**
+	 *  Stateless SubjectFactory
+	 */
+	class StatelessDefaultSubjectFactory extends DefaultWebSubjectFactory {  
+	    @Override  
+	    public Subject createSubject(SubjectContext context) {  
+	        //do not create session    
+	        context.setSessionCreationEnabled(false);  
+	        return super.createSubject(context);  
+	    }  
+	} 
+	
 }
+ 

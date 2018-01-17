@@ -11,6 +11,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.erian.examples.bootapi.domain.User;
 import org.erian.examples.bootapi.repository.UserDao;
 import org.erian.modules.utils.Digests;
@@ -83,11 +85,24 @@ public class UserService {
 		byte[] hashPassword = Digests.sha1(user.getPlainPassword().getBytes(), salt, HASH_INTERATIONS);
 		user.setPassword(Encodes.encodeHex(hashPassword));
 	}
+	
+	public boolean validPassword(User user, String password) {
+		byte[] salt = Encodes.decodeHex(user.getSalt());
+		String hashPassword = Encodes.encodeHex(Digests.sha1(password.getBytes(), salt, HASH_INTERATIONS));
+		return user.getPassword().equals(hashPassword);
+	}
 
 	@Autowired
 	@Qualifier("userDao")
 	public void setUserDao(UserDao userDao) {
 		this.userDao = userDao;
+	}
+	
+	public void checkUserExists(String userCode) throws AuthenticationException {
+		User principal = this.findByUsername(userCode);
+		if(principal == null){
+			throw new UnknownAccountException("userCode "+userCode+" wasn't in the system");
+		}
 	}
 
 }

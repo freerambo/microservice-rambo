@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>LED Lighting Project</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
+</head>
+<body>
+
+<div ng-app="myApp" ng-controller="myCtrl"> 
+
+<p>Voltage1: {{volt1 | number : '2'}}</p>
+<p>Current1: {{curr1 | number : '3'}}</p>
+
+</div>
+</body>
+
+
+<script>
+var app = angular.module('myApp', []);
+app.controller('myCtrl', function($scope, $http) {
+    $http.get("http://172.21.76.225:8888/api/dp/read/1321")
+    .then(function(response) {
+        $scope.volt1 = response.data;
+    });
+    $http.get("http://172.21.76.225:8888/api/dp/read/1322")
+    .then(function(response) {
+        $scope.curr1 = response.data;
+    });
+});
+</script>
+</html>

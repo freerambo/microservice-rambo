@@ -11,8 +11,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.erian.examples.bootapi.api.support.ErrorResult;
 import org.erian.examples.bootapi.config.ConfigureQuartz;
+import org.erian.examples.bootapi.dto.ScheduleModel;
 import org.erian.examples.bootapi.service.scheduler.DynamicJob;
+import org.quartz.JobDetail;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -28,14 +31,17 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-
+@CrossOrigin
 @RestController
 @RequestMapping("/schedule")
 public class SchedulerController {
@@ -60,77 +66,93 @@ public class SchedulerController {
 	}		
 			
 	@RequestMapping(value="/get",method=RequestMethod.GET)
-    public String getVal(@RequestParam(value="key", defaultValue="DEFAULT") String key) throws SchedulerException {
+    public List<ScheduleModel> getVal(@RequestParam(value="key", defaultValue="DEFAULT") String key) throws SchedulerException {
 		Map<String, String> mapOfKeyValue = new HashMap<String, String>();
 		mapOfKeyValue.put(key, key);
-		StringBuilder s = new StringBuilder();
+//		StringBuilder s = new StringBuilder();
 		Scheduler scheduler = schedFactory.getScheduler();
-		
+		List<ScheduleModel> rs = Lists.newArrayList();
 		for (String groupName : scheduler.getJobGroupNames()) {
 			     for (JobKey jobKey : scheduler.getJobKeys(GroupMatcher.jobGroupEquals(groupName))) {
-				  String jobName = jobKey.getName();
-				  String jobGroup = jobKey.getGroup();
-				  //get job's trigger
-				  List<Trigger> triggers = (List<Trigger>) scheduler.getTriggersOfJob(jobKey);
-				  for(Trigger t: triggers){
-					  TriggerKey tk = t.getKey();
-					  Date nextFireTime = t.getNextFireTime();
-					  s.append("[jobName] : " + jobName + " [groupName] : "
-							+ jobGroup + " -  [triggerName] : " + tk.getName()+ " -  [triggerGroup] : "
-							  + tk.getGroup() + " - startTime : " + t.getStartTime()+ " - firetime :" + nextFireTime);
-					  s.append("\r\n");
-				  }
+			    	  
+					  String jobName = jobKey.getName();
+					  String jobGroup = jobKey.getGroup();
+					  //get job's trigger
+					  List<Trigger> triggers = (List<Trigger>) scheduler.getTriggersOfJob(jobKey);
+					  for(Trigger t: triggers){
+						  TriggerKey tk = t.getKey();
+						  Date nextFireTime = t.getNextFireTime();
+						  
+						  ScheduleModel sm = new ScheduleModel();
+						  sm.job = jobName;
+						  sm.jgroup = jobGroup;
+						  sm.trigger = tk.getName();
+						  sm.tgroup = tk.getGroup();
+//						  sm.startTime = t.getStartTime();
+//						  sm.fireTime = t.getNextFireTime();
+						  rs.add(sm);
+						 /* s.append("[jobName] : " + jobName + " [groupName] : "
+								+ jobGroup + " -  [triggerName] : " + tk.getName()+ " -  [triggerGroup] : "
+								  + tk.getGroup() + " - startTime : " + t.getStartTime()+ " - firetime :" + nextFireTime);
+						  s.append("\r\n");*/
+					  }
 		  }
 	   }
-		return s.toString();
+		return rs;
     }
 	
 	@RequestMapping(value="/start",method=RequestMethod.POST)
-	public String schedule(@RequestParam(value="job", defaultValue="DEFAULT") String job,
-			 @RequestParam(value="jgroup", defaultValue="DEFAULT") String jgroup,
-			 @RequestParam(value="trigger", defaultValue="DEFAULT") String trigger,
-			@RequestParam(value="tgroup", defaultValue="READ") String tgroup) {
-		String scheduled = "Job " + job +" and trigger "+ trigger +" is Scheduled!!";
-
+	public ErrorResult schedule(@RequestBody ScheduleModel model) {
+		String scheduled = "Job " + model.job +" and trigger "+ model.trigger +" is Scheduled!!";
+		int code = 200; 
 		try {
 			JobDetailFactoryBean jdfb = ConfigureQuartz.createJobDetail(DynamicJob.class);
-			jdfb.setBeanName(job);
-			jdfb.setGroup(jgroup);
+			jdfb.setBeanName(model.job);
+			jdfb.setGroup(model.jgroup);
 			jdfb.afterPropertiesSet();
-			
-			Long freq = freqMap.get(trigger);
+			JobDetail jd = jdfb.getObject();
+			Long freq = freqMap.get(model.trigger);
 			if(freq == null){
-				logger.error("Invalid trigger "+trigger+", please check it again!!");
-				return "Invalid trigger "+trigger+", please check it again!!";
+				logger.error("Invalid trigger "+model.trigger+", please check it again!!");
+				code = 400; 
+				scheduled = "Invalid trigger "+model.trigger+", please check it again!!";
 			}
 			SimpleTriggerFactoryBean stfb = ConfigureQuartz.createTrigger(jdfb.getObject(),freq);
-			stfb.setBeanName(trigger);
-			stfb.setGroup(tgroup);
+			stfb.setBeanName(model.trigger);
+			stfb.setGroup(model.tgroup +"-"+model.trigger+"-"+model.jgroup+"-"+model.job);
 			stfb.afterPropertiesSet();
 			
-			schedFactory.getScheduler().scheduleJob(jdfb.getObject(), stfb.getObject());
-			
+			Scheduler scheduler = schedFactory.getScheduler();
+			Trigger trigger = stfb.getObject();
+
+			if(scheduler.checkExists(trigger.getKey())){
+				scheduler.unscheduleJob(trigger.getKey());
+			}
+			if(scheduler.checkExists(jd.getKey())){
+				scheduler.deleteJob(jd.getKey());
+			}
+			schedFactory.getScheduler().scheduleJob(jdfb.getObject(), trigger);
 		} catch (Exception e) {
-			scheduled = "Could not schedule a trigger. "+ trigger + " - " + e.getMessage();
+			code = 400; 
+			scheduled = "Could not schedule a trigger. "+ model.trigger + " - " + e.getMessage();
 		}
-		return scheduled;
+		return new ErrorResult(code, scheduled);
 	}
-	@RequestMapping(value="/stop", method=RequestMethod.GET)
-	public String unschedule(@RequestParam(value="job", defaultValue="DEFAULT") String job,
-			 @RequestParam(value="jgroup", defaultValue="DEFAULT") String jgroup,
-			 @RequestParam(value="trigger", defaultValue="DEFAULT") String trigger,
-			@RequestParam(value="tgroup", defaultValue="READ") String tgroup) {
-		String scheduled = "Job " + job +" and trigger "+ trigger +" is Unscheduled!!";
-		
-		TriggerKey tkey = new TriggerKey(trigger,tgroup);
-		JobKey jkey = new JobKey(job,jgroup); 
+	
+	@RequestMapping(value="/stop", method=RequestMethod.POST)
+	public ErrorResult unschedule(@RequestBody ScheduleModel model) {
+		String scheduled = "Job " + model.job +" and trigger "+ model.trigger +" is Unscheduled!!";
+		int code = 200; 
+		TriggerKey tkey = new TriggerKey(model.trigger,model.tgroup.split("-")[0] +"-"+model.trigger+"-"+model.jgroup+"-"+model.job);
+		JobKey jkey = new JobKey(model.job,model.jgroup); 
 		
 		try {
 			schedFactory.getScheduler().unscheduleJob(tkey);
 			schedFactory.getScheduler().deleteJob(jkey);
 		} catch (SchedulerException e) {
-			scheduled = "Error while unscheduling " + trigger + " - " + e.getMessage();
+			code = 400;
+			scheduled = "Error while unscheduling " + model.trigger + " - " + e.getMessage();
 		}
-		return scheduled;
+		return new ErrorResult(code, scheduled);
 	}
 }

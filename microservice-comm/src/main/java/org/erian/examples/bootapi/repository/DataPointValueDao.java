@@ -6,6 +6,8 @@
  */
 package org.erian.examples.bootapi.repository;
 
+import java.util.List;
+
 import org.erian.examples.bootapi.domain.*;
 
 /**
@@ -18,5 +20,6 @@ import org.erian.examples.bootapi.domain.*;
 
 public interface DataPointValueDao extends BaseDao<DataPointValue, Integer> {
 
+	List<DataPointValue> getByDataPointIdOrderByIdDesc(Integer dataPointId);
 	
 }

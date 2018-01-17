@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +19,7 @@ import org.erian.examples.bootapi.domain.*;
 import org.erian.examples.bootapi.service.*;
 import org.erian.modules.constants.MediaTypes;
 import org.javasimon.aop.Monitored;
-
+@CrossOrigin
 @RestController
 public class DataPointController {
 
@@ -43,6 +44,13 @@ public class DataPointController {
 		List<DataPoint> dataPoints = dpService.findByDevice(deviceId);
 		return dataPoints;
 	}
+	
+	@RequestMapping(value = "/api/project/{projectId}/dataPoints",method=RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
+	@Monitored
+	public List<DataPoint> listDataPointsByProject(@NotNull @PathVariable("projectId") Integer projectId) {
+		List<DataPoint> dataPoints = dpService.findByProject(projectId);
+		return dataPoints;
+	}
 
 	@RequestMapping(value = "/api/dataPoints/{id}", method=RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
 	@Monitored
@@ -64,7 +72,7 @@ public class DataPointController {
 	public String setTagById(@NotNull @PathVariable("dpId") Integer tagId, 
 			@RequestParam(value = "command", required = false, defaultValue = "LOAD ON") String command) {
 		
-		return dpService.writeIpDataPoint(tagId, command+"\n");
+		return dpService.writeIpDataPoint(tagId, command);
 	}
 	
 //	Content-Type: application/json;charset=UTF-8

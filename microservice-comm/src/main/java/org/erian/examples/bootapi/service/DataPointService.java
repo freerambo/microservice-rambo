@@ -12,6 +12,9 @@ import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.google.common.collect.Lists;
+
 import org.apache.commons.lang3.StringUtils;
 import org.erian.examples.bootapi.domain.*;
 import org.erian.examples.bootapi.dto.*;
@@ -31,15 +34,21 @@ public class DataPointService {
 	private static Logger logger = LoggerFactory.getLogger(DataPointService.class);
 
 	public static final String INT_TO_FLOAT = "intToFloat";                                                                                           
-	public static final String CENTI = "0.01";
+	public static final String CENTI = "CENTI";
+	public static final String MILLI = "MILLI";
 
 	public static final String MODBUS_TCP = "ModbusTCP";
 	public static final String MODBUS_RTU = "ModbusRTU";
 	public static final String ETHERNET_IP = "EthernetIP";
 
 	@Autowired
-	private DataPointDao dataPointDao;
+	private DeviceService deviceService;
 
+	
+	@Autowired
+	private DataPointDao dataPointDao;
+	
+	
 	@Autowired
 	private ModbusTcpDao tcpDao;
 
@@ -64,7 +73,23 @@ public class DataPointService {
 	@Cacheable("SEC05")
 	@Transactional(readOnly = true)
 	public List<DataPoint> findByDevice(Integer deviceId) {
+		
+		
 		return dataPointDao.getByDeviceId(deviceId);
+	}
+	
+	@Cacheable("MIN05")
+	@Transactional(readOnly = true)
+	public List<DataPoint> findByProject(Integer projectId) {
+		List<Device> ds = deviceService.findByProject(projectId);
+		List<DataPoint> dps = null;
+		if(Collections3.isNotEmpty(ds)){
+			dps = Lists.newArrayList();
+			for(Device d : ds){
+				dps.addAll(this.findByDevice(d.id));
+			}
+		}
+		return dps;
 	}
 
 	@Cacheable(value = "SEC05", key="#id")
@@ -104,10 +129,12 @@ public class DataPointService {
 	
 	@Transactional
 	public void deleteByDevice(Integer deviceId) {
-		List<DataPoint> dps = this.findByDevice(deviceId);
-		if (Collections3.isNotEmpty(dps)) {
-			dataPointDao.delete(dps);
-		}
+//		List<DataPoint> dps = this.findByDevice(deviceId);
+//		
+//		if (Collections3.isNotEmpty(dps)) {
+//			logger.info(dps.toString());
+		dataPointDao.deleteByDeviceId(deviceId);
+//		}
 	}
 	
 
@@ -130,7 +157,7 @@ public class DataPointService {
 
 		DataPoint dp = this.findOne(id);
 		// device must be active so can we read 
-		if (dp != null && dp.device != null && "active".equalsIgnoreCase(dp.device.status)) {
+		if (dp != null && dp.device != null && "active".equalsIgnoreCase(dp.device.status) && dp.readOnly == true) {
 			value = this.readDataPoint(dp);
 			// add into cache
 			if(value != null) cache.put(id, value);
@@ -147,7 +174,14 @@ public class DataPointService {
 //		logger.warn(val + " The datapoint " + dp);
 		if(dp != null &&  "active".equalsIgnoreCase(dp.device.status)){
 			dp.setValue = val;
-			return this.ethernetIP(dp);
+//			dp.path
+			if(StringUtils.isNotBlank(dp.path) && null == dp.address)
+				return this.ethernetIP(dp);
+			
+			if(null != dp.address && StringUtils.isEmpty(dp.path))
+				return this.modbusTCP(dp);
+			// we do not support data write for ModbusRTU sofar
+			
 		}
 		logger.warn("The datapoint or Device is not exists or active with id -- " + id);
 		return "failure";
@@ -191,8 +225,12 @@ public class DataPointService {
 					return this.processValue(i, dp.outputExpression).toString();
 			}
 			if(dp.writeOnly){
-				ModbusTcpUtil.writeData(tcpReq.ip, tcpReq.port, tcpReq.unitId, tcpReq.ref, Integer.valueOf(dp.setValue),
-						tcpReq.fCode);
+				if(StringUtils.isNotBlank(dp.setValue)){
+					ModbusTcpUtil.writeData(tcpReq.ip, tcpReq.port, tcpReq.unitId, tcpReq.ref, Integer.valueOf(dp.setValue),
+							tcpReq.fCode);
+					return "Write message successfully!";
+				}
+					
 			}
 			
 		} else {
@@ -251,7 +289,7 @@ public class DataPointService {
 			// set the prepared command for set value
 			if(StringUtils.isNotBlank(dp.setValue)){
 //				ipReq.datapointPath = String.format(ipReq.datapointPath, dp.setValue);
-				ipReq.datapointPath = dp.setValue;
+				ipReq.datapointPath = dp.setValue+"\n";
 				socketConn.setDevice(ipReq.ip, ipReq.port, ipReq.datapointPath);
 				return "done";
 			}
@@ -278,6 +316,9 @@ public class DataPointService {
 			break;
 		case CENTI:
 			d = i * 0.01;
+			break;
+		case MILLI:
+			d = i * 0.001;
 			break;
 		default:
 			logger.error("unknown outputExpression " + outputExpression);

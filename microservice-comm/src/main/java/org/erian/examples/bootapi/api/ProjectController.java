@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import org.erian.examples.bootapi.service.*;
 import org.erian.modules.constants.MediaTypes;
 import org.javasimon.aop.Monitored;
 
+@CrossOrigin
 @RestController
 public class ProjectController {
 
@@ -60,11 +62,11 @@ public class ProjectController {
 		projectService.deleteProject(id);
 	}
 
-//	@RequestMapping(value = "/api/projects", method = RequestMethod.PUT, consumes = MediaTypes.JSON_UTF_8)
-//	@Monitored
-	public void modifyProject(@RequestBody Project project,
+	@RequestMapping(value = "/api/projects", method = RequestMethod.PUT, consumes = MediaTypes.JSON_UTF_8)
+	@Monitored
+	public Project modifyProject(@RequestBody Project project,
 			@RequestParam(value = "token", required = false) String token) {
 		
-		projectService.modifyProject(project);
+		return projectService.modifyProject(project);
 	}
 }

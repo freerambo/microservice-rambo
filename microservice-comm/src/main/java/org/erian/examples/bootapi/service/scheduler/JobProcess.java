@@ -2,6 +2,7 @@ package org.erian.examples.bootapi.service.scheduler;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.erian.examples.bootapi.domain.DataPoint;
 import org.erian.examples.bootapi.domain.DataPointValue;
 import org.erian.examples.bootapi.domain.Device;
@@ -55,11 +56,17 @@ public class JobProcess {
 				logger.warn(" unsupported Job group " + group + "; Job -" + job);
 		}
 	}
-	@Transactional
+	
 	private void processDatapoint(Integer id){
 		String val = dpService.readDataPoint(id);
-		DataPointValue dpv = new DataPointValue(id,val);
-		dpvService.saveDataPointValue(dpv);
+		if(StringUtils.isNotBlank(val)&& !"failure".equalsIgnoreCase(val)){
+			DataPointValue dpv = new DataPointValue(id,val);
+			dpvService.saveDataPointValue(dpv);
+			logger.info("processing data - " + dpv.toString());
+		}else{
+			logger.info("processing data - is null" );
+		}
+
 	} 
 	private void processDevice(Integer id){
 		List<DataPoint> dps = dpService.findByDevice(id);

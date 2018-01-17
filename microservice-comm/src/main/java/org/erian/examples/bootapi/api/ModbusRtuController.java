@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +19,7 @@ import org.erian.examples.bootapi.domain.*;
 import org.erian.examples.bootapi.service.*;
 import org.erian.modules.constants.MediaTypes;
 import org.javasimon.aop.Monitored;
-
+@CrossOrigin
 @RestController
 public class ModbusRtuController {
 
@@ -54,8 +55,8 @@ public class ModbusRtuController {
 		return rtu;
 	}
 	
-//	@RequestMapping(value = "/api/rtus/{id}", method = RequestMethod.DELETE)
-//	@Monitored
+	@RequestMapping(value = "/api/rtus/{id}", method = RequestMethod.DELETE)
+	@Monitored
 	public void deleteModbusRTU(@NotNull @PathVariable("id") Integer id) {
 		rtuService.deleteModbusRTU(id);
 	}

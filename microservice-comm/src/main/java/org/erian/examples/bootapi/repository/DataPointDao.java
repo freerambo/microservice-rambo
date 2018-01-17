@@ -9,11 +9,14 @@ package org.erian.examples.bootapi.repository;
 import java.util.List;
 
 import org.erian.examples.bootapi.domain.*;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 
 /**
  * function description：
+ *
  *
  * @author <a href="mailto:zhuyb@ntu.edu.sg">Rambo Zhu  </a>
  * @version v 1.0 
@@ -23,7 +26,7 @@ import org.springframework.data.repository.query.Param;
 public interface DataPointDao extends BaseDao<DataPoint, Integer> {
 
 	List<DataPoint> getByDeviceId(Integer deviceId);
-	
+	@Modifying
+	@Query(value="delete from DataPoint dp where dp.device.id = ?1")
 	void deleteByDeviceId(Integer deviceId);
-
 }
