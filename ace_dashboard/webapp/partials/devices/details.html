@@ -1,0 +1,364 @@
+<div class="page-header">
+    <h1>Device: {{device.name}}</h1>
+</div>
+
+<div class="container-fluid">
+ <div class="form-group row">
+      <label  class="col-sm-2 col-form-label">Name</label>
+      <div class="col-sm-5">
+		{{device.name}}
+      </div>
+ </div>
+ 
+<div class="form-group row">
+      <label for="description" class="col-sm-2 col-form-label">Description</label>
+      <div class="col-sm-10">
+        {{device.description}}
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="vendor" class="col-sm-2 col-form-label">Protocol</label>
+      <div class="col-sm-5">
+            {{device.protocol}}
+      </div>
+       <label class="col-sm-2">Interval</label>
+      <div class="col-sm-3">
+        <div class="form-check">
+            {{device.interval}}
+        </div>
+      </div>
+    </div>
+     <div class="form-group row">
+         <div ng-show="device.protocol == 'EthernetIP'">
+             <label class="col-sm-2">path</label>
+             <div class="col-sm-5"> {{device.path}}</div>
+         </div>
+         <div ng-show="device.protocol != 'EthernetIP'">
+             <label for="address" class="col-sm-2 col-form-label">address</label>
+             <div class="col-sm-5">
+                 {{device.address}}
+             </div>
+         </div>
+      </div>
+    </div>
+  <div class="form-group row">
+      <label for="ip" class="col-sm-2 col-form-label">createdOn</label>
+      <div class="col-sm-5">
+          {{device.createdOn}}
+      </div>
+      <label for="ip" class="col-sm-2 col-form-label">createdBy</label>
+      <div class="col-sm-3">
+          {{device.createdBy}}
+     </div>
+    </div>
+    <div class="form-group row">
+        <label for="ip" class="col-sm-2 col-form-label">updatedOn</label>
+        <div class="col-sm-5">
+            {{device.updatedOn}}
+        </div>
+        <label for="ip" class="col-sm-2 col-form-label">updatedBy</label>
+        <div class="col-sm-3">
+            {{device.updatedBy}}
+        </div>
+    </div>
+
+
+        <div class="form-group">
+       <!-- <button  class="btn btn-lg btn-success" ng-click="update(device.id)">
+            <span class="glyphicon glyphicon-plus-sign"></span>Update
+        </button>-->
+        <button  ng-click="cancel()" class="btn btn-lg btn-default" data-dismiss="modal">
+          Back
+        </button>
+    </div>
+   </div>  
+   
+   
+    <div class="panel panel-default panel-table">
+         <div class="panel-heading">
+             <div class="row">
+                 <div class="col col-xs-6">
+                     <h3 class="panel-title">Datapoints</h3>
+                 </div>
+
+             </div>
+         </div>
+         <div class="panel-body">
+             <table class="table table-striped table-bordered table-list">
+                 <thead>
+                     <tr>
+                         <th>ID</th>
+                         <th class="hidden-xs">Name</th>
+                         <th>Type</th>
+                         <th>description</th>
+                           <th ng-show="device.protocol == 'EthernetIP'">path</th>
+                            <th ng-show="device.protocol != 'EthernetIP'">address</th>
+
+                         <th>length</th>
+                         <th>Interval</th>
+
+                         <th>readOnly</th>
+                         <th>writeOnly</th>
+                         <th>input</th>
+                         <th>output</th>
+                         <th>createdOn</th>
+                         <th>createdBy</th>
+                         <th>Operation</th>
+                     </tr>
+                 </thead>
+                 <tbody>
+                 
+                     <tr ng-repeat="dp in dataPoints">
+                         <td><a ng-href="#/dpvs/{{dp.id}}">{{dp.id}}</a></td>
+                         <td>{{dp.name}}</td>
+                         <td>{{dp.type}}</td>
+                         <td>{{dp.description}}</td>
+                         <td ng-show="device.protocol == 'EthernetIP'">{{dp.path}}</td>
+
+                         <td ng-show="device.protocol != 'EthernetIP'">{{dp.address}}</td>
+                         <td>{{dp.length}}</td>
+                         <td>{{dp.interval}}</td>
+                         <td>{{dp.readOnly}}</td>
+
+                         <td>{{dp.writeOnly}}</td>
+                         <td>{{dp.inputExpression}}</td>
+                         <td>{{dp.outputExpression}}</td>
+                         <td>{{dp.createdOn}}</td>
+                         <td>{{dp.createdBy}}</td>
+                         <td align="center"><span class="glyphicon glyphicon-trash" aria-hidden="true" ng-click="delDp(dp.id)"></span> </td>
+                       </tr>
+                   </tbody>
+               </table>
+
+				<div class="form-group">
+					<button type="button" class="btn btn-success btn-number" data-toggle="modal" data-target="#myModal">
+						<span class="glyphicon glyphicon-plus"></span> Add
+					</button>
+				</div>
+			</div>    
+
+       </div>
+        
+  
+   <div class="panel panel-default panel-table">
+         <div class="panel-heading">
+             <div class="row">
+                 <div class="col col-xs-6">
+                     <h3 class="panel-title">Protocol</h3>
+                 </div>
+
+             </div>
+         </div>
+         <div class="panel-body">
+             <table class="table table-striped table-bordered table-list">
+                 <thead>
+                     <tr>
+                         <th>ID</th>
+                         <th class="hidden-xs">Name</th>
+                         <th>IP</th>
+                         <th>Port</th>
+                         <th>Description</th>
+                         <th>CreatedOn</th>
+                         <th>CreatedBy</th>
+                         <th>Operation</th>
+                     </tr>
+                 </thead>
+                 <tbody>
+                     <tr ng-show="protocol">
+                         <td>{{protocol.id}}</td>
+                         <td>{{device.protocol}}</td>
+                         <td>{{protocol.ip}}</td>
+                         <td>{{protocol.port}}</td>
+                         <td>{{protocol.description}}</td>
+                         <td>{{protocol.createdOn}}</td>
+                         <td>{{protocol.createdBy}}</td>
+                         <td align="center">
+                             <span class="glyphicon glyphicon-trash" aria-hidden="true" ng-click="delProtocol(protocol.id, device.protocol)"></span>
+                         </td>
+                     </tr>
+                      
+                   </tbody>
+               </table>
+
+             <div class="form-group" ng-show="!protocol">
+                 <button type="button" class="btn btn-success btn-number" data-toggle="modal" data-target="#protocolModal">
+                     <span class="glyphicon glyphicon-plus"></span> Add
+                 </button>
+             </div>
+
+
+			</div>
+
+       </div>
+        
+   
+   <!-- Trigger the modal with a button -->
+<!--   <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+ -->
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+      <form role="form" name="dataPointForm" novalidate>
+     
+	        <div class="modal-header">
+	          <button type="button" class="close" data-dismiss="modal">&times;</button>
+	         <div class="form-group row">  <h4 class="modal-title">&nbsp;&nbsp;Add new DataPoint<!-- Variables Management For device {{device.id}} --></h4>
+	        </div>
+	        </div>
+	        <div class="modal-body">
+	                            
+   <div class="form-group row">
+      <label  class="col-sm-2 col-form-label">Name</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" ng-model="newDataPoint.name" ng-required="true" placeholder="please input the Name">
+      </div>
+    </div>    
+       
+     
+     <div class="form-group row">
+      <label   class="col-sm-2 col-form-label">Type</label>
+      <div class="col-sm-10">
+          <input type="text" class="form-control" ng-model="newDataPoint.type" ng-required="true" placeholder="please input the Type">
+      </div>
+    </div>
+
+    <div class="form-group row">
+        <label  class="col-sm-2 col-form-label">Description</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" ng-model="newDataPoint.description" ng-required="true" placeholder="please input the description">
+        </div>
+    </div>
+
+       <div class="form-group row">
+      <label  class="col-sm-2 col-form-label">Interval</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="updatingDuration" ng-model="newDataPoint.interval" ng-required="true" placeholder="please input the interval">
+      </div>
+    </div>
+
+
+                <div class="form-group row">
+                    <label ng-show="device.protocol == 'EthernetIP'" class="col-sm-2 col-form-label">Path</label>
+                    <label ng-show="device.protocol != 'EthernetIP'" class="col-sm-2 col-form-label">Address</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" ng-show="device.protocol == 'EthernetIP'" class="form-control"  ng-model="newDataPoint.path" ng-required="true" placeholder="please input the path">
+                        <input type="number" ng-show="device.protocol != 'EthernetIP'" class="form-control" ng-model="newDataPoint.address" ng-required="true" placeholder="please input the address">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label   class="col-sm-2 col-form-label">Length</label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control"   ng-model="newDataPoint.length" ng-required="true" placeholder="please input the description">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label  class="col-sm-2 col-form-label">readOnly</label>
+                    <div class="col-sm-4">
+                        <input type="checkbox" class="form-check-input"  ng-model="newDataPoint.readOnly" ng-true-value=1  ng-false-value=0 ng-required="true" >
+                    </div>
+                    <label  class="col-sm-2 col-form-label">writeOnly</label>
+                    <div class="col-sm-4">
+                        <input type="checkbox" class="form-check-input"  ng-model="newDataPoint.writeOnly" ng-true-value=1  ng-false-value=0 ng-required="true" >
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label  class="col-sm-2 col-form-label">inputExpress</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control"  ng-model="newDataPoint.inputExpression" >
+                    </div>
+                    <label  class="col-sm-2 col-form-label">outputExpress</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control"  ng-model="newDataPoint.outputExpression">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label  class="col-sm-2 col-form-label">createdBy</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control"  ng-model="newDataPoint.createdBy" ng-required="true" placeholder="please input the description">
+                    </div>
+                </div>
+            </div>
+
+          <input type="hidden"  ng-model="newDataPoint.device.id" ng-required="true" value="device.id">
+
+	        <div class="modal-footer">
+	          <button class="btn btn-primary" ng-click="saveDataPoint(device.id)" data-dismiss="modal">Save</button>
+	          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	        </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="protocolModal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <form role="form" name="protocolForm" novalidate>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <div class="form-group row">  <h4 class="modal-title">&nbsp;&nbsp;Add Protocol<!-- Variables Management For device {{device.id}} --></h4>
+                    </div>
+                </div>
+                <div class="modal-body" >
+
+                    <div class="form-group row">
+                        <label  class="col-sm-2 col-form-label">Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" ng-value="device.protocol" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label  class="col-sm-2 col-form-label">Description</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" ng-model="newProtocol.description" placeholder="please input the description">
+                        </div>
+                    </div>
+
+                    <div ng-show="device.protocol != 'ModbusRTU'">
+
+                        <div class="form-group row">
+                            <label   class="col-sm-2 col-form-label">IP</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" ng-model="newProtocol.ip" ng-required="true" placeholder="please input the IP address">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label  class="col-sm-2 col-form-label">Port</label>
+                            <div class="col-sm-10">
+                                <input type="number" class="form-control" ng-model="newProtocol.port" ng-required="true" placeholder="please input the port">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row">
+                        <label  class="col-sm-2 col-form-label">createdBy</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" ng-model="newProtocol.createdBy" ng-required="true" placeholder="please input the createdBy">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-primary" ng-click="saveProtocol(device.id)" data-dismiss="modal">Save</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>

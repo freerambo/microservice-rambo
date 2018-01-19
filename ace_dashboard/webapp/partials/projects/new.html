@@ -1,0 +1,49 @@
+<div class="page-header">
+    <h1>{{action}} Project</h1>
+</div>
+
+<form role="form" ng-submit="save()" name="projectForm" novalidate>
+
+    <div class="form-group row" ng-class="{'has-error':projectForm.name.$invalid && !projectForm.name.$pristine}">
+        <label class="col-sm-2 col-form-label" for="name"><msg key="name"></msg></label>
+	 	<div class="col-sm-5">
+	        <input name="name" class="form-control" type="text"
+	               placeholder="Project Name" ng-model="newProject.name" ng-required="true">
+        </div>
+    </div>
+   
+	<div class="form-group row">
+      <label for="description" class="col-sm-2 col-form-label">Description</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="description" ng-model="newProject.description" ng-required="true" placeholder="Project description">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="Owner" class="col-sm-2 col-form-label">OwnerID</label>
+      <div class="col-sm-5">
+        <input type="text" class="form-control" id="Owner" placeholder="1000" ng-model="newProject.userId" ng-required="true">
+      </div>
+    </div>
+     <div class="form-group row">
+      <label for="Logo" class="col-sm-2 col-form-label">Logo</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="logo" ng-model="newProject.logo" placeholder="logo">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="createdBy" class="col-sm-2 col-form-label">createdBy</label>
+      <div class="col-sm-5">
+        <input type="text" class="form-control" id="createdBy" ng-model="newProject.createdBy" ng-required="true" placeholder="who create this project">
+      </div>
+    </div>
+
+
+     <div class="form-group">
+        <button type="submit" ng-disabled="projectForm.$invalid" class="btn btn-lg btn-primary">
+            <msg key="save"></msg>
+        </button>
+        <button type="button" ng-click="cancel()" class="btn btn-lg btn-default" data-dismiss="modal">
+            <msg key="cancel"></msg>
+        </button>
+    </div>
+</form>

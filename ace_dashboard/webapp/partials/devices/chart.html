@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<!-- <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+  <script src="http://code.highcharts.com/highcharts.js"></script> -->
+<!-- <script src="chart.js" type="text/javascript"></script> 
+ --> </head>
+ <body>
+  <section ng-app="charts">
+   <div ng-controller="Ctrl">
+        <highchart chart='{{renderChart}}'></highchart>
+        <table>
+            <tr ng-repeat="record in entities">
+                <td>{{record.timestamp}} &nbsp;</td>
+                <td>{{record.Current}}</td>
+            </tr>
+        </table>
+   </div>
+  </section>
+ </body>
+</html>
