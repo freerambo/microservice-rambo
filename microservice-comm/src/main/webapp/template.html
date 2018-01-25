@@ -4,7 +4,55 @@
 <meta charset="UTF-8">
 <title>LED Lighting Project</title>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<style>
 
+.onoffswitch {
+    position: relative; width: 90px;
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+.onoffswitch-checkbox {
+    display: none;
+}
+.onoffswitch-label {
+    display: block; overflow: hidden; cursor: pointer;
+    border: 2px solid #999999; border-radius: 20px;
+}
+.onoffswitch-inner {
+    display: block; width: 200%; margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+}
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+    display: block; float: left; width: 50%; height: 30px; padding: 0; line-height: 30px;
+    font-size: 18px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    box-sizing: border-box;
+}
+.onoffswitch-inner:before {
+    content: "ON";
+    padding-left: 13px;
+    background-color: #45C234; color: #FFFFFF;
+}
+.onoffswitch-inner:after {
+    content: "OFF";
+    padding-right: 13px;
+    background-color: #EEEEEE; color: #999999;
+    text-align: right;
+}
+.onoffswitch-switch {
+    display: block; width: 32px; margin: -1px;
+    background: #FFFFFF;
+    position: absolute; top: 0; bottom: 0;
+    right: 56px;
+    border: 2px solid #999999; border-radius: 20px;
+    transition: all 0.3s ease-in 0s; 
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+    margin-left: 0;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+    right: 0px; 
+}
+
+</style>
 </head>
 <body>
 
@@ -13,7 +61,20 @@
 <p>Voltage1: {{volt1 | number : '2'}}</p>
 <p>Current1: {{curr1 | number : '3'}}</p>
 
-</div>
+
+<label>
+	Switch ON/OFF </label> :  {{status}}
+
+	<div class="onoffswitch">
+		<input type="checkbox" 
+			class="onoffswitch-checkbox" id="myonoffswitch" ng-model="onoffswitch"
+           ng-true-value="'ON'" ng-false-value="'OFF'" ng-click="switchStatus()">
+		<label class="onoffswitch-label" for="myonoffswitch">
+			<span class="onoffswitch-inner"></span> <span
+			class="onoffswitch-switch"></span>
+		</label>
+	</div>
+</div >
 </body>
 
 
@@ -28,6 +89,29 @@ app.controller('myCtrl', function($scope, $http) {
     .then(function(response) {
         $scope.curr1 = response.data;
     });
+
+    $scope.switchStatus = function () {
+    	$scope.status = $scope.onoffswitch;
+		
+    	if($scope.status == 'ON'){
+			$http.post("http://172.21.76.225:8888/api/dp/set/1341?command=1").success(function(data) {
+				response = data;
+				console.log("switched on successfully! " +  JSON.stringify(response.data));
+			});
+		}else{
+			$http.post("http://172.21.76.225:8888/api/dp/set/1343?command=1").success(function(data) {
+				response = data;
+				console.log("switched off successfully! " +  JSON.stringify(response.data));
+			});
+		}
+    	
+		
+				
+	}
+
 });
+
+
+
 </script>
 </html>
